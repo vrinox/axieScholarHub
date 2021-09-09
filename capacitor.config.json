@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "axieScholarHub",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

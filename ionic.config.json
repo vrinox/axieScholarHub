@@ -1,0 +1,7 @@
+{
+  "name": "axieScholarHub",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
