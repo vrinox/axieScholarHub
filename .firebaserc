@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "axieacademytracker": {
+      "hosting": {
+        "app": [
+          "axieacademytracker"
+        ]
+      }
+    }
+  }
+}
