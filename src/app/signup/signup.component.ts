@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { passwordMatchingValidatior } from '../validators/email.validator';
 
 @Component({
   selector: 'app-signup',
@@ -19,14 +20,6 @@ export class SignupComponent implements OnInit {
     this.registerForm = this.formBuilder.group(
       {
         fullname: ['', Validators.required],
-        username: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(6),
-            Validators.maxLength(20)
-          ]
-        ],
         email: ['', [Validators.required, Validators.email]],
         password: [
           '',
@@ -36,34 +29,28 @@ export class SignupComponent implements OnInit {
             Validators.maxLength(40)
           ]
         ],
-        confirmPassword: ['', Validators.required],
+        confirmPassword: ['', Validators.required ],
         acceptTerms: [false, Validators.requiredTrue]
-      }
+      },
+      {validators: passwordMatchingValidatior}
     );
   }
-  get f(): { [key: string]: AbstractControl } {
-    return this.registerForm.controls;
-  }
 
-  onSubmit(): void {
+  enviar(): void {
     this.submitted = true;
 
     if (this.registerForm.invalid) {
       return;
     }
 
-    console.log(JSON.stringify(this.registerForm.value, null, 2));
+    this.authService.emailSignup({
+      email: this.registerForm.value.email,
+      password: this.registerForm.value.password
+    })
   }
 
   onReset(): void {
     this.submitted = false;
     this.registerForm.reset();
-  }
-
-  register(form){
-
-    // this.authService.login(form.value).subscribe((res)=>{
-    //   this.router.navigateByUrl('home');
-    // });
   }
 }

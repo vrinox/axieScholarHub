@@ -24,21 +24,16 @@ export class EmailComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private fb: FormBuilder
-  ) { 
-
-  }
-
+  ) {}
   
-  ngOnInit() {
-    
-  }
+  ngOnInit() {}
 
   enviar(): void {
     this.submitted = true;
-    console.log(this.loginForm.value);
     if (this.loginForm.invalid) {
       return;
     }
+    this.authService.login(this.loginForm.value);
   }
 
   onReset(): void {

@@ -12,8 +12,8 @@ export class AuthService {
     private router: Router) {
     }
     
-  login(email: string, password: string) {
-    signInWithEmailAndPassword(this.afAuth, email, password)
+  login(formValues:{email: string, password: string}) {
+    signInWithEmailAndPassword(this.afAuth, formValues.email, formValues.password)
     .then(value => {
       console.log('Nice, it worked!');
       this.router.navigateByUrl('/profile');
@@ -23,8 +23,8 @@ export class AuthService {
     });
   }
 
-  emailSignup(email: string, password: string) {
-    createUserWithEmailAndPassword(this.afAuth, email, password)
+  emailSignup(form:{email: string, password: string}) {
+    createUserWithEmailAndPassword(this.afAuth, form.email, form.password)
     .then(value => {
      console.log('Sucess', value);
      this.router.navigateByUrl('/profile');
