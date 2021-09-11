@@ -3,13 +3,15 @@ import { Router } from '@angular/router';
 import {GoogleAuthProvider} from 'firebase/auth'
 import * as authref from '@angular/fire/auth';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, signInWithPopup} from '@angular/fire/auth';
+import { ToastController } from '@ionic/angular';
 
 @Injectable()
 export class AuthService {
 
   constructor(
     private afAuth: Auth,
-    private router: Router) {
+    private router: Router,
+    private toastController: ToastController) {
     }
     
   login(formValues:{email: string, password: string}) {
@@ -18,8 +20,20 @@ export class AuthService {
       console.log('Nice, it worked!');
       this.router.navigateByUrl('/profile');
     })
-    .catch(err => {
-      console.log('Something went wrong: ', err.message);
+    .catch(async err => {
+      const toast = await this.toastController.create({
+        message: 'wrong Email/Password ',
+        duration: 2000,
+        position: 'top',
+        color: "danger",
+        buttons: [
+          {
+            side: 'end',
+            icon: 'alert-circle-outline'
+          }
+        ]        
+      });
+      toast.present();
     });
   }
 
@@ -29,8 +43,20 @@ export class AuthService {
      console.log('Sucess', value);
      this.router.navigateByUrl('/profile');
     })
-    .catch(error => {
-      console.log('Something went wrong: ', error);
+    .catch(async error => {
+      const toast = await this.toastController.create({
+        message: error.message,
+        duration: 2000,
+        position: 'top',
+        color: "danger",
+        buttons: [
+          {
+            side: 'end',
+            icon: 'alert-circle-outline'
+          }
+        ]
+      });
+      toast.present();
     });
   }
 
