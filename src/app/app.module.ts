@@ -9,23 +9,25 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { provideDatabase, getDatabase } from '@angular/fire/database';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideAuth, getAuth} from '@angular/fire/auth';
 
 import { environment } from 'src/environments/environment';
 import { AuthService } from './services/auth.service';
 import { LoginComponent } from './login/login.component';
 import { EmailComponent } from './email/email.component';
-import { SignupComponent } from './signup/signup.component';
 import { ProfileComponent } from './profile/profile.component';
+import { AxieApiService } from './services/axie-api.service';
+import { SignupComponent } from './signup/signup.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
     EmailComponent,
     LoginComponent,
-    SignupComponent,
-    ProfileComponent
+    ProfileComponent,
+    SignupComponent
   ],
   entryComponents: [],
   imports: [
@@ -33,14 +35,16 @@ import { ProfileComponent } from './profile/profile.component';
     IonicModule.forRoot(),
     AppRoutingModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideDatabase(() => getDatabase()),
+    provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth()),
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    AuthService
+    AuthService,
+    AxieApiService
   ],
   bootstrap: [AppComponent],
 })

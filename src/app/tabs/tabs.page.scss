@@ -1,1 +1,24 @@
 
+.tabsIcons{
+    background-repeat:no-repeat;
+    background-position:center;
+    height:36px;
+    width:36px;
+    background-size:contain;
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -o-background-size: contain;
+    &:before {
+        display:none;
+    }
+    &.slpIcon{
+        background-image:url(../../assets/img/SLP.png);
+    }
+    &.axieIcon{
+        background-image:url(../../assets/img/axie.png);
+    }
+    &.trophyIcon{
+        background-image:url(../../assets/img/trofeo.png);
+    }    
+}
+

@@ -14,4 +14,11 @@
 ion-item {
     --background: rgba(0,0,0,0);
     --border-color: rgba(0,0,0,0);
+    background-position: right;
+}
+ion-item.item-has-focus {
+
+}
+ion-content{
+    --background: url(../../assets/img/backgorund.jpg) no-repeat 80% 100%;
 }

@@ -8,22 +8,47 @@
 </ion-header>
 
 <ion-content>
-  <div class="loginForm" color="primary">
-    <form [formGroup]="registerForm">
+  <form [formGroup]="registerForm">
+  <div>
+    <ion-card>
       <ion-item>
-        <ion-label position="floating">Full Name</ion-label>
+        <ion-input placeholder="Ronin Address" formControlName="roninAddress"></ion-input>
+        <ion-button fill="outline"  slot="end" (click)="buscarDireccion()">
+          <ion-icon name="search" ></ion-icon>
+        </ion-button>
+      </ion-item>
+    
+      <ion-card-content *ngIf="scholar">
+        <ion-card-title class="minor-title">{{scholar.name}}</ion-card-title>
+        <div class="divider" ></div>
+        Selecciona un avatar usando tus axies
+        <div class="axie-container">
+          <ion-card *ngFor="let axie of axies" class="axie-display" (click)="seleccionar(axie)" class="{{axie.cssContainerClass}}"  >
+            <img src="{{axie.image}}" />
+          </ion-card>
+        </div>
+      </ion-card-content>
+      
+      <ion-card-content *ngIf="!scholar">
+        coloca tu direccion ronin con la que entras al juego, si eres becado solicitala a quien te dio la beca
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <div class="loginForm" color="primary">    
+      <ion-item>
+        <ion-label position="floating" color="white">Full Name</ion-label>
         <ion-input id="fullname" formControlName="fullname"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="floating">Email</ion-label>
+        <ion-label position="floating" color="white">Email</ion-label>
         <ion-input id="email" formControlName="email"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="floating">Password</ion-label>
+        <ion-label position="floating" color="white">Password</ion-label>
         <ion-input type="password" id="password" formControlName="password"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="floating">Confirm Password</ion-label>
+        <ion-label position="floating" color="white">Confirm Password</ion-label>
         <ion-input type="password" id="confirmPassword" formControlName="confirmPassword"></ion-input>
       </ion-item>
       <ion-item >
@@ -31,6 +56,6 @@
         <ion-checkbox slot="end" formControlName="acceptTerms" id="acceptTerms"></ion-checkbox>
       </ion-item>
       <ion-button expand="block" (click)="enviar()" [disabled]="!registerForm.valid" >Send</ion-button>
-    </form>
   </div>
+</form>
 </ion-content>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -35,7 +35,7 @@ export class EmailComponent implements OnInit {
     }
     this.authService
       .login(this.loginForm.value);
-    
+    this.onReset();
   }
 
   onReset(): void {

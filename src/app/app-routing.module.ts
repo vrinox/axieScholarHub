@@ -9,11 +9,11 @@ const routes: Routes = [
   { path: '', redirectTo: 'email-login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'email-login', component: EmailComponent },
-  { path: 'signup', component: SignupComponent },
+  { path: 'signup', component: SignupComponent },  
   { path: 'profile', component: ProfileComponent },
   {
     path: 'tabs',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)   
   }
 ];
 @NgModule({
