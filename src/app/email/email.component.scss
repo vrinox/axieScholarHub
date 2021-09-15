@@ -16,9 +16,16 @@ ion-item {
     --border-color: rgba(0,0,0,0);
     background-position: right;
 }
-ion-item.item-has-focus {
-
-}
 ion-content{
     --background: url(../../assets/img/backgorund.jpg) no-repeat 80% 100%;
+}
+.avatar{
+    position: relative;
+    ion-item{
+        position:absolute;
+        bottom: 0px;
+    }
+}
+.clear{
+    clear: both;
 }

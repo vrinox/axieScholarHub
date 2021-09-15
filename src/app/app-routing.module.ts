@@ -6,7 +6,7 @@ import { SignupComponent } from './signup/signup.component';
 import { EmailComponent } from './email/email.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'email-login', pathMatch: 'full' },
+  { path: '', redirectTo: 'start-page', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'email-login', component: EmailComponent },
   { path: 'signup', component: SignupComponent },  
@@ -14,6 +14,10 @@ const routes: Routes = [
   {
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)   
+  },
+  {
+    path: 'start-page',
+    loadChildren: () => import('./start-page/start-page.module').then( m => m.StartPagePageModule)
   }
 ];
 @NgModule({

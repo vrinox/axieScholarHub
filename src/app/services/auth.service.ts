@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { GoogleAuthProvider } from 'firebase/auth'
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, signInWithPopup } from '@angular/fire/auth';
 import { ToastController } from '@ionic/angular';
+import { userCloudData } from '../models/interfaces';
+import { SesionService } from './sesion.service';
 
 @Injectable()
 export class AuthService {
@@ -10,16 +12,19 @@ export class AuthService {
   constructor(
     private afAuth: Auth,
     private router: Router,
-    private toastController: ToastController) {
+    private toastController: ToastController,
+    private sesion: SesionService) {
   }
 
   login(formValues: { email: string, password: string }) {
-    signInWithEmailAndPassword(this.afAuth, formValues.email, formValues.password)
+    this.router.navigate(['start-page']);
+    return new Promise((resolve, reject)=>{
+      signInWithEmailAndPassword(this.afAuth, formValues.email, formValues.password)
       .then(value => {
-        console.log('Nice, it worked!');
-        this.router.navigateByUrl('/tabs');
+        resolve(value.user.uid);
       })
       .catch(async err => {
+        this.router.navigate['email-login']
         const toast = await this.toastController.create({
           message: 'wrong Email/Password ',
           duration: 2000,
@@ -34,20 +39,25 @@ export class AuthService {
         });
         toast.present();
       });
+    })
   }
 
-  emailSignup(form: { email: string, password: string, roninAddress: string, avatar: string }) {
-    createUserWithEmailAndPassword(this.afAuth, form.email, form.password)
+  loginComplete(uid: string) {
+    this.sesion.sesionInit(uid, 'login');
+  }
+  emailSignup(form: { email: string, password: string, roninAddress: string, avatar: string }):Promise<any> {
+    this.router.navigate(['start-page']);
+    return new Promise((resolve, reject)=>{
+      createUserWithEmailAndPassword(this.afAuth, form.email, form.password)
       .then((value) => {
-        const userLinkRequestBody: any = {
+        resolve({
           uid: value.user.uid,
           avatar: form.avatar,
           roninAddress: form.roninAddress
-        }
-        console.group(userLinkRequestBody);
-        this.router.navigateByUrl('/tabs');
+        });
       })
       .catch(async error => {
+        this.router.navigate(['email-login']);
         const toast = await this.toastController.create({
           message: error.message,
           duration: 2000,
@@ -61,7 +71,9 @@ export class AuthService {
           ]
         });
         toast.present();
+        reject()
       });
+    });
   }
 
   googleLogin() {
@@ -78,7 +90,7 @@ export class AuthService {
 
   logout() {
     signOut(this.afAuth).then(() => {
-      this.router.navigate(['/']);
+      this.sesion.close();
     });
   }
 

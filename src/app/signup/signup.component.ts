@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { passwordMatchingValidatior } from '../validators/email.validator';
+
 import { Scholar } from '../models/scholar';
-import { AxieApiService } from '../services/axie-api.service';
-import { scholarOfficialData } from '../models/interfaces';
 import { Axie } from '../models/axie';
+import { scholarOfficialData, userCloudData, userLink } from '../models/interfaces';
+
+import { AxieApiService } from '../services/axie-api.service';
+import { ApiTrackerService } from '../services/api-tracker.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -20,7 +23,8 @@ export class SignupComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
-    private axieService: AxieApiService
+    private axieService: AxieApiService,
+    private trackerService: ApiTrackerService
   ) { }
 
   ngOnInit() {
@@ -57,6 +61,9 @@ export class SignupComponent implements OnInit {
       password: this.registerForm.value.password,
       roninAddress: this.registerForm.value.roninAddress,
       avatar: this.registerForm.value.avatar
+    }).then(async (userLinkData: userLink)=>{
+      const uid: string = await this.trackerService.addUserLink(userLinkData);      
+      this.authService.loginComplete(uid);
     })
   }
   buscarDireccion() {

@@ -1,3 +1,5 @@
+import { Part } from "./part";
+
 export class Axie {
   auction?;
   banned: boolean = false;  //{banned: false, __typename: 'AxieBattleInfo'}
@@ -6,12 +8,15 @@ export class Axie {
   id: string = "";
   image: string = "";
   name: string = "";
-  parts: any;
+  parts: Part[];
   stage: number = 0;
   title: string = "";
   cssContainerClass: string = "";
   constructor(values: Object = {}) {
     Object.assign(this, values);
+    this.parts = this.parts.map((rawPart)=>{
+      return new Part(rawPart);
+    })
   }
   getValues() {
     return {
@@ -22,9 +27,11 @@ export class Axie {
       id: this.id,
       image: this.image,
       name: this.name,
-      parts: this.parts,
       stage: this.stage,
-      title: this.title
+      title: this.title,
+      parts: this.parts.map((part:Part)=>{
+        return part.getValues();
+      })
     }
   }
 }

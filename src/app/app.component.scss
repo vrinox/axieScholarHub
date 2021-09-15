@@ -1,1 +1,54 @@
-
+//header-bar
+ion-menu {
+  button {
+    float: right;
+    position: relative;
+    width: 54px;
+    margin-top: 10px;
+    background-color: transparent;
+    font-size: 20px;
+    &.inactivo {
+      color: silver !important;
+    }
+    ion-avatar {
+      border-left: 1px solid silver;
+      position: absolute;
+      right: -10px;
+      top: -32px;
+      width: 60px;
+      height: 56px;
+      padding: 6px 5px;
+      --background: white;
+      img {
+        border-radius: 50%;
+        overflow: hidden;
+        width: 45px;
+        height: 45px;
+      }
+    }
+  }
+  ion-item, ion-list, ion-content {
+    --background: rgba(0,0,0,0);
+    --border-color: rgba(0,0,0,0);
+  }
+}
+ion-avatar {
+  img {
+    background: linear-gradient(to bottom right, #545353, #080e0e);
+  }
+}
+.clear {
+  clear: both;
+}
+.header-menu {
+  padding: 0px !important;
+  .item-md.item-block .item-inner {
+    border: none;
+  }
+}
+//icono del ranking
+.ranking {
+  position: absolute;
+  right: 1em;
+  top: 1em;
+}

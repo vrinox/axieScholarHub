@@ -35,10 +35,14 @@ export interface scholarFirebaseI {
     name: string;
 }
 
-export interface Historial {
-    title: string,
-    subTitleNumber:  number,
-    usd?: number,
-    nombre?: string,
-    mmr?: number
+export interface userLink{
+    uid: string;
+    roninAddress: string;
+    avatar: string;
+}
+
+export interface userCloudData {
+    userData: any;
+    scholar: any;
+    axies?: any[];
 }

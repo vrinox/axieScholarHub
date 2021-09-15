@@ -1,18 +1,22 @@
 <ion-app>
   <ion-menu side="start"  contentId="main">
     <ion-header>
-      <ion-toolbar color="primary">
-        <ion-title>Scholar Hub</ion-title>
-      </ion-toolbar>
+      <div class="container" *ngIf="ready">
+        <div class="avatar" >
+          <div class="img-container">
+            <img src="{{sesion.user.avatar}}" alt="">
+          </div>
+        </div>
+        <ion-item >
+          <ion-label>{{sesion.infinity.name}}</ion-label>
+          <ion-card-subtitle>{{sesion.infinity.MMR}}🏆</ion-card-subtitle>
+        </ion-item>
+      </div>
     </ion-header>
     <ion-content>
-      <ion-list>
-        <ion-item>Menu Item</ion-item>
-        <ion-item>Menu Item</ion-item>
-        <ion-item>Menu Item</ion-item>
-        <ion-item>Menu Item</ion-item>
+        <ion-item>Ajustes</ion-item>
+        <ion-item (click)="navigateTo('profile')">Profile</ion-item>
         <ion-item (click)="logout()">logout</ion-item>
-      </ion-list>
     </ion-content>
   </ion-menu>
   <ion-router-outlet id="main"></ion-router-outlet>

@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicStorageModule } from '@ionic/storage-angular';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -17,10 +18,12 @@ import { AuthService } from './services/auth.service';
 import { LoginComponent } from './login/login.component';
 import { EmailComponent } from './email/email.component';
 import { ProfileComponent } from './profile/profile.component';
-import { AxieApiService } from './services/axie-api.service';
 import { SignupComponent } from './signup/signup.component';
-import { HttpClientModule } from '@angular/common/http';
 
+import { AxieApiService } from './services/axie-api.service';
+import { HttpClientModule } from '@angular/common/http';
+import { ApiTrackerService } from './services/api-tracker.service';
+import { CardAssemblerService } from './services/card-assembler.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,12 +42,15 @@ import { HttpClientModule } from '@angular/common/http';
     provideAuth(() => getAuth()),
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    IonicStorageModule.forRoot()
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AuthService,
-    AxieApiService
+    AxieApiService,
+    ApiTrackerService,
+    CardAssemblerService
   ],
   bootstrap: [AppComponent],
 })

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { earningsData, scholarOfficialData, statsData } from '../models/interfaces';
 import { Axie } from '../models/axie';
+import { Battle } from '../models/battle';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class AxieApiService {
         return axies;
       })
   }
-  public async getAllAccountData(roninAddress: string):Promise<any>{
+  public async getAllAccountData(roninAddress: string):Promise<scholarOfficialData>{
     let earnings, stats;
     [stats, earnings] = await Promise.all(
       [this.getStats(roninAddress),
@@ -37,22 +38,32 @@ export class AxieApiService {
     let apiData: scholarOfficialData = this.parseStatusData(stats, roninAddress);
     return apiData;
   }
-  private getStats(roninAddres: string):Promise<any>{
+  private getStats(roninAddress: string):Promise<any>{
     return this.httpClient
-      .get(`${this.REST_API_SERVER}/_stats/${roninAddres}`)
+      .get(`${this.REST_API_SERVER}/_stats/${roninAddress}`)
       .toPromise()
       .then((statsData:any)=>{
         return statsData.stats;
       })
   }
-  private getEarnings(roninAddres: string):Promise<any>{
+  private getEarnings(roninAddress: string):Promise<any>{
     return this.httpClient
-      .get(`${this.REST_API_SERVER}/_earnings/${roninAddres}`)
+      .get(`${this.REST_API_SERVER}/_earnings/${roninAddress}`)
       .toPromise()
       .then((earningsData:any)=>{
         return earningsData.earnings;
       })
   }
+  public getBattles(roninAddress:string){
+    return this.httpClient
+      .get(`${this.REST_API_SERVER}/_battles/${roninAddress}`)
+      .toPromise()
+      .then((battlesData:any)=>{
+        return battlesData.battle_logs.pvp.map((battle)=>{
+          return new Battle(battle);
+        });
+      })
+  };
   private parseData(earnings: earningsData, stats: statsData, roninAddress: string):scholarOfficialData{
     let data :scholarOfficialData = this.parseStatusData(stats, roninAddress);
     data.ronin_slp = earnings.slp_holdings;
