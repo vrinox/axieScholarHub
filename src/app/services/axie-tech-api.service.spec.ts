@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AxieApiService } from './axie-api.service';
+import { AxieTechApiService } from './axie-tech-api.service';
 
-describe('AxieApiService', () => {
-  let service: AxieApiService;
+describe('AxieTechApiService', () => {
+  let service: AxieTechApiService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(AxieApiService);
+    service = TestBed.inject(AxieTechApiService);
   });
 
   it('should be created', () => {

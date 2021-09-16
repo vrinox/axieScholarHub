@@ -10,6 +10,6 @@ export class Tab3Page implements OnInit{
   constructor(private sesion: SesionService) {}
   
   ngOnInit(){
-    console.log(this.sesion.axies);
+    
   }
 }

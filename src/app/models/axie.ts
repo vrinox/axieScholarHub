@@ -1,22 +1,22 @@
-import { Part } from "./part";
+import { atAbility } from "./interfaces";
 
 export class Axie {
   auction?;
   banned: boolean = false;  //{banned: false, __typename: 'AxieBattleInfo'}
-  breedCount: number = 3;
+  breedCount: number = 0;
   class: string = "";
   id: string = "";
   image: string = "";
   name: string = "";
-  parts: Part[];
+  parts: any[] = [];
+  abilities: atAbility[] = [];
   stage: number = 0;
   title: string = "";
+  stats: any;
+  traits?: any;
   cssContainerClass: string = "";
   constructor(values: Object = {}) {
     Object.assign(this, values);
-    this.parts = this.parts.map((rawPart)=>{
-      return new Part(rawPart);
-    })
   }
   getValues() {
     return {
@@ -29,9 +29,8 @@ export class Axie {
       name: this.name,
       stage: this.stage,
       title: this.title,
-      parts: this.parts.map((part:Part)=>{
-        return part.getValues();
-      })
+      parts: this.parts,
+      abilities: this.abilities
     }
   }
 }

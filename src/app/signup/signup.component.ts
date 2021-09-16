@@ -6,7 +6,7 @@ import { Scholar } from '../models/scholar';
 import { Axie } from '../models/axie';
 import { scholarOfficialData, userCloudData, userLink } from '../models/interfaces';
 
-import { AxieApiService } from '../services/axie-api.service';
+import { lunacianApiService } from '../services/lunacian-api.service';
 import { ApiTrackerService } from '../services/api-tracker.service';
 import { AuthService } from '../services/auth.service';
 
@@ -23,7 +23,7 @@ export class SignupComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
-    private axieService: AxieApiService,
+    private axieService: lunacianApiService,
     private trackerService: ApiTrackerService
   ) { }
 

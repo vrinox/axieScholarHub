@@ -937,7 +937,7 @@
   },
   "bug-horn-02": {
     "id": "bug-horn-02",
-    "partName": "Laggin",
+    "partName": "Lagging",
     "skillName": "Mystic Rush",
     "defaultAttack": 40,
     "defaultDefense": 0,
@@ -1132,7 +1132,7 @@
   },
   "bug-tail-12": {
     "id": "bug-tail-12",
-    "partName": "Thorny Cattepilar",
+    "partName": "Thorny Caterpillar",
     "skillName": "Allergic Reaction",
     "defaultAttack": 105,
     "defaultDefense": 30,

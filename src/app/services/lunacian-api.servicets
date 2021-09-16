@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CardAssemblerService } from './card-assembler.service';
+import { lunacianApiService } from './lunacian-api.service';
 
-describe('CardAssemblerService', () => {
-  let service: CardAssemblerService;
+describe('AxieApiService', () => {
+  let service: lunacianApiService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CardAssemblerService);
+    service = TestBed.inject(lunacianApiService);
   });
 
   it('should be created', () => {

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { userCloudData } from '../models/interfaces';
-import { Part } from '../models/part';
 
 @Injectable({
   providedIn: 'root'
@@ -28,14 +27,20 @@ export class StorageService {
     await this.storage.clear();
   }
 
-  public async getCardDatabase(){
-    return await this.get('cardDatabase');
+  public async getAxies(){
+    return await this.get('axies');
   }
 
-  public setCardDatabase(cardDatabase: Part[]){
-    this.set('cardDatabase', cardDatabase.map((part:Part)=>{
-      return part.getValues();
-    }))
+  public setAxies(axies: any){
+    this.set('axies', axies);
+  }
+
+  public async getBattles(){
+    return await this.get('battles');
+  }
+
+  public setBattles(battles: any){
+    this.set('battles', battles);
   }
 
   private set(key: string, value: any) {

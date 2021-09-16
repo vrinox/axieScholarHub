@@ -7,8 +7,9 @@ import { Battle } from '../models/battle';
 import { scholarOfficialData, userCloudData, userLink } from '../models/interfaces';
 import { Scholar } from '../models/scholar';
 import { ApiTrackerService } from './api-tracker.service';
-import { AxieApiService } from './axie-api.service';
+import { lunacianApiService } from './lunacian-api.service';
 import { StorageService } from './storage.service';
+import { AxieTechApiService } from './axie-tech-api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,9 +25,10 @@ export class SesionService {
   constructor(
     private storage: StorageService,
     private router: Router,
-    private axieService: AxieApiService,
+    private axieService: lunacianApiService,
     private load: LoadingController,
-    private trackerService: ApiTrackerService
+    private trackerService: ApiTrackerService,
+    private axieTechService: AxieTechApiService
   ) { }
 
   public async sesionInit(uid:string, type: string) {
@@ -38,14 +40,14 @@ export class SesionService {
       rawUser = await this.storage.getUser();
     }
     this.storage.setUser(rawUser);
+    this.axies = await this.getAxies();
+    this.battles = await this.storage.getBattles();
     this.infinity = new Scholar(rawUser.scholar);
-    this.axies = rawUser.axies?.map((rawAxie)=>{
-      return new Axie(rawAxie);
-    });
     this.user = rawUser.userData;
     this.sesionInit$.next(true);
     this.router.navigateByUrl('/tabs');    
     this.loading.dismiss();
+    
     this.getUpdatedDatafromApi(this.infinity.roninAddress);
   }
 
@@ -69,18 +71,35 @@ export class SesionService {
 
   public getUpdatedDatafromApi(roninAddress: string){
     this.axieService.getAxies(roninAddress).then((axies:Axie[])=>{
-      this.axies = axies;
+      this.axieTechService.getAxiesAllData(this.axies);
+      this.storage.setAxies(axies.map((axie: Axie)=>{
+        return axie.getValues();
+      }));
     });
-    this.axieService.getAllAccountData(roninAddress).then((updatedData:scholarOfficialData)=>{
+    this.axieTechService.getAllAccountData(roninAddress).then((updatedData:scholarOfficialData)=>{
       const updatedScholar = new Scholar();
       updatedScholar.parse(updatedData);
       this.infinity.update(updatedScholar);
     });
-    this.axieService.getBattles(this.infinity.roninAddress).then((data)=>{
-      this.battles = data.map((rawBattle)=>{
+    this.axieService.getBattles(this.infinity.roninAddress).then((battles)=>{
+      this.battles = battles.map((rawBattle)=>{
         return new Battle(rawBattle);
-      })
+      });
+      this.storage.setBattles(battles);
     })
+  }
+  async getAxies(){
+    let axies:Axie[] = await this.storage.getAxies();
+    if(axies){
+      const updatedAxies = axies.map((axie:Axie)=>{
+        const newAxie = new Axie(axie);
+        return newAxie;
+      })
+      this.axieTechService.getAxiesAllData(updatedAxies);
+      return updatedAxies;
+    } else {
+      return [];
+    }
   }
   async presentLoading() {
     this.loading = await this.load.create({

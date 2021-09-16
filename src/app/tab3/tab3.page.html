@@ -12,12 +12,17 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" >
+  <ion-card *ngFor="let axie of sesion.axies">
+    <img src="{{axie.image}}">
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let ability of axie.abilities">
+          <img src="{{ability.cardURL}}">
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  
 </ion-content>

@@ -20,10 +20,10 @@ import { EmailComponent } from './email/email.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SignupComponent } from './signup/signup.component';
 
-import { AxieApiService } from './services/axie-api.service';
+import { lunacianApiService } from './services/lunacian-api.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ApiTrackerService } from './services/api-tracker.service';
-import { CardAssemblerService } from './services/card-assembler.service';
+import { AxieTechApiService } from './services/axie-tech-api.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,9 +48,9 @@ import { CardAssemblerService } from './services/card-assembler.service';
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AuthService,
-    AxieApiService,
+    lunacianApiService,
     ApiTrackerService,
-    CardAssemblerService
+    AxieTechApiService
   ],
   bootstrap: [AppComponent],
 })

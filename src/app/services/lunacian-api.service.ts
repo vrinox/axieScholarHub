@@ -7,7 +7,7 @@ import { Battle } from '../models/battle';
 @Injectable({
   providedIn: 'root'
 })
-export class AxieApiService {
+export class lunacianApiService {
   private REST_API_SERVER = 'https://api.lunaciaproxy.cloud';
 
   constructor(private httpClient: HttpClient) { }
@@ -33,7 +33,7 @@ export class AxieApiService {
     let apiData: scholarOfficialData = this.parseData(earnings, stats, roninAddress);
     return apiData;
   }
-  public async getAccountData(roninAddress: string) {
+  public async getAccountData(roninAddress: string):Promise<scholarOfficialData> {
     let stats = await this.getStats(roninAddress);
     let apiData: scholarOfficialData = this.parseStatusData(stats, roninAddress);
     return apiData;
