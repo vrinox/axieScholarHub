@@ -1,8 +1,10 @@
 .card {
-  width: 112px;
-  height: 150px;
+  width: 39vw;
+  height: 53vw;
   background-size: cover;
   position: relative;
+  margin-left: 4vw;
+  margin-top: 4vw;
   .card-name {
     color: white;
     padding-top: 9px;
@@ -15,21 +17,22 @@
     width: 100%;
     .desc {
       white-space: normal;
-      font-size: 8px;
+      font-size: 3vw;
       color: white;
       line-height: 1;
       text-align: center;
       margin: 0 auto;
       max-width: 90%;
+      margin-bottom: 1.5vw;
     }
     .stats{
       font-size: 10px;
       color: white;
-      margin: 0px 0 5px 0;
+      margin: 0px 0 3vw 0;
       text-align: center;
       img{
-        width: 10px;
-        margin-left: 4px;
+        width: 3vw;
+        margin-left: 1vw;
       }
     }
   }
