@@ -28,8 +28,8 @@ export class AxieTechApiService {
       return this.getAxieData(axie.id);
     }));
     axies.forEach((axie:Axie)=>{
-      const axieFullData =axiesFullData.find((atAxie:atAxieData)=>{
-        axie.id == atAxie.id
+      const axieFullData = axiesFullData.find((atAxie:atAxieData)=>{
+        return axie.id == atAxie.id
       });
       axie.abilities = axieFullData.parts.map((part:atPart)=>{
         if(part.abilities.length !== 0){

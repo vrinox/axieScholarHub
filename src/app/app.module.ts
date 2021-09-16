@@ -24,6 +24,8 @@ import { lunacianApiService } from './services/lunacian-api.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ApiTrackerService } from './services/api-tracker.service';
 import { AxieTechApiService } from './services/axie-tech-api.service';
+import { ShareComponentModule } from './components/shareComponent.module';
+ShareComponentModule
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +45,8 @@ import { AxieTechApiService } from './services/axie-tech-api.service';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    ShareComponentModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

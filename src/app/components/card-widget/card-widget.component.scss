@@ -1,0 +1,36 @@
+.card {
+  width: 112px;
+  height: 150px;
+  background-size: cover;
+  position: relative;
+  .card-name {
+    color: white;
+    padding-top: 9px;
+    font-size: 9px;
+    text-align: center;
+  }
+  .card-desc {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    .desc {
+      white-space: normal;
+      font-size: 8px;
+      color: white;
+      line-height: 1;
+      text-align: center;
+      margin: 0 auto;
+      max-width: 90%;
+    }
+    .stats{
+      font-size: 10px;
+      color: white;
+      margin: 0px 0 5px 0;
+      text-align: center;
+      img{
+        width: 10px;
+        margin-left: 4px;
+      }
+    }
+  }
+}
