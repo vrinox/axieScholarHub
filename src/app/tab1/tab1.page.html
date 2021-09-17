@@ -13,5 +13,8 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <ion-list>
+    <ion-title>Battles</ion-title>
+    <app-battle-item-list [battle]="battle" *ngFor="let battle of battles" (click)="showRep(battle);"></app-battle-item-list>
+  </ion-list>
 </ion-content>

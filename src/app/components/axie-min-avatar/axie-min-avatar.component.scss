@@ -1,0 +1,19 @@
+.container {
+  border-radius: 5px;  
+  overflow: hidden;
+  margin: 2vw;
+  border: 1px solid white;
+  &.first{    
+    background-color:#64b5f6;
+  }
+  &.second{
+    background-color:#e57373;
+  }
+  .img {
+    width: 48px;
+    height: 48px;
+    background-size: cover;
+    background-position: 0% 2.2vw;
+    transform: scale(1.8) scaleX(-1) ;
+  }
+}

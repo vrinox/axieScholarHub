@@ -12,7 +12,14 @@ export class lunacianApiService {
 
   constructor(private httpClient: HttpClient) { }
 
-  
+  public replay(replayURL: string){
+    return this.httpClient
+      .get(`${this.REST_API_SERVER}/${replayURL}`)
+      .toPromise()
+      .then((data)=>{
+        return data;
+      })
+  }
   public async getAxies(roninAddres:string):Promise<Axie[]> {
     return this.httpClient
       .get(`${this.REST_API_SERVER}/_axies/${roninAddres}`)
@@ -77,7 +84,7 @@ export class lunacianApiService {
       rank: stats.rank,
       mmr: stats.elo,
       total_matches: stats.win_total,
-      ign: stats.name
+      name: stats.name
     }
   }
 }

@@ -9,7 +9,7 @@ export interface scholarOfficialData {
   mmr: number,
   total_matches: number,
   win_rate?: string,
-  ign: string,
+  name: string,
   game_stats_success?: string
 }
 
@@ -63,6 +63,7 @@ export interface atAxieData {
   birthDate: number;
   bodyShape: string;
   breedCount: number;
+  figure: any;
   traits: {
     color: atGenoma;
     ears: atGenoma;
@@ -108,5 +109,10 @@ export interface atGen {
   partId: string;
   specialGenes: string;
   type: string;
-
+}
+export interface atFighter{
+  fighter_class: string;
+  fighter_id: number;
+  fighter_level: number;
+  team_id: string;
 }

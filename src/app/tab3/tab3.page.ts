@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SesionService } from '../services/sesion.service';
 
 @Component({
   selector: 'app-tab3',
@@ -7,7 +6,7 @@ import { SesionService } from '../services/sesion.service';
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page implements OnInit{
-  constructor(private sesion: SesionService) {}
+  constructor() {}
   
   ngOnInit(){
     

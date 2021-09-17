@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import {Firestore, collection, getDocs} from '@angular/fire/firestore';
+import { SesionService } from '../services/sesion.service';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -10,7 +12,8 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     public authService: AuthService,
-    public db: Firestore
+    public db: Firestore,
+    private sesion: SesionService
   ) { }
 
   ngOnInit() {

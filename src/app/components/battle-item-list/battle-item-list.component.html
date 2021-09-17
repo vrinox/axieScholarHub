@@ -1,0 +1,13 @@
+<ion-card class="container" >
+  <div class="first-team">
+    <app-axie-min-avatar [axie]="axie" *ngFor="let axie of battle.firstTeam" [team]="'first'"></app-axie-min-avatar>
+  </div>
+  <div class="first-team-text {{(battle.winner === 1) ? 'winner' : 'loser'}}">{{battle.myName}}</div>
+  <div class="divisor-vs">
+    VS
+  </div>  
+  <div class="second-team-text {{(battle.winner === 1) ? 'loser' : 'winner'}}">{{battle.enemyName}}</div>
+  <div class="second-team">
+    <app-axie-min-avatar [axie]="axie" *ngFor="let axie of battle.secondTeam" [team]="'second'"></app-axie-min-avatar>
+  </div>
+</ion-card>

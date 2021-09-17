@@ -14,6 +14,7 @@ export class Axie {
   title: string = "";
   stats: any;
   traits?: any;
+  teamId?: string;
   cssContainerClass: string = "";
   constructor(values: Object = {}) {
     Object.assign(this, values);

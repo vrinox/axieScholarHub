@@ -1,0 +1,34 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  background-color: #242735;
+  .winner{
+    color: #a5d6a7;
+  }
+  .loser{
+    color:#ef9a9a;
+  }
+  .first-team, .second-team{
+    display: flex;
+    width: 100%;
+  }
+  .second-team {
+    flex-direction: row-reverse;
+  }
+  .divisor-vs{
+    width: 100%;
+    height: 1em;
+    text-align: center;
+    color: white;
+  }
+  .first-team-text{
+    width: 100%;
+    padding-left: 2vw;
+  }
+  .second-team-text{
+    width: 100%;
+    text-align: right;
+    padding-right: 2vw;
+  }
+}

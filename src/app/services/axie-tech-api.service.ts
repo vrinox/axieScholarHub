@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Axie } from '../models/axie';
+import { Battle } from '../models/battle';
 import { atAbility, atAxieData, atPart, scholarOfficialData } from '../models/interfaces';
 
 @Injectable({
@@ -52,5 +53,42 @@ export class AxieTechApiService {
         return statsData;
       })
   };
+
+  public async assembleBattle(battle: Battle, ronninAddress: string){
+    const axies: Axie[] = await Promise.all(battle.fighters.map((rawAxie)=>{
+      return this.getAxieData(rawAxie.fighter_id.toString()).then(( axie:atAxieData )=> {
+        const newAxie = new Axie(axie);
+        newAxie.image = axie.figure.png;
+        newAxie.teamId = rawAxie.team_id;
+        return newAxie;
+      });
+    }));
+    ronninAddress = this.parseRonin(ronninAddress);
+    let enemyRoninAddress: string;
+    let myTeamId: string;
+    if(battle.first_client_id === ronninAddress){
+      enemyRoninAddress = battle.second_client_id;
+      myTeamId = battle.first_team_id;
+    } else {
+      enemyRoninAddress = battle.first_client_id;
+      myTeamId = battle.second_team_id
+    }
+    const enemy: scholarOfficialData = await this.getAllAccountData(enemyRoninAddress);
+    battle.enemyName = enemy.name;
+    axies.forEach((axie:Axie)=>{
+      if(axie.teamId === myTeamId){
+        battle.firstTeam.push(axie);
+      } else if (axie.teamId !== myTeamId) {
+        battle.secondTeam.push(axie);
+      }
+    });
+    return battle;
+  }
+  parseRonin(roninAddress: string){
+    if(roninAddress.search('ronin') !== -1){
+      roninAddress = "0x"+roninAddress.split(':')[1];
+    }
+    return roninAddress;
+  }
 
 }

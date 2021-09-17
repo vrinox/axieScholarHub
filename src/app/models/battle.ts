@@ -1,10 +1,13 @@
 import { Axie } from "./axie";
+import { atFighter } from "./interfaces";
 
 export class Battle {
+  myName?: string = "";
+  enemyName?: string = "";
   battle_type: number = 0;
   battle_uuid: string = "";
   created_at?: Date;
-  fighters: Axie[] = [];
+  fighters: atFighter[] = [];
   first_client_id: string = "";
   first_team_id: string = "";
   id: string = "";
@@ -12,7 +15,8 @@ export class Battle {
   second_client_id: string = "";
   second_team_id: string = "";
   winner: number = 0;
-
+  firstTeam: Axie[] = [];
+  secondTeam: Axie[] = [];
   constructor(values: Object = {}) {
     Object.assign(this, values);
   }

@@ -32,6 +32,7 @@ export class SesionService {
   ) { }
 
   public async sesionInit(uid:string, type: string) {
+    this.sesionInit$.next(false);
     await this.presentLoading();
     let rawUser: userCloudData;
     if(type == "login") {
@@ -86,7 +87,7 @@ export class SesionService {
         return new Battle(rawBattle);
       });
       this.storage.setBattles(battles);
-    })
+    });
   }
   async getAxies(){
     let axies:Axie[] = await this.storage.getAxies();
