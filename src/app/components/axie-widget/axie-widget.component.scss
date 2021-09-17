@@ -1,0 +1,43 @@
+.container {
+  width: 100%;
+  background-size: cover;
+  position: relative;
+  img{
+    margin-top: -5vw;
+  }
+  .name{
+    margin: 3vw;
+  }
+  .stats-bar {
+    margin-top: 1px solid silver;
+    background-color: #242735;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content:space-around;
+    padding: 1vw;
+    margin-top: 20px;
+    border-radius: 2%;
+    .box {
+      .title {
+        font-size: 0.8em;
+        width: 100%;
+        padding-top: 1vw;
+        font-weight: bold;
+        padding-bottom: 1vw;
+      }
+      .box-stats {
+        display: flex;
+        .text-stats {
+          font-size: 1.1em;
+          margin-left: 2vw;
+          font-weight: bold;
+          color: white;
+        }
+      }
+    }
+  }
+}

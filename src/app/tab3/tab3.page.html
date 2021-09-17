@@ -13,10 +13,10 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-<ion-card *ngFor="let axie of sesion.axies">
-  <img src="{{axie.image}}">
-  <ion-list class="card-container">
-    <app-card-widget *ngFor="let ability of axie.abilities" [card]="ability"></app-card-widget>
-  </ion-list>
-</ion-card>
+  <ion-card *ngFor="let axie of sesion.axies">
+    <app-axie-widget [axie]="axie"></app-axie-widget>
+    <ion-list class="card-container">
+      <app-card-widget *ngFor="let ability of axie.abilities" [card]="ability"></app-card-widget>
+    </ion-list>
+  </ion-card>
 </ion-content>

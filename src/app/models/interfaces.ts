@@ -1,3 +1,4 @@
+
 export interface scholarOfficialData {
   ronin_address: string,
   ronin_slp?: number,
@@ -54,12 +55,7 @@ export interface part {
   type: string;
 }
 export interface atAxieData {
-  stats: {
-    hp: number;
-    morale: number;
-    skill: number;
-    speed: number;
-  }
+  stats: atStats;
   parts: atPart[],
   id: string;
   name: string;
@@ -67,7 +63,7 @@ export interface atAxieData {
   birthDate: number;
   bodyShape: string;
   breedCount: number;
-  traits:{
+  traits: {
     color: atGenoma;
     ears: atGenoma;
     eyes: atGenoma;
@@ -76,7 +72,13 @@ export interface atAxieData {
     pattern: atGenoma;
   }
 }
-export interface atPart{
+export interface atStats {
+  hp: number;
+  morale: number;
+  skill: number;
+  speed: number;
+}
+export interface atPart {
   abilities: atAbility[],
   class: string;
   id: string;
@@ -85,7 +87,7 @@ export interface atPart{
   stage: number;
   type: string;
 }
-export interface atAbility{
+export interface atAbility {
   attack: number;
   defense: number;
   backgroundUrl: string;
@@ -95,16 +97,16 @@ export interface atAbility{
   id: string;
   name: string;
 }
-export interface atGenoma{
+export interface atGenoma {
   d: atGen;
   r1: atGen;
   r2: atGen;
 }
-export interface atGen{
-  class: string ;
-  name: string ;
-  partId: string ;
-  specialGenes: string ;
-  type: string ;
+export interface atGen {
+  class: string;
+  name: string;
+  partId: string;
+  specialGenes: string;
+  type: string;
 
 }
