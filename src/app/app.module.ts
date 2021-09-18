@@ -25,6 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ApiTrackerService } from './services/api-tracker.service';
 import { AxieTechApiService } from './services/axie-tech-api.service';
 import { ShareComponentModule } from './components/shareComponent.module';
+import { FireServiceService } from './services/fire-service.service';
 ShareComponentModule
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ ShareComponentModule
     AuthService,
     lunacianApiService,
     ApiTrackerService,
-    AxieTechApiService
+    AxieTechApiService,
+    FireServiceService
   ],
   bootstrap: [AppComponent],
 })

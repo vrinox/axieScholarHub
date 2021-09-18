@@ -2,29 +2,31 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { GoogleAuthProvider } from 'firebase/auth'
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, signInWithPopup } from '@angular/fire/auth';
-import { ToastController } from '@ionic/angular';
-import { userCloudData } from '../models/interfaces';
+import { LoadingController, ToastController } from '@ionic/angular';
 import { SesionService } from './sesion.service';
 
 @Injectable()
 export class AuthService {
-
+  loading: HTMLIonLoadingElement
   constructor(
     private afAuth: Auth,
     private router: Router,
     private toastController: ToastController,
-    private sesion: SesionService) {
+    private sesion: SesionService,
+    private load: LoadingController) {
   }
 
   login(formValues: { email: string, password: string }) {
-    this.router.navigate(['start-page']);
+    this.presentLoading();
     return new Promise((resolve, reject)=>{
       signInWithEmailAndPassword(this.afAuth, formValues.email, formValues.password)
       .then(value => {
+        this.loading.dismiss();
+        this.router.navigate(['start-page']);
         resolve(value.user.uid);
       })
       .catch(async err => {
-        this.router.navigate['email-login']
+        this.loading.dismiss()
         const toast = await this.toastController.create({
           message: 'wrong Email/Password ',
           duration: 2000,
@@ -46,18 +48,20 @@ export class AuthService {
     this.sesion.sesionInit(uid, 'login');
   }
   emailSignup(form: { email: string, password: string, roninAddress: string, avatar: string }):Promise<any> {
-    this.router.navigate(['start-page']);
+    this.presentLoading();
     return new Promise((resolve, reject)=>{
       createUserWithEmailAndPassword(this.afAuth, form.email, form.password)
       .then((value) => {
+        this.loading.dismiss();
+        this.router.navigate(['start-page']);
         resolve({
           uid: value.user.uid,
           avatar: form.avatar,
-          roninAddress: form.roninAddress
+          roninAddress: this.parseRonin(form.roninAddress)
         });
       })
       .catch(async error => {
-        this.router.navigate(['email-login']);
+        this.loading.dismiss();
         const toast = await this.toastController.create({
           message: error.message,
           duration: 2000,
@@ -99,5 +103,18 @@ export class AuthService {
   }
   getUserData() {
     return this.afAuth.currentUser;
+  }
+  async presentLoading() {
+    this.loading = await this.load.create({
+      cssClass: 'my-custom-class',
+      message: 'Please wait...'
+    });
+    await this.loading.present();
+  }
+  parseRonin(roninAddress: string){
+    if(roninAddress && roninAddress.search('ronin') !== -1){
+      roninAddress = "0x"+roninAddress.split(':')[1];
+    }
+    return roninAddress;
   }
 }

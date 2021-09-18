@@ -19,10 +19,11 @@ export class Scholar {
 
   constructor(values: Object = {}) {
     Object.assign(this, values);
+    this.roninAddress = this.parseRonin(this.roninAddress);
   }
 
   parse(unParsedData: scholarOfficialData) {
-    this.roninAddress = unParsedData.ronin_address;
+    this.roninAddress = this.parseRonin(unParsedData.ronin_address);
     this.inRoninSLP = (isNaN(unParsedData.ronin_slp)) ? 0 : unParsedData.ronin_slp;
     this.totalSLP = (isNaN(unParsedData.total_slp)) ? 0 : unParsedData.total_slp;
     this.inGameSLP = (isNaN(unParsedData.in_game_slp)) ? 0 : unParsedData.in_game_slp;
@@ -34,7 +35,7 @@ export class Scholar {
   
   getValues():object {
     return {
-      roninAddress: this.roninAddress,
+      roninAddress: this.parseRonin(this.roninAddress),
       name: this.name,
       todaySLP: this.todaySLP || 0,
       yesterdaySLP: this.yesterdaySLP || 0,
@@ -57,5 +58,11 @@ export class Scholar {
     this.inGameSLP = newData.inGameSLP;
     this.inRoninSLP = newData.inRoninSLP;
     this.totalSLP = newData.totalSLP;
+  }
+  parseRonin(roninAddress: string){
+    if(roninAddress && roninAddress.search('ronin') !== -1){
+      roninAddress = "0x"+roninAddress.split(':')[1];
+    }
+    return roninAddress;
   }
 }

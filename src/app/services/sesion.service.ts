@@ -45,6 +45,7 @@ export class SesionService {
     this.battles = await this.storage.getBattles();
     this.infinity = new Scholar(rawUser.scholar);
     this.user = rawUser.userData;
+    this.getAxieAvatar(rawUser.userData);
     this.sesionInit$.next(true);
     this.router.navigateByUrl('/tabs');    
     this.loading.dismiss();
@@ -72,6 +73,7 @@ export class SesionService {
 
   public getUpdatedDatafromApi(roninAddress: string){
     this.axieService.getAxies(roninAddress).then((axies:Axie[])=>{
+      this.axies = axies;
       this.axieTechService.getAxiesAllData(this.axies);
       this.storage.setAxies(axies.map((axie: Axie)=>{
         return axie.getValues();
@@ -101,6 +103,11 @@ export class SesionService {
     } else {
       return [];
     }
+  }
+  private getAxieAvatar(rawUserData: userLink){
+    this.user.userAvatar = new Axie({
+      id: rawUserData.avatar.split('/')[5]
+    });
   }
   async presentLoading() {
     this.loading = await this.load.create({

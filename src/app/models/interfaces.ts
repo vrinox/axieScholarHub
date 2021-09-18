@@ -1,3 +1,4 @@
+import { Axie } from "./axie";
 
 export interface scholarOfficialData {
   ronin_address: string,
@@ -40,6 +41,7 @@ export interface userLink {
   uid: string;
   roninAddress: string;
   avatar: string;
+  userAvatar?: Axie;
 }
 
 export interface userCloudData {

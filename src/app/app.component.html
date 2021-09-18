@@ -1,19 +1,19 @@
 <ion-app>
-  <ion-menu side="start"  contentId="main">
+  <ion-menu side="start"  contentId="main" *ngIf="ready">
     <ion-header>
-      <div class="container" *ngIf="ready">
-        <div class="avatar" >
-          <div class="img-container">
-            <img src="{{sesion.user.avatar}}" alt="">
-          </div>
-        </div>
-        <ion-item >
-          <ion-label>{{sesion.infinity.name}}</ion-label>
-          <ion-card-subtitle>{{sesion.infinity.MMR}}🏆</ion-card-subtitle>
-        </ion-item>
-      </div>
+      <ion-toolbar>
+        <ion-title>LeonAcademy</ion-title>
+      </ion-toolbar>
     </ion-header>
     <ion-content>
+        <ion-item color="ligth">
+          <app-axie-min-avatar  [axie]="sesion.user.userAvatar" [team]="'first'"></app-axie-min-avatar>
+          <ion-label>
+            <h2>{{sesion.infinity.name}}</h2>
+            <h4><div class="slp"></div>{{sesion.infinity.totalSLP}}</h4>
+          </ion-label>
+          <p>{{sesion.infinity.MMR}}🏆</p>
+        </ion-item>
         <ion-item>Ajustes</ion-item>
         <ion-item (click)="navigateTo('profile')">Profile</ion-item>
         <ion-item (click)="logout()">logout</ion-item>
