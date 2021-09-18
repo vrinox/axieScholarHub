@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
-import { Battle } from '../models/battle';
-import { AxieTechApiService } from '../services/axie-tech-api.service';
-import { lunacianApiService } from '../services/lunacian-api.service';
-import { SesionService } from '../services/sesion.service';
+import { Axie } from '../models/axie';
+import { Scholar } from '../models/scholar';
+import { ApiTrackerService } from '../services/api-tracker.service';
+import { FireServiceService } from '../services/fire-service.service';
 
 
 @Component({
@@ -12,40 +11,33 @@ import { SesionService } from '../services/sesion.service';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page implements OnInit{
-  battles: Battle[] = [];
-  loading: HTMLIonLoadingElement;
+  list: {axie:Axie, scholar:Scholar}[] = [];
   constructor(
-    private sesion:SesionService,
-    private axieTechService: AxieTechApiService,
-    private load: LoadingController,
-    private lunacianService: lunacianApiService
-    ) {
+    private fire: FireServiceService,
+    private apiTraker: ApiTrackerService) {
     
   }
   ngOnInit(){
-    this.getAllBattles();
-    
+    this.init();
   }
-
-  async getAllBattles(){
-    if(this.sesion.battles){
-      this.presentLoading();
-      this.battles = await Promise.all(this.sesion.battles?.map((battle: Battle)=>{
-        battle.myName = this.sesion.infinity.name;
-        return this.axieTechService.assembleBattle(battle, this.sesion.user.roninAddress);
-      }));
-      this.loading.dismiss();
-    }
-  }
-  async presentLoading() {
-    this.loading = await this.load.create({
-      cssClass: 'my-custom-class',
-      message: 'Fetching all the battles data'
+  private async init(){
+    const scholars: Scholar[] = await this.fire.getScholars();
+    this.list = await Promise.all(scholars.map(async (scholar: Scholar)=>{
+      const axie = await this.getAxieAvatar(scholar.roninAddress);
+      return {
+        scholar: scholar,
+        axie: axie
+      }
+    }));
+    this.list.sort((a,b)=>{
+      return b.scholar.monthSLP - a.scholar.monthSLP;
     });
-    await this.loading.present();
   }
-
-  async showRep(battle: Battle){
-    this.lunacianService.replay(battle.replay);
+  private async getAxieAvatar(roninAddress: string){
+    const axie = new Axie();
+    const userLink = await this.apiTraker.getUserLink('roninAddress', roninAddress);
+    axie.id = (userLink)?userLink.avatar.split('/')[5] : "";
+    return axie;
   }
+  
 }

@@ -14,7 +14,6 @@
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    <ion-title>Battles</ion-title>
-    <app-battle-item-list [battle]="battle" *ngFor="let battle of battles" (click)="showRep(battle);"></app-battle-item-list>
+    <app-list-item-user-avatar [axie]="item.axie" [scholar]="item.scholar" *ngFor="let item of list"></app-list-item-user-avatar>
   </ion-list>
 </ion-content>

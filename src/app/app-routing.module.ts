@@ -18,6 +18,14 @@ const routes: Routes = [
   {
     path: 'start-page',
     loadChildren: () => import('./start-page/start-page.module').then( m => m.StartPagePageModule)
+  },
+  {
+    path: 'my-axies',
+    loadChildren: () => import('./pages/my-axies/my-axies.module').then( m => m.MyAxiesPageModule)
+  },
+  {
+    path: 'battles',
+    loadChildren: () => import('./pages/battles/battles.module').then( m => m.BattlesPageModule)
   }
 ];
 @NgModule({

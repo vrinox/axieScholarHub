@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mis Axies</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let axie of sesion.axies">
+    <app-axie-widget [axie]="axie"></app-axie-widget>
+    <ion-list class="card-container">
+      <app-card-widget *ngFor="let ability of axie.abilities" [card]="ability"></app-card-widget>
+    </ion-list>
+  </ion-card>
+</ion-content>

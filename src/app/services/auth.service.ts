@@ -16,8 +16,8 @@ export class AuthService {
     private load: LoadingController) {
   }
 
-  login(formValues: { email: string, password: string }) {
-    this.presentLoading();
+  async login(formValues: { email: string, password: string }) {
+    await this.presentLoading();
     return new Promise((resolve, reject)=>{
       signInWithEmailAndPassword(this.afAuth, formValues.email, formValues.password)
       .then(value => {
@@ -47,8 +47,8 @@ export class AuthService {
   loginComplete(uid: string) {
     this.sesion.sesionInit(uid, 'login');
   }
-  emailSignup(form: { email: string, password: string, roninAddress: string, avatar: string }):Promise<any> {
-    this.presentLoading();
+  async emailSignup(form: { email: string, password: string, roninAddress: string, avatar: string }):Promise<any> {
+    await this.presentLoading();
     return new Promise((resolve, reject)=>{
       createUserWithEmailAndPassword(this.afAuth, form.email, form.password)
       .then((value) => {

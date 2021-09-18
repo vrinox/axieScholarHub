@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Batallas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <app-battle-item-list [battle]="battle" *ngFor="let battle of battles" (click)="showRep(battle);"></app-battle-item-list>
+  </ion-list>
+</ion-content>
