@@ -8,19 +8,8 @@ import { SesionService } from '../services/sesion.service';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page implements AfterViewInit {
-  scholarStory: any[] =[
-    {value:50,label:'09'},
-    {value:70,label:'10'},
-    {value:235,label:'11'},
-    {value:195,label:'12'},
-    {value:195,label:'13'},
-    {value:135,label:'14'},
-    {value:167,label:'15'},
-    {value:75,label:'16'},
-    {value:135,label:'17'},
-    {value:135,label:'18'},
-    {value:135,label:'19'},
-  ]
+  scholarStory: any[] = [];
+  options: {label:string, value:any, class?:string}[];
   constructor(
     private storyService: HistoricService,
     private sesion: SesionService
@@ -30,6 +19,7 @@ export class Tab2Page implements AfterViewInit {
   ngAfterViewInit() {
     this.sesion.sesionInit$.subscribe(async (init:boolean)=>{
       if(init === true){
+        this.initOptions();
         const story: Scholar[] = await this.storyService.getHistoric(this.sesion.infinity.roninAddress);
         this.scholarStory = story.sort((a:Scholar,b:Scholar)=>{
           return a.lastUpdate.getDate() - b.lastUpdate.getDate();
@@ -43,5 +33,11 @@ export class Tab2Page implements AfterViewInit {
       }
     })
   }
+  initOptions(){
+    this.options = [{
+      value: this.sesion.infinity.totalSLP,
+      label: 'Total Slp'
+    }];
 
+  }
 }

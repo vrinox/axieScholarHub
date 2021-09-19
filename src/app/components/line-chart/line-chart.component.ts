@@ -47,7 +47,7 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
   }
   drawChart() {
     let gradientCtx = this.renderer.createElement('canvas');
-    let gradient = gradientCtx.getContext("2d").createLinearGradient(0, 0, 0, 400);
+    let gradient = gradientCtx.getContext("2d").createLinearGradient(0, 0, 0, 600);
     gradient.addColorStop(0, 'RGBA(251,48,82,0.7)')
     gradient.addColorStop(1, 'RGBA(6,173,121,0.7)')
     this.myChart = new Chart(this.ctx, {
