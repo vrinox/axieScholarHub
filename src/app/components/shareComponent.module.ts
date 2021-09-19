@@ -5,6 +5,7 @@ import { AxieMinAvatarComponent } from './axie-min-avatar/axie-min-avatar.compon
 import { AxieWidgetComponent } from './axie-widget/axie-widget.component';
 import { BattleItemListComponent } from './battle-item-list/battle-item-list.component';
 import { CardWidgetComponent } from './card-widget/card-widget.component';
+import { LineChartComponent } from './line-chart/line-chart.component';
 import { ListItemUserAvatarComponent } from './list-item-user-avatar/list-item-user-avatar.component';
 CardWidgetComponent
 @NgModule({
@@ -13,7 +14,8 @@ CardWidgetComponent
     AxieWidgetComponent,
     BattleItemListComponent,
     AxieMinAvatarComponent,
-    ListItemUserAvatarComponent
+    ListItemUserAvatarComponent,
+    LineChartComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
@@ -25,7 +27,8 @@ CardWidgetComponent
     AxieWidgetComponent,
     BattleItemListComponent,
     AxieMinAvatarComponent,
-    ListItemUserAvatarComponent
+    ListItemUserAvatarComponent,
+    LineChartComponent
   ]
 })
 export class ShareComponentModule { }
