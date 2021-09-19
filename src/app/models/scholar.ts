@@ -17,7 +17,7 @@ export class Scholar {
   lastUpdate: Date = new Date;
   WinRate!: string;
 
-  constructor(values: Object = {}) {
+  constructor(values: any = {}) {
     Object.assign(this, values);
     this.roninAddress = this.parseRonin(this.roninAddress);
   }

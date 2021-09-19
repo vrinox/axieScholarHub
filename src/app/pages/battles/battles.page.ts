@@ -21,16 +21,26 @@ export class BattlesPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getAllBattles();
+    if(this.battles.length === 0){
+      this.getAllBattles();
+    }
   }
   async getAllBattles(){
-    if(this.sesion.battles){
+    if(this.sesion.assembledFlag){
+      this.battles = this.sesion.battles;
+    } else {
       this.presentLoading();
-      this.battles = await Promise.all(this.sesion.battles?.map((battle: Battle)=>{
+      Promise.all(this.sesion.battles?.map(async (battle: Battle)=>{
         battle.myName = this.sesion.infinity.name;
-        return this.axieTechService.assembleBattle(battle, this.sesion.user.roninAddress);
+        const battleAssembled = await this.axieTechService.assembleBattle(battle, this.sesion.user.roninAddress);
+        this.battles.push(battleAssembled);        
+        if(this.battles.length === 1){
+          this.loading.dismiss();
+        } 
+        if (this.battles.length === this.sesion.battles.length){
+          this.sesion.setAssembledBattles(this.battles);
+        }
       }));
-      this.loading.dismiss();
     }
   }
   async presentLoading() {

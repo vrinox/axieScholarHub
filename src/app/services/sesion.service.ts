@@ -20,6 +20,7 @@ export class SesionService {
   user: userLink;
   battles: Battle[];
   sesionInit$: Subject<boolean> = new Subject();
+  assembledFlag: boolean = false;
   public loading: HTMLIonLoadingElement;
 
   constructor(
@@ -42,6 +43,7 @@ export class SesionService {
     }
     this.storage.setUser(rawUser);
     this.axies = await this.getAxies();
+    this.assembledFlag = await this.storage.getAssembledFlag();
     this.battles = await this.storage.getBattles();
     this.infinity = new Scholar(rawUser.scholar);
     this.user = rawUser.userData;
@@ -88,6 +90,7 @@ export class SesionService {
       this.battles = battles.map((rawBattle)=>{
         return new Battle(rawBattle);
       });
+      this.storage.setAssembledFlag(false);
       this.storage.setBattles(battles);
     });
   }
@@ -115,5 +118,11 @@ export class SesionService {
       message: 'Hunting your axies please wait ...'
     });
     await this.loading.present();
+  }
+  setAssembledBattles(battles:Battle[]){
+    this.storage.setBattles(battles);
+    this.storage.setAssembledFlag(true);
+    this.battles = battles;
+    this.assembledFlag = true;
   }
 }

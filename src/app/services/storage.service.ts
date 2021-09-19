@@ -40,7 +40,16 @@ export class StorageService {
   }
 
   public setBattles(battles: any){
+    this.set('battles', '');
     this.set('battles', battles);
+  }
+
+  public setAssembledFlag(value:boolean){
+    this.set('AssembledBattles', value);
+  }
+
+  public async getAssembledFlag(){
+    return await this.get('AssembledBattles');
   }
 
   private set(key: string, value: any) {
