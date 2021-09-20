@@ -55,14 +55,7 @@ export class AxieTechApiService {
   };
 
   public async assembleBattle(battle: Battle, ronninAddress: string){
-    const axies: Axie[] = await Promise.all(battle.fighters.map((rawAxie)=>{
-      return this.getAxieData(rawAxie.fighter_id.toString()).then(( axie:atAxieData )=> {
-        const newAxie = new Axie(axie);
-        newAxie.image = axie.figure.png;
-        newAxie.teamId = rawAxie.team_id;
-        return newAxie;
-      });
-    }));
+    const axies = await this.getAxiesForBattle(battle);
     ronninAddress = this.parseRonin(ronninAddress);
     let enemyRoninAddress: string;
     let myTeamId: string;
@@ -83,6 +76,16 @@ export class AxieTechApiService {
       }
     });
     return battle;
+  }
+  async getAxiesForBattle(battle: Battle){
+    const axies: Axie[] = await Promise.all(battle.fighters.map((rawAxie)=>{
+      return this.getAxieData(rawAxie.fighter_id.toString()).then(( axie:atAxieData )=> {
+        const newAxie = new Axie(axie);
+        newAxie.teamId = rawAxie.team_id;
+        return newAxie;
+      });
+    }));
+    return axies;
   }
   parseRonin(roninAddress: string){
     if(roninAddress.search('ronin') !== -1){

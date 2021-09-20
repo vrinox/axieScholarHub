@@ -29,7 +29,7 @@ ion-menu {
   }
   ion-item, ion-list, ion-content {
     --background: rgba(0,0,0,0);
-    --border-color: rgba(0,0,0,0);
+    --border-color: rgba(255,255,255, 0.3);
   }
 }
 ion-avatar {
@@ -59,4 +59,19 @@ ion-avatar {
   position: absolute;
   right: 1em;
   top: 1em;
+}
+.axies {
+  background-image: url(../assets/img/axie.png);
+  height: 2em;
+  width: 2em;
+  background-size: cover;
+  float: left;
+}
+
+.battles {
+  background-image: url(../assets/img/battle.png);
+  height: 2em;
+  width: 2em;
+  background-size: cover;
+  float: left;
 }

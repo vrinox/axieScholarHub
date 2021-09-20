@@ -20,18 +20,22 @@ export class Axie {
     Object.assign(this, values);
   }
   getValues() {
+    const values: any = this.getValuesMin();
+    values.auction = this.auction;
+    values.banned = this.banned;
+    values.image = this.image;
+    values.parts = this.parts;
+    values.abilities = this.abilities;
+    values.stage = this.stage;    
+    return values
+  }
+  getValuesMin(){
     return {
-      auction: this.auction,
-      banned: this.banned,
       breedCount: this.breedCount,
       class: this.class,
       id: this.id,
-      image: this.image,
       name: this.name,
-      stage: this.stage,
       title: this.title,
-      parts: this.parts,
-      abilities: this.abilities
     }
   }
 }

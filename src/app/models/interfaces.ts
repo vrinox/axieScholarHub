@@ -1,4 +1,5 @@
 import { Axie } from "./axie";
+import { Scholar } from "./scholar";
 
 export interface scholarOfficialData {
   ronin_address: string,
@@ -117,4 +118,8 @@ export interface atFighter{
   fighter_id: number;
   fighter_level: number;
   team_id: string;
+}
+export interface sharedData{
+  scholar: any,
+  axie: any
 }

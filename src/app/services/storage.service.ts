@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { Battle } from '../models/battle';
 import { userCloudData } from '../models/interfaces';
 
 @Injectable({
@@ -35,20 +36,26 @@ export class StorageService {
     this.set('axies', axies);
   }
 
-  public async getBattles(){
+  public async getBattles():Promise<any[]>{
     return await this.get('battles');
   }
 
   public setBattles(battles: any){
-    this.set('battles', '');
     this.set('battles', battles);
   }
 
   public setAssembledFlag(value:boolean){
-    this.set('AssembledBattles', value);
+    this.set('AssembledBattlesFlag', value);
   }
 
   public async getAssembledFlag(){
+    return await this.get('AssembledBattlesFlag');
+  }
+  public setAssembledBattles(battles:any[]){    
+    this.set('AssembledBattles', battles );
+  }
+
+  public async getAssembledBattles():Promise<any[]>{
     return await this.get('AssembledBattles');
   }
 

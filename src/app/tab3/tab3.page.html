@@ -4,7 +4,7 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>
-      Axies
+      Shared Battles
     </ion-title>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
@@ -14,6 +14,6 @@
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    <app-list-item-user-avatar [axie]="item.axie" [scholar]="item.scholar" *ngFor="let item of list"></app-list-item-user-avatar>
+    <app-battle-item-list [type]="'shared'" [battle]="battle" *ngFor="let battle of battles" (click)="open(battle)" ></app-battle-item-list>
   </ion-list>
 </ion-content>

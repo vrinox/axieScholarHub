@@ -41,7 +41,6 @@ export class ApiTrackerService {
   async getScholar(field: string, value: string): Promise<Scholar> {
     const querySnapshot = await getDocs(query(collection(this.db, "scholars"), where(field, "==", value)));
     const dbScholar = (querySnapshot.docs[0])? querySnapshot.docs[0].data(): null;
-    console.log('scholar', field, value);
     return (!dbScholar)? null : new Scholar(dbScholar);
   }
 }

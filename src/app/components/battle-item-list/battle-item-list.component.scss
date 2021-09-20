@@ -3,6 +3,8 @@
   flex-wrap: wrap;
   flex-direction: row;
   background-color: #242735;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   .winner{
     color: #a5d6a7;
   }
@@ -30,5 +32,26 @@
     width: 100%;
     text-align: right;
     padding-right: 2vw;
+  }
+  .buttons{
+    width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    .mid-size-cont{
+      width: 50%;
+      text-align: center;
+      float: left;
+      padding-top: 2vh;
+      padding-bottom: 2vh;
+      font-size: 1em;
+      font-weight: bold;
+      text-transform: capitalize;
+      color:white;
+      &.danger{
+        background-color: var(--ion-color-danger);
+      }
+      &.primary{
+        background-color: var(--ion-color-primary);
+      }
+    }
   }
 }

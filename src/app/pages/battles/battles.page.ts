@@ -27,21 +27,26 @@ export class BattlesPage implements OnInit {
   }
   async getAllBattles(){
     if(this.sesion.assembledFlag){
-      this.battles = this.sesion.battles;
-    } else {
+      this.battles = await this.sesion.getAssembledBattles();
+      
+    } 
+    if(this.battles.length === 0){      
       this.presentLoading();
-      Promise.all(this.sesion.battles?.map(async (battle: Battle)=>{
-        battle.myName = this.sesion.infinity.name;
-        const battleAssembled = await this.axieTechService.assembleBattle(battle, this.sesion.user.roninAddress);
-        this.battles.push(battleAssembled);        
-        if(this.battles.length === 1){
-          this.loading.dismiss();
-        } 
-        if (this.battles.length === this.sesion.battles.length){
-          this.sesion.setAssembledBattles(this.battles);
-        }
-      }));
+      this.getAndAssebleBattles(); 
     }
+  }
+  getAndAssebleBattles(){
+    Promise.all(this.sesion.battles?.map(async (battle: Battle)=>{
+      battle.myName = this.sesion.infinity.name;
+      const battleAssembled = await this.axieTechService.assembleBattle(battle, this.sesion.user.roninAddress);
+      this.battles.push(battleAssembled);        
+      if(this.battles.length === 1){
+        this.loading.dismiss();
+      } 
+      if (this.battles.length === this.sesion.battles.length){
+        this.sesion.setAssembledBattles(this.battles);
+      }
+    }));
   }
   async presentLoading() {
     this.loading = await this.load.create({

@@ -35,4 +35,23 @@ export class Battle {
       winner: this.winner,
     }
   }
+  getSharedValues(sharedData?){
+    return {
+      battle_type: this.battle_type,
+      battle_uuid: this.battle_uuid,
+      created_at: this.created_at,
+      first_client_id: this.first_client_id,
+      first_team_id: this.first_team_id,
+      id: this.id,
+      replay: this.replay,
+      second_client_id: this.second_client_id,
+      second_team_id: this.second_team_id,
+      winner: this.winner,
+      myName: this.myName,
+      enemyName: this.enemyName,
+      firstTeam: this.firstTeam.map( axie => axie.getValuesMin()),
+      secondTeam: this.secondTeam.map( axie => axie.getValuesMin()),
+      shared: sharedData
+    }
+  }
 }

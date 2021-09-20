@@ -1,4 +1,5 @@
 <ion-card class="container" >
+ 
   <div class="first-team">
     <app-axie-min-avatar [axie]="axie" *ngFor="let axie of battle.firstTeam" [team]="'first'"></app-axie-min-avatar>
   </div>
@@ -9,5 +10,12 @@
   <div class="second-team-text {{(battle.winner === 1) ? 'loser' : 'winner'}}">{{battle.enemyName}}</div>
   <div class="second-team">
     <app-axie-min-avatar [axie]="axie" *ngFor="let axie of battle.secondTeam" [team]="'second'"></app-axie-min-avatar>
+  </div>
+  <div class="buttons" *ngIf="type==='own'">
+    <div class="mid-size-cont primary" (click)="share()" >share</div>
+    <a href="{{lunacian.REST_API_SERVER}}/{{battle.replay}}"><div class="mid-size-cont danger"  >replay</div></a>
+  </div >
+  <div style="width: 100%; border: 1px solid rgba(255, 255, 255, 0.3);" *ngIf="type==='shared'">
+    <app-list-item-user-avatar [axie]="battle.shared.axie" [scholar]="battle.shared.scholar" ></app-list-item-user-avatar>
   </div>
 </ion-card>

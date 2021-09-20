@@ -8,7 +8,7 @@ import { Battle } from '../models/battle';
   providedIn: 'root'
 })
 export class lunacianApiService {
-  private REST_API_SERVER = 'https://api.lunaciaproxy.cloud';
+  public REST_API_SERVER = 'https://api.lunaciaproxy.cloud';
 
   constructor(private httpClient: HttpClient) { }
 

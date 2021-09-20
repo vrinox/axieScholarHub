@@ -20,6 +20,7 @@ export class SesionService {
   user: userLink;
   battles: Battle[];
   sesionInit$: Subject<boolean> = new Subject();
+  sesionUpdate$: Subject<Scholar> = new Subject();
   assembledFlag: boolean = false;
   public loading: HTMLIonLoadingElement;
 
@@ -42,16 +43,13 @@ export class SesionService {
       rawUser = await this.storage.getUser();
     }
     this.storage.setUser(rawUser);
-    this.axies = await this.getAxies();
-    this.assembledFlag = await this.storage.getAssembledFlag();
-    this.battles = await this.storage.getBattles();
+    await this.getSesionFromStorage();
     this.infinity = new Scholar(rawUser.scholar);
     this.user = rawUser.userData;
-    this.getAxieAvatar(rawUser.userData);
+    this.user.userAvatar = this.getAxieAvatar(rawUser.userData);
     this.sesionInit$.next(true);
     this.router.navigateByUrl('/tabs');    
-    this.loading.dismiss();
-    
+    this.loading.dismiss();    
     this.getUpdatedDatafromApi(this.infinity.roninAddress);
   }
 
@@ -74,25 +72,9 @@ export class SesionService {
   }
 
   public getUpdatedDatafromApi(roninAddress: string){
-    this.axieService.getAxies(roninAddress).then((axies:Axie[])=>{
-      this.axies = axies;
-      this.axieTechService.getAxiesAllData(this.axies);
-      this.storage.setAxies(axies.map((axie: Axie)=>{
-        return axie.getValues();
-      }));
-    });
-    this.axieTechService.getAllAccountData(roninAddress).then((updatedData:scholarOfficialData)=>{
-      const updatedScholar = new Scholar();
-      updatedScholar.parse(updatedData);
-      this.infinity.update(updatedScholar);
-    });
-    this.axieService.getBattles(this.infinity.roninAddress).then((battles)=>{
-      this.battles = battles.map((rawBattle)=>{
-        return new Battle(rawBattle);
-      });
-      this.storage.setAssembledFlag(false);
-      this.storage.setBattles(battles);
-    });
+    this.updateAxies(roninAddress);
+    this.updateBattles(roninAddress);
+    this.updateScholar(roninAddress);
   }
   async getAxies(){
     let axies:Axie[] = await this.storage.getAxies();
@@ -107,8 +89,8 @@ export class SesionService {
       return [];
     }
   }
-  private getAxieAvatar(rawUserData: userLink){
-    this.user.userAvatar = new Axie({
+  public getAxieAvatar(rawUserData: userLink){
+    return new Axie({
       id: rawUserData.avatar.split('/')[5]
     });
   }
@@ -120,9 +102,56 @@ export class SesionService {
     await this.loading.present();
   }
   setAssembledBattles(battles:Battle[]){
-    this.storage.setBattles(battles);
+    this.storage.setAssembledBattles(battles);
     this.storage.setAssembledFlag(true);
     this.battles = battles;
     this.assembledFlag = true;
+  }
+  updateAxies(roninAddress: string){
+
+    this.axieService.getAxies(roninAddress).then((axies:Axie[])=>{
+      this.axies = axies;
+      this.axieTechService.getAxiesAllData(this.axies);
+      this.storage.setAxies(axies.map((axie: Axie)=>{
+        return axie.getValues();
+      }));
+    });
+  }
+  updateBattles(roninAddress: string){    
+    this.axieService.getBattles(roninAddress).then((battles)=>{
+      this.battles = battles.map((rawBattle)=>{
+        return new Battle(rawBattle);
+      });
+      this.storage.setAssembledFlag(false);
+      this.storage.setBattles(battles);
+    });
+  }
+  updateScholar(roninAddress: string){    
+    this.axieTechService.getAllAccountData(roninAddress).then((updatedData:scholarOfficialData)=>{
+      const updatedScholar = new Scholar();
+      updatedScholar.parse(updatedData);
+      this.infinity.update(updatedScholar);
+      this.sesionUpdate$.next(this.infinity);
+    });
+  }
+  async getSesionFromStorage(){
+    this.axies = await this.getAxies();
+    this.assembledFlag = await this.storage.getAssembledFlag();
+    const rawBattles: any[] = await this.storage.getBattles();
+    if(rawBattles){
+      this.battles = rawBattles.map((rawBattle)=>{
+        return new Battle(rawBattle);
+      });
+    }
+  }
+  async getAssembledBattles():Promise<Battle[]>{
+    const rawAssembledBattles = await this.storage.getAssembledBattles();
+    if(rawAssembledBattles){
+      return rawAssembledBattles?.map((rawBattle: any)=>{
+        return new Battle(rawBattle);
+      });
+    } else{
+      return [];
+    }
   }
 }
