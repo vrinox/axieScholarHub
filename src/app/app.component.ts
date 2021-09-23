@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { AuthService } from './services/auth.service';
+import { FireServiceService } from './services/fire-service.service';
 import { SesionService } from './services/sesion.service';
 
 @Component({
@@ -16,13 +17,14 @@ export class AppComponent {
     private menu: MenuController,
     private sesion: SesionService,
     private router: Router,
+    private fire: FireServiceService
   ) {
     setTimeout(()=>{      
       this.sesion.appStart();
     },100)
     this.sesion.sesionInit$.subscribe((init:boolean)=>{
       this.ready = init;
-    })
+    });
   }
   navigateTo(url){
     this.router.navigate([url]);

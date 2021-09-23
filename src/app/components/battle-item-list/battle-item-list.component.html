@@ -15,7 +15,7 @@
     <div class="mid-size-cont primary" (click)="share()" >share</div>
     <a href="{{lunacian.REST_API_SERVER}}/{{battle.replay}}"><div class="mid-size-cont danger"  >replay</div></a>
   </div >
-  <div style="width: 100%; border: 1px solid rgba(255, 255, 255, 0.3);" *ngIf="type==='shared'">
-    <app-list-item-user-avatar [axie]="battle.shared.axie" [scholar]="battle.shared.scholar" ></app-list-item-user-avatar>
+  <div class="shared-container" *ngIf="type==='shared'">
+    <app-list-item-user-avatar [axie]="battle.shared.axie" [scholar]="battle.shared.scholar" [type]="'shared'"></app-list-item-user-avatar>
   </div>
 </ion-card>

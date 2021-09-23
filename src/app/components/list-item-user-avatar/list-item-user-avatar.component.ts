@@ -11,6 +11,7 @@ export class ListItemUserAvatarComponent implements OnInit {
   @Input() scholar: Scholar = new Scholar();
   @Input() axie: Axie =new Axie();
   @Input() team: string = "first";
+  @Input() type: string = "normal";
   constructor() { }
 
   ngOnInit() {}

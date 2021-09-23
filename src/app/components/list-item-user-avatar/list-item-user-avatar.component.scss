@@ -18,3 +18,20 @@ h4 {
   margin-bottom: 0.4em;
   color:silver;
 }
+.shared{
+  background-color: var(--ion-color-primary);
+}
+.first{
+  background-color: #e5ab00;
+}
+.second{
+  background-color: #A9A9A9;
+}
+.third{
+  background-color: #cd7f32;
+}
+.first, .second, .third{
+  h4 {
+    color:white;
+  }
+}

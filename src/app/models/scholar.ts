@@ -1,3 +1,4 @@
+import * as moment from "moment";
 import {scholarOfficialData} from "./interfaces";
 export class Scholar {
   id!: number;
@@ -16,6 +17,8 @@ export class Scholar {
   lastMonthSLP: number = 0;
   lastUpdate: Date = new Date;
   WinRate!: string;
+  weekSLP: number = 0;
+  lastWeekSLP: number = 0;
 
   constructor(values: any = {}) {
     Object.assign(this, values);
@@ -23,7 +26,6 @@ export class Scholar {
   }
 
   parse(unParsedData: scholarOfficialData) {
-    this.roninAddress = this.parseRonin(unParsedData.ronin_address);
     this.inRoninSLP = (isNaN(unParsedData.ronin_slp)) ? 0 : unParsedData.ronin_slp;
     this.totalSLP = (isNaN(unParsedData.total_slp)) ? 0 : unParsedData.total_slp;
     this.inGameSLP = (isNaN(unParsedData.in_game_slp)) ? 0 : unParsedData.in_game_slp;
@@ -65,4 +67,5 @@ export class Scholar {
     }
     return roninAddress;
   }
+  
 }

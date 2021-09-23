@@ -5,6 +5,10 @@
   background-color: #242735;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.3);
+  .shared-container{
+    width: 100%; 
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+  }
   .winner{
     color: #a5d6a7;
   }

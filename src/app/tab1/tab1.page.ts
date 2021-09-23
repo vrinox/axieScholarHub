@@ -12,10 +12,13 @@ import { FireServiceService } from '../services/fire-service.service';
 })
 export class Tab1Page implements OnInit{
   list: {axie:Axie, scholar:Scholar}[] = [];
+  firstPlace: {axie:Axie, scholar:Scholar};
+  secondPlace: {axie:Axie, scholar:Scholar};
+  thirdPlace: {axie:Axie, scholar:Scholar};
+  ready: boolean = false;
   constructor(
     private fire: FireServiceService,
     private apiTraker: ApiTrackerService) {
-    
   }
   ngOnInit(){
     this.init();
@@ -32,6 +35,10 @@ export class Tab1Page implements OnInit{
     this.list.sort((a,b)=>{
       return b.scholar.monthSLP - a.scholar.monthSLP;
     });
+    this.firstPlace = this.list.shift();
+    this.secondPlace = this.list.shift();
+    this.thirdPlace = this.list.shift();
+    this.ready = true;
   }
   private async getAxieAvatar(roninAddress: string){
     const axie = new Axie();

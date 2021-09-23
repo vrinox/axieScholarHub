@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Firestore, collection, getDocs } from '@angular/fire/firestore';
 import { addDoc } from '@firebase/firestore';
 import { Battle } from '../models/battle';
-import { sharedData } from '../models/interfaces';
+import {  sharedData } from '../models/interfaces';
 import { Scholar } from '../models/scholar';
 
 

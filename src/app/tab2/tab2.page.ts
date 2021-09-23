@@ -1,4 +1,4 @@
-import { AfterViewInit, Component} from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { Scholar } from '../models/scholar';
 import { HistoricService } from '../services/historic.service';
 import { SesionService } from '../services/sesion.service';
@@ -9,56 +9,58 @@ import { SesionService } from '../services/sesion.service';
 })
 export class Tab2Page implements AfterViewInit {
   scholarStory: any[] = [];
-  options: {label:string, value:any, type?:string}[];
+  options: { label: string, value: any, type?: string }[];
   constructor(
     private storyService: HistoricService,
     private sesion: SesionService
   ) {
-    this.sesion.sesionUpdate$.subscribe(async (updatedScholar:Scholar)=>{
-      if(updatedScholar){
+    this.sesion.sesionUpdate$.subscribe(async (updatedScholar: Scholar) => {
+      if (updatedScholar) {
         this.updateOptions(updatedScholar);
       }
     })
   }
 
   ngAfterViewInit() {
-    this.sesion.sesionInit$.subscribe(async (init:boolean)=>{
-      if(init === true){
-        this.updateOptions(this.sesion.infinity);
-        const story: Scholar[] = await this.storyService.getHistoric(this.sesion.infinity.roninAddress);
-        this.scholarStory = story.sort((a:Scholar,b:Scholar)=>{
-          return a.lastUpdate.getDate() - b.lastUpdate.getDate();
-        }).map((scholar: Scholar)=>{
-          return {
-            label: scholar.lastUpdate.getDate(),
-            value: scholar.todaySLP
-          }
-        });
-      }
-    })
+   setTimeout(()=>{
+    this.obtainDataAndDraw();
+   },1000)
   }
-  updateOptions(scholar:Scholar){
+  
+  async obtainDataAndDraw() {
+    this.updateOptions(this.sesion.infinity);
+    const story: Scholar[] = await this.storyService.getHistoric(this.sesion.infinity.roninAddress);
+    this.scholarStory = story.sort((a: Scholar, b: Scholar) => {
+      return a.lastUpdate.getDate() - b.lastUpdate.getDate();
+    }).map((scholar: Scholar) => {
+      return {
+        label: scholar.lastUpdate.getDate(),
+        value: scholar.todaySLP
+      }
+    });
+  }
+  updateOptions(scholar: Scholar) {
     this.options = [{
       value: scholar.totalSLP,
       label: 'Total',
-      type:'slp'
-    },{
+      type: 'slp'
+    }, {
       value: scholar.todaySLP,
       label: 'Hoy',
-      type:'slp'
+      type: 'slp'
     },
     {
       value: scholar.monthSLP,
       label: 'Mes',
-      type:'slp'
-    },{
+      type: 'slp'
+    }, {
       value: scholar.yesterdaySLP,
       label: 'Ayer',
-      type:'slp'
-    },{
+      type: 'slp'
+    }, {
       value: scholar.MMR,
       label: 'Copas',
-      type:'mmr'
+      type: 'mmr'
     }];
 
   }

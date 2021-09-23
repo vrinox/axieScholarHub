@@ -22,4 +22,13 @@ export class HistoricService {
     })
     return story;
   }
+  async getHistoricByDate(yesterday):Promise<Scholar[]>{
+    const querySnapshot = await getDocs(query(collection(this.db, "historic"), where('lastUpdate', "==", yesterday)));
+    const story = querySnapshot.docs.map((doc:QueryDocumentSnapshot)=>{
+      const rawScholar = doc.data();
+      rawScholar.lastUpdate = rawScholar.lastUpdate.toDate();
+      return new Scholar(rawScholar);
+    })
+    return story;
+  }
 }

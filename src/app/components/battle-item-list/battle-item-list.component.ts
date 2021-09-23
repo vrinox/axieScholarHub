@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { Battle } from 'src/app/models/battle';
 import { FireServiceService } from 'src/app/services/fire-service.service';
 import { lunacianApiService } from 'src/app/services/lunacian-api.service';
@@ -19,6 +19,7 @@ export class BattleItemListComponent implements OnInit {
     private load: LoadingController,
     private lunacian: lunacianApiService,
     private sesion: SesionService,
+    private toastController: ToastController
   ) { }
 
   ngOnInit() {
@@ -32,12 +33,25 @@ export class BattleItemListComponent implements OnInit {
       scholar: this.sesion.infinity.getValues(),
       axie: this.sesion.getAxieAvatar(this.sesion.user).getValuesMin()
     });
+    const toast = await this.toastController.create({
+      message: 'Battle shared',
+      duration: 2000,
+      position: 'top',
+      color: "primary",
+      buttons: [
+        {
+          side: 'end',
+          icon: 'checkmark-outline'
+        }
+      ]
+    });
+    toast.present();
     this.loading.dismiss();
   }
   async presentLoading() {
     this.loading = await this.load.create({
       cssClass: 'my-custom-class',
-      message: 'Hunting your axies please wait ...'
+      message: 'Sharing your Conquer please wait ...'
     });
     await this.loading.present();
   }
