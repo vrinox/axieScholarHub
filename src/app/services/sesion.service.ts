@@ -22,6 +22,9 @@ export class SesionService {
   sesionInit$: Subject<boolean> = new Subject();
   sesionUpdate$: Subject<Scholar> = new Subject();
   assembledFlag: boolean = false;
+  slp: any = {
+    price: 0
+  };
   public loading: HTMLIonLoadingElement;
 
   constructor(

@@ -14,9 +14,9 @@
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    <app-list-item-user-avatar [axie]="firstPlace.axie" [scholar]="firstPlace.scholar" [type]="'first'" *ngIf="ready"></app-list-item-user-avatar>
-    <app-list-item-user-avatar [axie]="secondPlace.axie" [scholar]="secondPlace.scholar" [type]="'second'" *ngIf="ready"></app-list-item-user-avatar>
-    <app-list-item-user-avatar [axie]="thirdPlace.axie" [scholar]="thirdPlace.scholar" [type]="'third'" *ngIf="ready"></app-list-item-user-avatar>    
-    <app-list-item-user-avatar [axie]="item.axie" [scholar]="item.scholar" *ngFor="let item of list"></app-list-item-user-avatar>
+    <app-rank-list [axie]="firstPlace.axie" [scholar]="firstPlace.scholar" [type]="'first'" *ngIf="ready"></app-rank-list>
+    <app-rank-list [axie]="secondPlace.axie" [scholar]="secondPlace.scholar" [type]="'second'" *ngIf="ready"></app-rank-list>
+    <app-rank-list [axie]="thirdPlace.axie" [scholar]="thirdPlace.scholar" [type]="'third'" *ngIf="ready"></app-rank-list>    
+    <app-rank-list [axie]="item.axie" [scholar]="item.scholar" *ngFor="let item of list"></app-rank-list>
   </ion-list>
 </ion-content>

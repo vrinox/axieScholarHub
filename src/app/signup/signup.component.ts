@@ -9,6 +9,7 @@ import { scholarOfficialData, userCloudData, userLink } from '../models/interfac
 import { lunacianApiService } from '../services/lunacian-api.service';
 import { ApiTrackerService } from '../services/api-tracker.service';
 import { AuthService } from '../services/auth.service';
+import { AxieTechApiService } from '../services/axie-tech-api.service';
 
 @Component({
   selector: 'app-signup',
@@ -24,7 +25,8 @@ export class SignupComponent implements OnInit {
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private axieService: lunacianApiService,
-    private trackerService: ApiTrackerService
+    private trackerService: ApiTrackerService,
+    private axieTechService: AxieTechApiService
   ) { }
 
   ngOnInit() {
@@ -59,7 +61,7 @@ export class SignupComponent implements OnInit {
     this.authService.emailSignup({
       email: this.registerForm.value.email,
       password: this.registerForm.value.password,
-      roninAddress: this.registerForm.value.roninAddress,
+      roninAddress: this.axieTechService.parseRonin(this.registerForm.value.roninAddress),
       avatar: this.registerForm.value.avatar
     }).then(async (userLinkData: userLink)=>{
       const uid: string = await this.trackerService.addUserLink(userLinkData);      

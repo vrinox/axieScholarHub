@@ -62,6 +62,8 @@ export class Tab2Page implements AfterViewInit {
       label: 'Copas',
       type: 'mmr'
     }];
-
+  }
+  parse(value: number){
+    return value.toFixed(2);
   }
 }

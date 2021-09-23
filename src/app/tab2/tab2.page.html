@@ -14,12 +14,18 @@
 <ion-content>
   <app-line-chart [data]="scholarStory"></app-line-chart>
   <ion-list >
+    <ion-item>
+        <ion-label>SLP</ion-label>
+        <div slot="end">{{sesion.slp.price}}$ <div  class="slp"></div></div>
+    </ion-item>
     <ion-item *ngFor="let option of options">
-      <ion-label>{{option.label}}</ion-label>
-      <div>
-        <span *ngIf="option.type==='mmr'">🏆</span>
-        {{option.value}}
-        <div *ngIf="option.type==='slp'" class="slp"></div>
+      <ion-label >{{option.label}}</ion-label>
+      <div *ngIf="option.type==='slp'" >
+        <div>{{option.value}}<div class="slp"></div></div>
+        <p>{{parse(option.value*sesion.slp.price)}}$</p>
+      </div>
+      <div *ngIf="option.type==='mmr'">
+        <span>🏆</span>{{option.value}}
       </div>
     </ion-item>
   </ion-list>

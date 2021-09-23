@@ -26,6 +26,7 @@ import { ApiTrackerService } from './services/api-tracker.service';
 import { AxieTechApiService } from './services/axie-tech-api.service';
 import { ShareComponentModule } from './components/shareComponent.module';
 import { FireServiceService } from './services/fire-service.service';
+import { GetPriceService } from './services/get-price.service';
 ShareComponentModule
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ ShareComponentModule
     lunacianApiService,
     ApiTrackerService,
     AxieTechApiService,
-    FireServiceService
+    FireServiceService,
+    GetPriceService
   ],
   bootstrap: [AppComponent],
 })

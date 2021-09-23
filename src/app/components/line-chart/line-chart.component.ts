@@ -25,7 +25,6 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
   ngAfterViewInit() {
     this.platform.ready().then(() => {
       this.initializeCanvas();
-      console.log(this.data);
       this.drawChart();
     });
   }

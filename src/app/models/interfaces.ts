@@ -123,3 +123,11 @@ export interface sharedData{
   scholar: any,
   axie: any
 }
+export interface coinCrypto{
+  image: {
+    large: string;
+    small: string;
+    thumb: string;
+  }
+  id: string;
+}

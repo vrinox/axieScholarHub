@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
+import { coinCrypto } from './models/interfaces';
 import { AuthService } from './services/auth.service';
 import { FireServiceService } from './services/fire-service.service';
+import { GetPriceService } from './services/get-price.service';
 import { SesionService } from './services/sesion.service';
 
 @Component({
@@ -12,13 +14,21 @@ import { SesionService } from './services/sesion.service';
 })
 export class AppComponent {
   ready:boolean = false;
+  slp: any = {};
+  axs: any = {};
+  eth: any = {};
   constructor(
     private auth: AuthService, 
     private menu: MenuController,
     private sesion: SesionService,
     private router: Router,
-    private fire: FireServiceService
+    private fire: FireServiceService,
+    private getPrice: GetPriceService
   ) {
+    this.getPriceCrypto(this.slp, 'smooth-love-potion');
+    this.getPriceCrypto(this.axs, 'axie-infinity');
+    this.getPriceCrypto(this.eth, 'ethereum');
+    this.sesion.slp = this.slp;
     setTimeout(()=>{      
       this.sesion.appStart();
     },100)
@@ -33,5 +43,10 @@ export class AppComponent {
   logout() {
     this.auth.logout();
     this.menu.close()
+  }
+  async getPriceCrypto(coin, token){
+    let cryto = await this.getPrice.getPrice(token);
+    coin.price = parseFloat(cryto[token].usd.toFixed(2));
+    coin.image  = await this.getPrice.getImg(token);
   }
 }
