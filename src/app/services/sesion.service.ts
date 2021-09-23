@@ -51,7 +51,7 @@ export class SesionService {
     this.user = rawUser.userData;
     this.user.userAvatar = this.getAxieAvatar(rawUser.userData);
     this.sesionInit$.next(true);
-    this.router.navigateByUrl('/tabs');    
+    this.router.navigateByUrl('/tabs',{ replaceUrl: true});    
     this.loading.dismiss();    
     this.getUpdatedDatafromApi(this.infinity.roninAddress);
   }
@@ -61,7 +61,7 @@ export class SesionService {
     if(user) {
       this.sesionInit(user.userData.uid, "start");
     } else {
-      this.router.navigate(['/email-login']);
+      this.router.navigate(['/email-login'],{replaceUrl: true});
     }
   }
 
@@ -71,7 +71,7 @@ export class SesionService {
     this.infinity = null;
     this.axies= [];
     this.user = null;
-    this.router.navigate(['/email-login']);
+    this.router.navigate(['/email-login'],{replaceUrl: true});
   }
 
   public getUpdatedDatafromApi(roninAddress: string){

@@ -22,7 +22,7 @@ export class AuthService {
       signInWithEmailAndPassword(this.afAuth, formValues.email, formValues.password)
       .then(value => {
         this.loading.dismiss();
-        this.router.navigate(['start-page']);
+        this.router.navigate(['start-page'],{replaceUrl: true});
         resolve(value.user.uid);
       })
       .catch(async err => {
@@ -53,7 +53,7 @@ export class AuthService {
       createUserWithEmailAndPassword(this.afAuth, form.email, form.password)
       .then((value) => {
         this.loading.dismiss();
-        this.router.navigate(['start-page']);
+        this.router.navigate(['start-page'], {replaceUrl: true});
         resolve({
           uid: value.user.uid,
           avatar: form.avatar,
@@ -85,7 +85,7 @@ export class AuthService {
     return this.oAuthLogin(provider)
       .then(value => {
         console.log('Sucess', value),
-          this.router.navigateByUrl('/tabs');
+          this.router.navigateByUrl('/tabs',{ replaceUrl: true});
       })
       .catch(error => {
         console.log('Something went wrong: ', error);
