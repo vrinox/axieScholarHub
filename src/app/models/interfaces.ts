@@ -121,7 +121,7 @@ export interface atFighter{
 }
 export interface sharedData{
   scholar: any,
-  axie: any
+  axie: any,
 }
 export interface coinCrypto{
   image: {
