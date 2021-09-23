@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
-import { addDoc, collection, getDocs, query, where } from '@firebase/firestore';
+import { addDoc, collection, getDoc, getDocs, query, where } from '@firebase/firestore';
 import { userLink } from '../models/interfaces';
 import { Scholar } from '../models/scholar';
 
@@ -18,7 +18,8 @@ export class ApiTrackerService {
   
   async addUserLink(userLinkData: userLink): Promise<string>{
     const dbRef = await addDoc(collection(this.db,"userLink"), userLinkData);
-    return dbRef.id;
+    const doc = await getDoc(dbRef);
+    return doc.data().uid;
   }
   async getUserData(uid:string):Promise<any>{
     const userLinkData: userLink = await this.getUserLink('uid', uid);
@@ -31,7 +32,6 @@ export class ApiTrackerService {
   async getUserLink(field: string, value: string): Promise<userLink> {
     const querySnapshot = await getDocs(query(collection(this.db, "userLink"), where(field, "==", value)));
     const dbUserLink = (querySnapshot.docs[0])? querySnapshot.docs[0].data(): null;
-    
     return (!dbUserLink)? null : {
       avatar: dbUserLink.avatar,
       roninAddress: dbUserLink.roninAddress,
