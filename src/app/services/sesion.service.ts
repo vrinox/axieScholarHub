@@ -111,7 +111,6 @@ export class SesionService {
     this.assembledFlag = true;
   }
   updateAxies(roninAddress: string){
-
     this.axieService.getAxies(roninAddress).then((axies:Axie[])=>{
       this.axies = axies;
       this.axieTechService.getAxiesAllData(this.axies);

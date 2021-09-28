@@ -22,13 +22,13 @@
     background-color: var(--ion-color-primary);
   }
   .first{
-    background-color: #e5ab00;
+    background: linear-gradient(135deg, rgba(139,109,19,0.9220063025210083) 21%, rgba(229,171,0,1) 94%);
   }
   .second{
-    background-color: #A9A9A9;
+    background: linear-gradient(135deg, rgba(112,112,112,1) 21%, rgba(169,169,169,1) 94%);
   }
   .third{
-    background-color: #cd7f32;
+    background: linear-gradient(135deg, rgba(93,56,20,1) 21%, rgba(205,127,50,1) 94%);
   }
   .first, .second, .third{
     h4 {

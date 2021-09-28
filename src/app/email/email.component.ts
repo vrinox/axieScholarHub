@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { userCloudData } from '../models/interfaces';
 import { ApiTrackerService } from '../services/api-tracker.service';
 import { AuthService } from '../services/auth.service';
-import { lunacianApiService } from '../services/lunacian-api.service';
 
 @Component({
   selector: 'app-email',

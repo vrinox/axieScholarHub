@@ -9,7 +9,7 @@ import { lunacianApiService } from '../services/lunacian-api.service';
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page implements AfterViewInit{
-  battles: Battle[] = [];
+  list : {battles:Battle[], title:string}[] = [];
   constructor(
     private fire:FireServiceService,
     private render: Renderer2,
@@ -17,13 +17,36 @@ export class Tab3Page implements AfterViewInit{
   ) {}
   
   async ngAfterViewInit(){
-    this.battles = await this.fire.getSharedBattles();
+    this.init();
+  }
+  async init(){
+    const battles = await this.fire.getSharedBattles();
+    battles.forEach((battle)=>{
+      this.organizeList(battle);
+    })
   }
 
-  
+  organizeList(battle: Battle){
+    const theDate = new Date(battle.created_at);
+    const label: string = `${theDate.getUTCDate()} of ${theDate.toLocaleString('default', { month: 'long' })}`;
+    const day = this.list.find((existingDay)=>{
+      return existingDay.title === label;
+    })
+    if(day){
+      day.battles.push(battle);
+    } else {
+      this.list.push({
+        battles: [battle],
+        title: label
+      });
+    }
+  }
   open(battle:Battle){
     const a = this.render.createElement('a');
     this.render.setAttribute(a, 'href', `${this.lunacian.REST_API_SERVER}/${battle.replay}`);
     a.click();
   }
+  actualizarDatos(){
+    this.init();
+  };
 }

@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>
+    <ion-title (click)="actualizarDatos();">
       Earnings
     </ion-title>
     <ion-buttons slot="end">
@@ -14,10 +14,6 @@
 <ion-content>
   <app-line-chart [data]="scholarStory"></app-line-chart>
   <ion-list >
-    <ion-item>
-        <ion-label>SLP</ion-label>
-        <div slot="end">{{sesion.slp.price}}$ <div  class="slp"></div></div>
-    </ion-item>
     <ion-item *ngFor="let option of options">
       <ion-label >{{option.label}}</ion-label>
       <div *ngIf="option.type==='slp'" >

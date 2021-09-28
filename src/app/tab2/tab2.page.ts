@@ -17,6 +17,7 @@ export class Tab2Page implements AfterViewInit {
     this.sesion.sesionUpdate$.subscribe(async (updatedScholar: Scholar) => {
       if (updatedScholar) {
         this.updateOptions(updatedScholar);
+        this.obtainDataAndDraw();
       }
     })
   }
@@ -65,5 +66,8 @@ export class Tab2Page implements AfterViewInit {
   }
   parse(value: number){
     return value.toFixed(2);
+  }
+  actualizarDatos(){
+    this.sesion.getUpdatedDatafromApi(this.sesion.infinity.roninAddress);
   }
 }
