@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title (click)="getCom()">
+    <ion-title>
       Community
     </ion-title>
     <ion-buttons slot="end">
@@ -12,8 +12,11 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true" *ngIf="!community">
-  sin comunidad
+  <div>crear comunidad</div>
+  <div>buscar comunidad</div>
 </ion-content>
 <ion-content [fullscreen]="true" *ngIf="community">
-  {{community.name}}
+  {{community.name}}integrantes
+  <div>rank</div>
+  <div>feed mensajes</div>
 </ion-content>

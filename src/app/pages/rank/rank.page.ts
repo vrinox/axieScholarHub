@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {  ToastController } from '@ionic/angular';
 import { Axie } from 'src/app/models/axie';
-import { scholarOfficialData } from 'src/app/models/interfaces';
+import { scholarOfficialData, userList } from 'src/app/models/interfaces';
 import { Scholar } from 'src/app/models/scholar';
 import { ApiTrackerService } from 'src/app/services/api-tracker.service';
 import { AxieTechApiService } from 'src/app/services/axie-tech-api.service';
@@ -12,15 +12,15 @@ import { FireServiceService } from 'src/app/services/fire-service.service';
   styleUrls: ['./rank.page.scss'],
 })
 export class RankPage implements OnInit {  
-  list: {axie:Axie, scholar:Scholar}[] = [];
+  list: userList[]= [];
   scholars: Scholar[] = [];
-  firstPlace: {axie:Axie, scholar:Scholar};
-  secondPlace: {axie:Axie, scholar:Scholar};
-  thirdPlace: {axie:Axie, scholar:Scholar};
+  firstPlace: userList;
+  secondPlace: userList;
+  thirdPlace: userList;
   ready: boolean = false;
   constructor(private toastController: ToastController,
     private fire: FireServiceService,
-    private apiTraker: ApiTrackerService,
+    private apiTracker: ApiTrackerService,
     private axieTechService: AxieTechApiService) { }
 
   ngOnInit(){
@@ -32,25 +32,14 @@ export class RankPage implements OnInit {
     this.ready = true;
     this.actualizarDatos();
   }
-  private async getAxieAvatar(roninAddress: string){
-    const axie = new Axie();
-    const userLink = await this.apiTraker.getUserLink('roninAddress', roninAddress);
-    axie.id = (userLink)?userLink.avatar.split('/')[5] : "";
-    return axie;
-  }
+  
   async obtainDataFromDB(){
     this.scholars = await this.fire.getScholars();
     this.list = await Promise.all(this.scholars.map(async (scholar: Scholar)=>{
-      return await this.createItemList(scholar);
+      return await this.apiTracker.createItemList(scholar);
     }));
   }
-  async createItemList(scholar:Scholar):Promise<{axie:Axie, scholar:Scholar}>{
-    const axie = await this.getAxieAvatar(scholar.roninAddress);
-      return {
-        scholar: scholar,
-        axie: axie
-      }
-  }
+  
   orderDataAndAsingWinners(){
     this.list.sort((a,b)=>{
       return b.scholar.monthSLP - a.scholar.monthSLP;
@@ -65,7 +54,7 @@ export class RankPage implements OnInit {
     this.list = await Promise.all(data.map(async (scholarData: scholarOfficialData )=>{
       const scholar = this.scholars.find(sh => sh.roninAddress === scholarData.ronin_address)
       scholar.update(new Scholar().parse(scholarData));
-      return await this.createItemList(scholar);
+      return await this.apiTracker.createItemList(scholar);
     }));
     this.orderDataAndAsingWinners();
   }

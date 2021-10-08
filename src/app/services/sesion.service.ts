@@ -66,7 +66,7 @@ export class SesionService {
     } else {
       offlineSesion = await this.getSesionFromStorage();
     }
-    this.setSesionMinOnCache(offlineSesion);    
+    this.setSesionMinOnCache(offlineSesion);
     this.setValuesIntoActiveSesion(offlineSesion);
     this.sesionInit$.next(true);
     this.getUpdatedDatafromApi(this.infinity.roninAddress);
@@ -77,13 +77,13 @@ export class SesionService {
     this.infinity = sesion.infinity;
     this.user = sesion.user;
     this.user.userAvatar = this.getAxieAvatar(sesion.user);
-    if(sesion.battles.length != 0){
+    if(sesion.battles.length !== 0){
       this.battles = sesion.battles;
     }
-    if(sesion.axies.length != 0){
+    if(sesion.axies.length !== 0){
       this.axies = sesion.axies;
     }
-    if(sesion.communities.length != 0){
+    if(sesion.communities.length !== 0){
       this.communities = sesion.communities;
     }
   }

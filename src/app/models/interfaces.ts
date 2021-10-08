@@ -131,3 +131,5 @@ export interface coinCrypto{
   }
   id: string;
 }
+export interface userList {axie:Axie, scholar:Scholar}
+export interface friendRequest {from: string, to: string, id: string, fromName: string}

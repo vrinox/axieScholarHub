@@ -2,7 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { addDoc, collection, getDoc, getDocs, query, where } from '@firebase/firestore';
-import { userLink } from '../models/interfaces';
+import { Observable, from } from 'rxjs';
+import { Axie } from '../models/axie';
+import { userLink, userList } from '../models/interfaces';
 import { Scholar } from '../models/scholar';
 
 @Injectable({
@@ -42,5 +44,26 @@ export class ApiTrackerService {
     const querySnapshot = await getDocs(query(collection(this.db, "scholars"), where(field, "==", value)));
     const dbScholar = (querySnapshot.docs[0])? querySnapshot.docs[0].data(): null;
     return (!dbScholar)? null : new Scholar(dbScholar);
+  }
+  async addScholar(scholar: Scholar){
+    const dbRef = await addDoc(collection(this.db,"scholars"), scholar.getValues());
+    const doc = await getDoc(dbRef);
+    return doc.id;
+  };
+  getUser(partialName):Observable<any>{
+    return from(getDocs(query(collection(this.db, "scholars"), where('name', '>=', partialName), where('name', '<=', partialName+ '\uf8ff'))));
+  }
+  private async getAxieAvatar(roninAddress: string):Promise<Axie>{
+    const axie = new Axie();
+    const userLink = await this.getUserLink('roninAddress', roninAddress);
+    axie.id = (userLink)?userLink.avatar.split('/')[5] : "";
+    return axie;
+  }
+  async createItemList(scholar:Scholar):Promise<userList>{
+    const axie = await this.getAxieAvatar(scholar.roninAddress);
+      return {
+        scholar: scholar,
+        axie: axie
+      }
   }
 }

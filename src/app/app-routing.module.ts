@@ -34,6 +34,14 @@ const routes: Routes = [
   {
     path: 'rank',
     loadChildren: () => import('./pages/rank/rank.module').then( m => m.RankPageModule)
+  },
+  {
+    path: 'friends',
+    loadChildren: () => import('./pages/friends/friends.module').then( m => m.FriendsPageModule)
+  },
+  {
+    path: 'inbox',
+    loadChildren: () => import('./pages/inbox/inbox.module').then( m => m.InboxPageModule)
   }
 ];
 @NgModule({

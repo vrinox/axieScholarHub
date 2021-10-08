@@ -14,6 +14,7 @@ import { SesionService } from './services/sesion.service';
 })
 export class AppComponent {
   ready:boolean = false;
+  appVersion = environment.appVersion;
   slp: any = {};
   axs: any = {};
   eth: any = {};

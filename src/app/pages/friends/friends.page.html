@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>friends</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="update()">
+        <ion-icon slot="icon-only" name="sync"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar #searchInput (ionClear)="cleanList()"></ion-searchbar>
+  <ion-list>
+    <app-rank-list [axie]="item.axie" [scholar]="item.scholar" *ngFor="let item of searchList" (click)="friendRequest(item)"></app-rank-list>
+  </ion-list>
+  <div *ngIf="!isSearchingUsers">
+    <ion-list *ngIf="solicitudes.length !== 0">
+      <ion-list-header>
+        <ion-label>Request</ion-label>
+      </ion-list-header>
+      <ion-item *ngFor="let solicitud of solicitudes">
+        <ion-label>{{solicitud.fromName}}</ion-label>
+        <div (click)="accept(solicitud)" slot="end">
+          <ion-icon slot="icon-only" name="checkmark-circle-outline" size="large" color="primary"></ion-icon>
+        </div>
+        <div (click)="reject(solicitud)" slot="end">
+          <ion-icon slot="icon-only" name="close-circle-outline" size="large" color="danger"></ion-icon>
+        </div>
+      </ion-item>
+    </ion-list>
+    <ion-list *ngIf="friendsList.length !== 0">
+      <ion-list-header>
+        <ion-label>Friends</ion-label>
+      </ion-list-header>
+      <app-rank-list [axie]="item.axie" [scholar]="item.scholar" *ngFor="let item of friendsList"></app-rank-list>
+    </ion-list>
+  </div>
+</ion-content>

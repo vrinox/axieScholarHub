@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
 import { Battle } from 'src/app/models/battle';
 import { FireServiceService } from 'src/app/services/fire-service.service';
 import { lunacianApiService } from 'src/app/services/lunacian-api.service';

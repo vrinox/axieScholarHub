@@ -4,7 +4,7 @@ import { passwordMatchingValidatior } from '../../validators/email.validator';
 
 import { Scholar } from '../../models/scholar';
 import { Axie } from '../../models/axie';
-import { scholarOfficialData, userCloudData, userLink } from '../../models/interfaces';
+import { scholarOfficialData, userLink } from '../../models/interfaces';
 
 import { lunacianApiService } from '../../services/lunacian-api.service';
 import { ApiTrackerService } from '../../services/api-tracker.service';
@@ -68,9 +68,20 @@ export class SignupComponent implements OnInit {
       roninAddress: this.axieTechService.parseRonin(this.registerForm.value.roninAddress),
       avatar: this.registerForm.value.avatar
     }).then(async (userLinkData: userLink)=>{
-      const uid: string = await this.trackerService.addUserLink(userLinkData);      
+      const uid: string = await this.trackerService.addUserLink(userLinkData);
+      const trackingData = await this.trackerService.getScholar('roninAddress', userLinkData.roninAddress);
+      if(!trackingData) {
+        await this.registerTrackerData(userLinkData.roninAddress);
+      }
       this.authService.loginComplete(uid);
     })
+  }
+  async registerTrackerData(roninAddress: string){
+    const officialData: scholarOfficialData = await this.axieTechService.getAllAccountData(roninAddress);
+    const scholar: Scholar = new Scholar();
+    scholar.parse(officialData);
+    const docId = await this.trackerService.addScholar(scholar);
+    console.log('usuario registrado con id = ',docId);
   }
   buscarDireccion() {
     this.presentLoading();
