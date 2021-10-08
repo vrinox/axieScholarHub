@@ -71,15 +71,17 @@ export class SignupComponent implements OnInit {
       const uid: string = await this.trackerService.addUserLink(userLinkData);
       const trackingData = await this.trackerService.getScholar('roninAddress', userLinkData.roninAddress);
       if(!trackingData) {
-        await this.registerTrackerData(userLinkData.roninAddress);
+        await this.registerTrackerData(userLinkData.roninAddress, this.registerForm.value.fullname);
       }
       this.authService.loginComplete(uid);
     })
   }
-  async registerTrackerData(roninAddress: string){
+  async registerTrackerData(roninAddress: string, fullname: string){
     const officialData: scholarOfficialData = await this.axieTechService.getAllAccountData(roninAddress);
     const scholar: Scholar = new Scholar();
     scholar.parse(officialData);
+    scholar.name = fullname;
+    scholar.roninAddress = roninAddress;
     const docId = await this.trackerService.addScholar(scholar);
     console.log('usuario registrado con id = ',docId);
   }

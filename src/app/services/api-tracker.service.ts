@@ -17,7 +17,6 @@ export class ApiTrackerService {
     private db: Firestore
   ) { }
 
-  
   async addUserLink(userLinkData: userLink): Promise<string>{
     const dbRef = await addDoc(collection(this.db,"userLink"), userLinkData);
     const doc = await getDoc(dbRef);

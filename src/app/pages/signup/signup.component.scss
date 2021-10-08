@@ -21,11 +21,12 @@ ion-content{
     width: 24vw;
     padding:0px;
     margin: 1vw;
+    --background: #242735;
     img {
         transform: scale(1.6);
     }
     &.selected{
-        --background: #242735;
+        --background: white;
     }
 }
 .axie-container{

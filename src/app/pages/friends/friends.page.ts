@@ -154,11 +154,13 @@ export class FriendsPage implements OnInit {
   }
   async update(){
     this.cleanList();
-    this.solicitudes = [];
-    this.friendsList = [];
-    this.solicitudes = await this.friendService.getFriendRequest(this.sesion.infinity.roninAddress);
-    this.friendsList = await this.getFriends();
-    await this.presentToast('requests updated', 'primary', 'sync');
+    setTimeout(async () => {
+      this.solicitudes = [];
+      this.friendsList = [];
+      this.solicitudes = await this.friendService.getFriendRequest(this.sesion.infinity.roninAddress);
+      this.friendsList = await this.getFriends();
+      await this.presentToast('requests updated', 'primary', 'sync');
+    }, 100);
   }
   cleanList(){
     this.searchList = [];
