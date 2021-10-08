@@ -11,7 +11,7 @@ import { SesionService } from 'src/app/services/sesion.service';
   styleUrls: ['./battles.page.scss'],
 })
 export class BattlesPage implements OnInit {
-  list : {battles:Battle[], title:string, win:number, lose:number}[] = [];
+  list : {battles:Battle[], title:string, win:number, lose:number, show:boolean}[] = [];
   loading: HTMLIonLoadingElement;
   constructor(
     private sesion: SesionService,
@@ -32,10 +32,15 @@ export class BattlesPage implements OnInit {
         this.organizeList(battle);
       })
     }
-    if(this.list.length === 0){      
+    if(this.list.length === 0){
       this.presentLoading();
       this.getAndAssebleBattles(); 
     }
+  }
+  actualizarDatos(){
+    this.list = [];
+    this.presentLoading();
+    this.getAndAssebleBattles();
   }
   getAndAssebleBattles(){
     const battles: Battle[] = [];
@@ -66,7 +71,8 @@ export class BattlesPage implements OnInit {
         battles: [battle],
         title: label,
         lose: (battle.winner)? 0: 1,
-        win: (battle.winner)? 1: 0
+        win: (battle.winner)? 1: 0,
+        show: false
       });
     }
   }
@@ -80,5 +86,8 @@ export class BattlesPage implements OnInit {
 
   async showRep(battle: Battle){
     this.lunacianService.replay(battle.replay);
+  }
+  mostrar(day: any){
+    day.show = !day.show;
   }
 }

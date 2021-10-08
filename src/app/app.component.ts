@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
-import { coinCrypto } from './models/interfaces';
+import { environment } from 'src/environments/environment';
 import { AuthService } from './services/auth.service';
 import { FireServiceService } from './services/fire-service.service';
 import { GetPriceService } from './services/get-price.service';
@@ -29,8 +29,13 @@ export class AppComponent {
     this.getPriceCrypto(this.axs, 'axie-infinity');
     this.getPriceCrypto(this.eth, 'ethereum');
     this.sesion.slp = this.slp;
-    setTimeout(()=>{      
-      this.sesion.appStart();
+    setTimeout(async ()=>{
+      const isVersionCorrect = await this.verifyAppVersion();
+      if(isVersionCorrect) {        
+        this.sesion.appStart();
+      } else {
+        this.router.navigateByUrl('/wrong-version',{ replaceUrl: true}); 
+      }
     },100)
     this.sesion.sesionInit$.subscribe((init:boolean)=>{
       this.ready = init;
@@ -48,5 +53,9 @@ export class AppComponent {
     let cryto = await this.getPrice.getPrice(token);
     coin.price = parseFloat(cryto[token].usd.toFixed(2));
     coin.image  = await this.getPrice.getImg(token);
+  }
+  async verifyAppVersion(){
+    const app = await this.fire.getApp();
+    return app.version === environment.appVersion
   }
 }

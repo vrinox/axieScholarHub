@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ApiTrackerService } from '../services/api-tracker.service';
-import { AuthService } from '../services/auth.service';
+import { ApiTrackerService } from '../../services/api-tracker.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-email',

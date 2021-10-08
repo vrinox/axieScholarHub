@@ -49,7 +49,7 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
     let gradientCtx = this.renderer.createElement('canvas');
     let gradient = gradientCtx.getContext("2d").createLinearGradient(0, 0, 0, 600);
     gradient.addColorStop(0, 'RGBA(251,48,82,0.7)')
-    gradient.addColorStop(1, 'RGBA(6,173,121,0.7)')
+    gradient.addColorStop(1, 'RGBA(0,0,0,0.2)')
     this.myChart = new Chart(this.ctx, {
       type: 'line',
       data: {
@@ -70,6 +70,11 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
 
   getOptions() {
     return {
+      showTooltips: true,
+      onAnimationComplete: function() {
+        this.showTooltip(this.datasets[0].points, true);
+      },
+      tooltipEvents: [],
       scales: {
         y: {
           grid: { borderDash: [4, 2] },

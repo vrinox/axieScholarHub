@@ -34,7 +34,7 @@
       </ion-card-content>
     </ion-card>
   </div>
-  <div class="loginForm" color="primary">    
+  <div class="loginForm" color="primary" *ngIf="registerForm.value.avatar">    
       <ion-item>
         <ion-label position="floating" color="white">Full Name</ion-label>
         <ion-input id="fullname" formControlName="fullname"></ion-input>

@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { ProfileComponent } from './profile/profile.component';
-import { SignupComponent } from './signup/signup.component';
-import { EmailComponent } from './email/email.component';
+import { LoginComponent } from './pages/login/login.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { SignupComponent } from './pages/signup/signup.component';
+import { EmailComponent } from './pages/email/email.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'start-page', pathMatch: 'full' },
@@ -17,7 +17,7 @@ const routes: Routes = [
   },
   {
     path: 'start-page',
-    loadChildren: () => import('./start-page/start-page.module').then( m => m.StartPagePageModule)
+    loadChildren: () => import('./pages/start-page/start-page.module').then( m => m.StartPagePageModule)
   },
   {
     path: 'my-axies',
@@ -26,6 +26,14 @@ const routes: Routes = [
   {
     path: 'battles',
     loadChildren: () => import('./pages/battles/battles.module').then( m => m.BattlesPageModule)
+  },
+  {
+    path: 'wrong-version',
+    loadChildren: () => import('./pages/wrong-version/wrong-version.module').then( m => m.WrongVersionPageModule)
+  },
+  {
+    path: 'rank',
+    loadChildren: () => import('./pages/rank/rank.module').then( m => m.RankPageModule)
   }
 ];
 @NgModule({

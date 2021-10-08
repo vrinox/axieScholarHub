@@ -74,6 +74,7 @@ export class AxieTechApiService {
         battle.firstTeam.push(axie);
       } else if (axie.teamId !== myTeamId) {
         battle.secondTeam.push(axie);
+        battle.winner = (battle.winner)? 0 : 1;
       }
     });
     return battle;

@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { passwordMatchingValidatior } from '../validators/email.validator';
+import { passwordMatchingValidatior } from '../../validators/email.validator';
 
-import { Scholar } from '../models/scholar';
-import { Axie } from '../models/axie';
-import { scholarOfficialData, userCloudData, userLink } from '../models/interfaces';
+import { Scholar } from '../../models/scholar';
+import { Axie } from '../../models/axie';
+import { scholarOfficialData, userCloudData, userLink } from '../../models/interfaces';
 
-import { lunacianApiService } from '../services/lunacian-api.service';
-import { ApiTrackerService } from '../services/api-tracker.service';
-import { AuthService } from '../services/auth.service';
-import { AxieTechApiService } from '../services/axie-tech-api.service';
+import { lunacianApiService } from '../../services/lunacian-api.service';
+import { ApiTrackerService } from '../../services/api-tracker.service';
+import { AuthService } from '../../services/auth.service';
+import { AxieTechApiService } from '../../services/axie-tech-api.service';
+import { AlertController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-signup',
@@ -21,12 +22,15 @@ export class SignupComponent implements OnInit {
   submitted: boolean = true;
   scholar: Scholar;
   axies: Axie[] = [];
+  loading: HTMLIonLoadingElement;
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private axieService: lunacianApiService,
     private trackerService: ApiTrackerService,
-    private axieTechService: AxieTechApiService
+    private axieTechService: AxieTechApiService,
+    private alertController: AlertController,
+    private load: LoadingController
   ) { }
 
   ngOnInit() {
@@ -69,15 +73,21 @@ export class SignupComponent implements OnInit {
     })
   }
   buscarDireccion() {
+    this.presentLoading();
     this.axieService.getAccountData(this.registerForm.value.roninAddress)
       .then((accountData:scholarOfficialData)=>{
+        this.load.dismiss();
         let account = new Scholar();
         account.parse(accountData);
         this.scholar = account;
       });
     this.axieService.getAxies(this.registerForm.value.roninAddress)
       .then((data:Axie[])=>{
-        this.axies = data;
+        if(data && data.length !== 0) {
+          this.axies = data;
+        } else {
+          this.presentAlert();
+        }
       });
   }
   onReset(): void {
@@ -91,4 +101,27 @@ export class SignupComponent implements OnInit {
     });
     axie.cssContainerClass="selected"; 
   }
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Warning',
+      subHeader: '',
+      message: 'Si tu cuenta no tiene axies no puedes continuar con el proceso',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+
+    const { role } = await alert.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
+  }
+  
+  async presentLoading() {
+    this.loading = await this.load.create({
+      cssClass: 'my-custom-class',
+      message: 'Buscando los datos de tu cuenta y tus axies'
+    });
+    await this.loading.present();
+  }
+
 }

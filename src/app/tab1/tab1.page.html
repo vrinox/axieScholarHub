@@ -3,20 +3,17 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title (click)="actualizarDatos()">
-      Rank
+    <ion-title (click)="getCom()">
+      Community
     </ion-title>
     <ion-buttons slot="end">
      <ion-menu-button></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-list>
-    <app-rank-list [axie]="firstPlace.axie" [scholar]="firstPlace.scholar" [type]="'first'" *ngIf="ready"></app-rank-list>
-    <app-rank-list [axie]="secondPlace.axie" [scholar]="secondPlace.scholar" [type]="'second'" *ngIf="ready"></app-rank-list>
-    <app-rank-list [axie]="thirdPlace.axie" [scholar]="thirdPlace.scholar" [type]="'third'" *ngIf="ready"></app-rank-list>    
-    <app-rank-list [axie]="item.axie" [scholar]="item.scholar" *ngFor="let item of list"></app-rank-list>
-  </ion-list>
+<ion-content [fullscreen]="true" *ngIf="!community">
+  sin comunidad
+</ion-content>
+<ion-content [fullscreen]="true" *ngIf="community">
+  {{community.name}}
 </ion-content>

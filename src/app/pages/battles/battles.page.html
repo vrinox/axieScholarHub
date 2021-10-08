@@ -9,14 +9,16 @@
 
 <ion-content>
   <ion-list>
-    <div *ngFor="let day of list">
-      <ion-item-divider>
+    <div *ngFor="let day of list" >
+      <ion-item-divider (click)="mostrar(day)">
         <ion-label>
           {{day.title}}
         </ion-label>
         <div slot="end"><span class="win">{{day.win}}</span>/<span class="lose">{{day.lose}}</span></div>
       </ion-item-divider>
-      <app-battle-item-list [battle]="battle" *ngFor="let battle of day.battles" ></app-battle-item-list>
+      <div *ngIf="day.show">
+        <app-battle-item-list [battle]="battle" *ngFor="let battle of day.battles"></app-battle-item-list>
+      </div>
     </div>
   </ion-list>
 </ion-content>

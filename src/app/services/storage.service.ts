@@ -59,6 +59,14 @@ export class StorageService {
     return await this.get('AssembledBattles');
   }
 
+  public setCommunities(communities:any[]){    
+    this.set('communities', communities );
+  }
+
+  public async getCommunities():Promise<any[]>{
+    return await this.get('communities');
+  }
+
   private set(key: string, value: any) {
     this._storage?.set(key, value);
   }

@@ -15,10 +15,10 @@ import { provideAuth, getAuth} from '@angular/fire/auth';
 
 import { environment } from 'src/environments/environment';
 import { AuthService } from './services/auth.service';
-import { LoginComponent } from './login/login.component';
-import { EmailComponent } from './email/email.component';
-import { ProfileComponent } from './profile/profile.component';
-import { SignupComponent } from './signup/signup.component';
+import { LoginComponent } from './pages/login/login.component';
+import { EmailComponent } from './pages/email/email.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { SignupComponent } from './pages/signup/signup.component';
 
 import { lunacianApiService } from './services/lunacian-api.service';
 import { HttpClientModule } from '@angular/common/http';
