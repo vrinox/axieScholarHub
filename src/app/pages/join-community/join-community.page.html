@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Join Community</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar #searchInput (ionClear)="cleanList()"></ion-searchbar>
+  <ion-list *ngIf="communitiesQuery.length !== 0">
+    <ion-item *ngFor="let community of communitiesQuery" (click)="joinCommunity(community)">
+      <ion-icon name="library" slot="start" *ngIf="community.type === 'academy'"></ion-icon>
+      <ion-icon name="people-circle" slot="start" *ngIf="community.type !== 'academy'"></ion-icon>
+      <ion-label>
+        {{community.name}}
+      </ion-label>
+      <ion-note slot="end">
+        {{community.members.length}}
+        <ion-icon name="people" ></ion-icon>
+      </ion-note>
+    </ion-item>
+  </ion-list>
+</ion-content>

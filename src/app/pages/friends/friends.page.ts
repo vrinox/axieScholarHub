@@ -10,7 +10,6 @@ import {
 import { friendRequest, userList } from 'src/app/models/interfaces';
 import { Scholar } from 'src/app/models/scholar';
 import { ApiTrackerService } from 'src/app/services/api-tracker.service';
-import { FireServiceService } from 'src/app/services/fire-service.service';
 import { FriendService } from 'src/app/services/friend.service';
 import { SesionService } from 'src/app/services/sesion.service';
 
@@ -85,11 +84,15 @@ export class FriendsPage implements OnInit {
   }
   accept(solicitud: friendRequest){
     this.friendService.aceptFriendRequest(solicitud);
-    this.update();
+    this.solicitudes.filter((request)=>{
+      return request.id !== solicitud.id
+    })
   }
   reject(solicitud: friendRequest){
     this.friendService.rejectFriendRequest(solicitud);
-    this.update();
+    this.solicitudes.filter((request)=>{
+      return request.id !== solicitud.id
+    })
   }
   async getFriends(){
     const addressList = await this.friendService.getFriendsAddressList(this.sesion.infinity.roninAddress);

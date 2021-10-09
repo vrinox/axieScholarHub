@@ -54,6 +54,16 @@ export class Scholar {
       PVPRank: this.PVPRank || 0
     }
   }
+  getValuesMin(){
+    return {
+      roninAddress: this.parseRonin(this.roninAddress),
+      name: this.name,
+      MMR: this.MMR || 0,
+      totalSLP: this.totalSLP || 0,
+      monthSLP: this.monthSLP || 0,
+      PVPRank: this.PVPRank || 0
+    }
+  }
   update(newData: Scholar):void {    
     this.yesterdaySLP = this.todaySLP;
     this.todaySLP = this.calculateTodaySLP(newData);

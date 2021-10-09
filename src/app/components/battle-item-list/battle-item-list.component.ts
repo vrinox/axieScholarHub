@@ -30,7 +30,7 @@ export class BattleItemListComponent implements OnInit {
     await this.presentLoading();
 
     await this.fire.shareReplay(this.battle, {
-      scholar: this.sesion.infinity.getValues(),
+      scholar: this.sesion.infinity.getValuesMin(),
       axie: this.sesion.getAxieAvatar(this.sesion.user).getValuesMin()
     });
     const toast = await this.toastController.create({

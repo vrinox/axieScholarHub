@@ -4,7 +4,7 @@ import { LoadingController } from '@ionic/angular';
 import { Subject } from 'rxjs';
 import { Axie } from '../models/axie';
 import { Battle } from '../models/battle';
-import { scholarOfficialData, userCloudData, userLink } from '../models/interfaces';
+import { community, scholarOfficialData, userCloudData, userLink } from '../models/interfaces';
 import { Scholar } from '../models/scholar';
 import { ApiTrackerService } from './api-tracker.service';
 import { lunacianApiService } from './lunacian-api.service';
@@ -128,7 +128,10 @@ export class SesionService {
       userData: sesion.user,
       scholar: sesion.infinity.getValues()
     });
-    this.storage.setCommunities(sesion.communities);
+    this.setCommunitiesOnCache(sesion.communities);
+  }
+  public setCommunitiesOnCache(communities: community[]){
+    this.storage.setCommunities(communities);
   }
   public getUpdatedDatafromApi(roninAddress: string){
     this.updateAxies(roninAddress);

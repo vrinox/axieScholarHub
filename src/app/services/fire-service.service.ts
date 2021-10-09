@@ -29,6 +29,12 @@ export class FireServiceService {
       return new Scholar(doc.data());
     });
   }
+  async getScholarsByAddressList(membersAddressList: string[]) {
+    const querySnapshot = await getDocs(query(collection(this.db, 'scholar'),where('roninAddress', 'in', membersAddressList)))
+    return querySnapshot.docs.map((doc) => {
+      return new Scholar(doc.data());
+    });
+  }
   async getSharedBattles():Promise<Battle[]>{
     const querySnapshot = await getDocs(query(collection(this.db, 'sharedBattles'),orderBy('creationDate','desc')));
     return querySnapshot.docs.map((doc) => {

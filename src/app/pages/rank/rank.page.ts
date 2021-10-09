@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {  ToastController } from '@ionic/angular';
 import { Axie } from 'src/app/models/axie';
 import { scholarOfficialData, userList } from 'src/app/models/interfaces';
 import { Scholar } from 'src/app/models/scholar';
 import { ApiTrackerService } from 'src/app/services/api-tracker.service';
 import { AxieTechApiService } from 'src/app/services/axie-tech-api.service';
+import { ComunityService } from 'src/app/services/community.service';
 import { FireServiceService } from 'src/app/services/fire-service.service';
 @Component({
   selector: 'app-rank',
@@ -21,28 +23,37 @@ export class RankPage implements OnInit {
   constructor(private toastController: ToastController,
     private fire: FireServiceService,
     private apiTracker: ApiTrackerService,
-    private axieTechService: AxieTechApiService) { }
+    private axieTechService: AxieTechApiService,
+    private communityService: ComunityService
+  ) { }
 
   ngOnInit(){
     this.init();
   }
   private async init(){
-    await this.obtainDataFromDB();
+    await this.obtainDataFromDB('members');
     this.orderDataAndAsingWinners();
     this.ready = true;
     this.actualizarDatos();
   }
   
-  async obtainDataFromDB(){
-    this.scholars = await this.fire.getScholars();
+  async obtainDataFromDB(from:string){
+    if(from === 'members'){
+      this.scholars = this.communityService.activeCommunity.members;
+    } else if (from === 'addressList'){
+      const memberAddressList = await this.communityService.getMembersAddressList(this.communityService.activeCommunity.id)
+      await this.fire.getScholarsByAddressList(memberAddressList);
+    }
     this.list = await Promise.all(this.scholars.map(async (scholar: Scholar)=>{
       return await this.apiTracker.createItemList(scholar);
     }));
+    
   }
   
   orderDataAndAsingWinners(){
+    const rankType = this.communityService.activeCommunity.rankType;
     this.list.sort((a,b)=>{
-      return b.scholar.monthSLP - a.scholar.monthSLP;
+      return b.scholar[rankType] - a.scholar[rankType];
     });
     this.firstPlace = this.list.shift();
     this.secondPlace = this.list.shift();
@@ -61,7 +72,7 @@ export class RankPage implements OnInit {
   async actualizarDatos(){
     this.list = [];
     this.scholars = [];
-    await this.obtainDataFromDB();
+    await this.obtainDataFromDB('addressList');
     this.obtainDataFromAPI();
   }  
   async presentToast() {
@@ -79,5 +90,4 @@ export class RankPage implements OnInit {
     });
     toast.present();
   }
-
 }

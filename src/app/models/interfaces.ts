@@ -133,3 +133,18 @@ export interface coinCrypto{
 }
 export interface userList {axie:Axie, scholar:Scholar}
 export interface friendRequest {from: string, to: string, id: string, fromName: string}
+export interface community {
+  type:string;
+  name:string;
+  id:string;
+  members?: any[];
+  admin?: string;
+  rankType: string;
+  discord?: string;
+}
+export interface communityPost{
+  author: any;
+  text: string;
+  createdAt: Date;
+  communityId: string;
+}

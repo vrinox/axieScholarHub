@@ -42,6 +42,14 @@ const routes: Routes = [
   {
     path: 'inbox',
     loadChildren: () => import('./pages/inbox/inbox.module').then( m => m.InboxPageModule)
+  },
+  {
+    path: 'create-community',
+    loadChildren: () => import('./pages/create-community/create-community.module').then( m => m.CreateCommunityPageModule)
+  },
+  {
+    path: 'join-community',
+    loadChildren: () => import('./pages/join-community/join-community.module').then( m => m.JoinCommunityPageModule)
   }
 ];
 @NgModule({
