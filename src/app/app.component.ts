@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
+import { ActiveProfileService } from './services/active-profile.service';
 import { AuthService } from './services/auth.service';
 import { FireServiceService } from './services/fire-service.service';
 import { GetPriceService } from './services/get-price.service';
@@ -24,7 +25,8 @@ export class AppComponent {
     private sesion: SesionService,
     private router: Router,
     private fire: FireServiceService,
-    private getPrice: GetPriceService
+    private getPrice: GetPriceService,
+    private activeProfile: ActiveProfileService
   ) {
     this.getPriceCrypto(this.slp, 'smooth-love-potion');
     this.getPriceCrypto(this.axs, 'axie-infinity');
@@ -44,6 +46,11 @@ export class AppComponent {
   }
   navigateTo(url){
     this.router.navigate([url]);
+    this.menu.close();
+  }
+  navigateProfile(){
+    this.activeProfile.setProfile(this.sesion.battles, this.sesion.user, this.sesion.infinity, this.sesion.axies);
+    this.activeProfile.navigate();
     this.menu.close();
   }
   logout() {

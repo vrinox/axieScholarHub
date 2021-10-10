@@ -9,6 +9,7 @@ import {
 } from "rxjs/operators";
 import {community } from 'src/app/models/interfaces';
 import { ComunityService } from 'src/app/services/community.service';
+import { SesionService } from 'src/app/services/sesion.service';
 
 @Component({
   selector: 'app-join-community',
@@ -20,7 +21,10 @@ export class JoinCommunityPage implements OnInit {
   isSearching: boolean;
   communitiesQuery: community[] = [];
   constructor(
-    private communityService: ComunityService
+    private communityService: ComunityService,
+    private sesion: SesionService,
+    private alertController: AlertController,
+    private toastController: ToastController
   ) { }
 
   async ngOnInit() {
@@ -50,14 +54,63 @@ export class JoinCommunityPage implements OnInit {
       });
     });
   }
-  joinCommunity(community: community){
-    //join existing community
+  async joinCommunity(community: community){
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Confirm!',
+      message: `Desea enviar una solicitud a ${community.name}`,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {}
+        }, {
+          text: 'Okay',
+          handler:async () => {
+            const requestId = await this.communityService.createCommunityRequest(
+              this.sesion.infinity.roninAddress,
+              this.sesion.infinity.name,
+              community.id);
+            this.communitiesQuery = [];
+            if(requestId){
+              this.presentOkToast();
+            } else{
+              this.presentKOToast();
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+  async presentOkToast(){
+    await this.presentToast('Solicitud enviada', 'primary', 'checkmark-outline');
+  }
+  async presentKOToast(){
+   await this.presentToast('Ha sucedido un error por favor intentelo de nuevo', 'danger', 'close-circle-outline');
+  }
+  async presentToast(text: string, color:string, icon: string){
+    const toast = await this.toastController.create({
+      message: text,
+      duration: 2000,
+      position: 'top',
+      color: color,
+      buttons: [
+        {
+          side: 'end',
+          icon: icon
+        }
+      ]
+    });
+    toast.present();
   }
   searchGetCall(term: string) {
     if (term === '') {
       return of([]);
     }
-    return this.communityService.getCommunitiesByName(term);
+    return this.communityService.getCommunitiesByPartialName(term);
   }
   cleanList(){
     this.communitiesQuery = [];

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { doc, Firestore } from '@angular/fire/firestore';
-import { addDoc, arrayUnion, collection, DocumentReference, getDoc, getDocs, query, QueryDocumentSnapshot, updateDoc, where } from '@firebase/firestore';
+import { addDoc, arrayUnion, collection, deleteDoc, DocumentReference, getDoc, getDocs, query, QueryDocumentSnapshot, updateDoc, where } from '@firebase/firestore';
 import { Observable, from } from 'rxjs';
-import { community, communityPost } from '../models/interfaces';
+import { community, communityPost, communityRequest } from '../models/interfaces';
 import { Scholar } from '../models/scholar';
 
 @Injectable({
@@ -15,18 +15,14 @@ export class ComunityService {
   ) { }
 
   async addScholarToComunity(roninAddress, comunityId) {
-    const querySnapshot = await getDocs(query(collection(this.db, "scholar-communities"), where('roninAddress', "==", roninAddress)));
+    const querySnapshot = await getDocs(query(collection(this.db, "scholar-communities"), where('community', "==", comunityId)));
     const docRef: DocumentReference = querySnapshot.docs[0].ref;
     if (docRef) {
       await updateDoc(docRef, {
-        communities: arrayUnion(comunityId)
+        members: arrayUnion(roninAddress)
       })
-    } else {
-      await addDoc(collection(this.db, "scholar-communities"), {
-        roninAddress: roninAddress,
-        communities: [comunityId]
-      });
     }
+    return docRef.id
   }
   async addCommunity(form:{
     name: string,
@@ -57,6 +53,9 @@ export class ComunityService {
   }
   getCommunitiesByName(partialName: string): Observable<any> {
     return from(getDocs(query(collection(this.db, "communities"), where('name', '==', partialName))));
+  }
+  getCommunitiesByPartialName(partialName:string): Observable<any>{
+    return from(getDocs(query(collection(this.db, "communities"), where('name', '>=', partialName), where('name', '<=', partialName+ '\uf8ff'))));
   }
   async getCommunityAllData(id: string): Promise<community> {
     const docRef = doc(this.db, 'communities', id);
@@ -92,5 +91,35 @@ export class ComunityService {
       return doc.data();
     })
     return feed;
+  }
+  async createCommunityRequest(from: string, fromName: string, communityId: string){
+    const dbRef = await addDoc(collection(this.db,"community-request"), {
+      "from": from,
+      "fromName": fromName,
+      "communityId": communityId 
+    });
+    const doc = await getDoc(dbRef);
+    return doc.id;
+  }
+  async acceptRequest(solicitud: communityRequest){
+    const docId = await this.addScholarToComunity(solicitud.from, solicitud.communityId);
+    await deleteDoc(doc(this.db, "community-request", solicitud.id));
+    return docId;
+  }
+  async rejectRequest(solicitud: communityRequest){
+    await deleteDoc(doc(this.db, "community-request", solicitud.id));
+  }
+  async getRequest(communityId: string): Promise<communityRequest[]> {
+    const querySnapshot = await getDocs(query(collection(this.db, "community-request"), where('communityId', "==", communityId)));
+    const requestList = querySnapshot.docs.map((doc:QueryDocumentSnapshot)=>{
+      const data = doc.data();
+      return {
+        from: data.from,
+        communityId: data.communityId,
+        id: doc.id,
+        fromName: data.fromName
+      }
+    })
+    return requestList;
   }
 }

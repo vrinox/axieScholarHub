@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Feed</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-card>
+      <form [formGroup]="postForm">
+        <ion-item>
+          <ion-textarea rows="3" cols="20" placeholder="Enter any notes here..." id="post" formControlName="post">
+          </ion-textarea>
+        </ion-item>
+        <ion-button expand="full" [disabled]="!postForm.valid" (click)="sendPost()">send</ion-button>
+      </form>
+    </ion-card>
+    <ion-card *ngFor="let post of communityService.activeCommunity.feed">
+      <ion-item-divider>
+        <ion-label>
+          {{post.text}}
+        </ion-label>
+      </ion-item-divider>
+      <app-list-item-user-avatar [axie]="post.author.axie" [scholar]="post.author.scholar" [type]="'shared'"></app-list-item-user-avatar>
+    </ion-card>
+  </ion-list>
+</ion-content>

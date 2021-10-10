@@ -90,4 +90,5 @@ export class BattlesPage implements OnInit {
   mostrar(day: any){
     day.show = !day.show;
   }
+  
 }

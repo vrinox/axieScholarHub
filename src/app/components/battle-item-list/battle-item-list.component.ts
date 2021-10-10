@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { Battle } from 'src/app/models/battle';
 import { FireServiceService } from 'src/app/services/fire-service.service';
 import { lunacianApiService } from 'src/app/services/lunacian-api.service';
@@ -19,7 +19,8 @@ export class BattleItemListComponent implements OnInit {
     private load: LoadingController,
     private lunacian: lunacianApiService,
     private sesion: SesionService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private alertController: AlertController
   ) { }
 
   ngOnInit() {
@@ -27,11 +28,14 @@ export class BattleItemListComponent implements OnInit {
   }
 
   async share(){
+    await this.presentAlertPrompt();    
+  }
+  async saveShareBattle(text: string){
     await this.presentLoading();
-
     await this.fire.shareReplay(this.battle, {
       scholar: this.sesion.infinity.getValuesMin(),
-      axie: this.sesion.getAxieAvatar(this.sesion.user).getValuesMin()
+      axie: this.sesion.getAxieAvatar(this.sesion.user).getValuesMin(),
+      text: text || ''
     });
     const toast = await this.toastController.create({
       message: 'Battle shared',
@@ -54,5 +58,36 @@ export class BattleItemListComponent implements OnInit {
       message: 'Sharing your Conquer please wait ...'
     });
     await this.loading.present();
+  }
+  async presentAlertPrompt() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Deseas Compartir esta Batalla!',
+      inputs: [
+        {
+          name: 'text',
+          id: 'text',
+          type: 'textarea',
+          placeholder: 'Algun comentario sobre esta hazaña que quieras compartir'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Ok',
+          handler: (data) => {
+            this.saveShareBattle(data.text);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 }

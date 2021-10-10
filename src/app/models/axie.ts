@@ -18,6 +18,12 @@ export class Axie {
   cssContainerClass: string = "";
   constructor(values: Object = {}) {
     Object.assign(this, values);
+    if(this.image === ''){
+      this.generateImage();
+    }
+  }
+  generateImage(){
+    this.image = `https://storage.googleapis.com/assets.axieinfinity.com/axies/${this.id}/axie/axie-full-transparent.png`;
   }
   getValues() {
     const values: any = this.getValuesMin();

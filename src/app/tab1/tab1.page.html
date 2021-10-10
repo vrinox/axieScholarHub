@@ -20,6 +20,20 @@
   <ion-title>
     {{community.name}}
   </ion-title>
+  <ion-list *ngIf="community.solicitudes.length !== 0 && admin">
+    <ion-list-header>
+      <ion-label>Request</ion-label>
+    </ion-list-header>
+    <ion-item *ngFor="let solicitud of community.solicitudes">
+      <ion-label>{{solicitud.fromName}}</ion-label>
+      <div (click)="accept(solicitud)" slot="end">
+        <ion-icon slot="icon-only" name="checkmark-circle-outline" size="large" color="primary"></ion-icon>
+      </div>
+      <div (click)="reject(solicitud)" slot="end">
+        <ion-icon slot="icon-only" name="close-circle-outline" size="large" color="danger"></ion-icon>
+      </div>
+    </ion-item>
+  </ion-list>
   <ion-list *ngIf="community.rank" (click)="navigate('rank')">
     <p style="padding-left: 3vw;">Rank</p>
     <app-rank-list 
@@ -40,18 +54,16 @@
       *ngIf="community.rank.thirdPlace"
     ></app-rank-list>
   </ion-list>
-  <p style="padding-left: 3vw;">Feed</p>
-  <ion-list>
-    <ion-card>
-      <form [formGroup]="postForm">
-        <ion-item>
-          <ion-textarea rows="3" cols="20" placeholder="Enter any notes here..." id="post" formControlName="post">
-          </ion-textarea>
-        </ion-item>
-        <ion-button expand="full" [disabled]="!postForm.valid" (click)="sendPost()">send</ion-button>
-      </form>
+  <ion-list (click)="navigate('feed')">
+    <p style="padding-left: 3vw;">Feed</p>
+    <ion-card *ngIf="community.feed.length === 0">
+      <ion-item-divider>
+        <ion-label>
+          {{feedPlaceHolder}}
+        </ion-label>
+      </ion-item-divider>
     </ion-card>
-    <ion-card *ngFor="let post of community.feed">
+    <ion-card *ngFor="let post of community.feed.slice(0,3)">
       <ion-item-divider>
         <ion-label>
           {{post.text}}

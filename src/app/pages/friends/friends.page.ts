@@ -72,7 +72,7 @@ export class FriendsPage implements OnInit {
   }
   friendRequest(user: userList){
     if(this.isUserInFriendsList(user.scholar.roninAddress)){
-      this.presentToast('already on friends list', 'danger', 'close-circle-outline')
+      this.presentToast('Ya se encuentra dentro de tu lista de amigos', 'danger', 'close-circle-outline')
     } else {
       this.presentAlertConfirm(user);
     }
@@ -83,7 +83,7 @@ export class FriendsPage implements OnInit {
     })
   }
   accept(solicitud: friendRequest){
-    this.friendService.aceptFriendRequest(solicitud);
+    this.friendService.acceptRequest(solicitud);
     this.solicitudes.filter((request)=>{
       return request.id !== solicitud.id
     })
@@ -116,7 +116,7 @@ export class FriendsPage implements OnInit {
         }, {
           text: 'Okay',
           handler:async () => {
-            const requestId = await this.friendService.createFriendRequest(
+            const requestId = await this.friendService.createRequest(
               this.sesion.infinity.roninAddress,
               this.sesion.infinity.name,
               userRequested.scholar.roninAddress);
@@ -135,10 +135,10 @@ export class FriendsPage implements OnInit {
     await alert.present();
   }
   async presentOkToast(){
-    await this.presentToast('Request send', 'primary', 'checkmark-outline');
+    await this.presentToast('Solicitud enviada', 'primary', 'checkmark-outline');
   }
   async presentKOToast(){
-   await this.presentToast('please try again later', 'danger', 'close-circle-outline');
+   await this.presentToast('Ha sucedido un error por favor intentelo de nuevo', 'danger', 'close-circle-outline');
   }
   async presentToast(text: string, color:string, icon: string){
     const toast = await this.toastController.create({

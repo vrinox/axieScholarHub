@@ -56,28 +56,39 @@ export class AxieTechApiService {
   };
 
   public async assembleBattle(battle: Battle, ronninAddress: string){
-    const axies = await this.getAxiesForBattle(battle);
-    ronninAddress = this.parseRonin(ronninAddress);
-    let enemyRoninAddress: string;
-    let myTeamId: string;
-    if(battle.first_client_id === ronninAddress){
-      enemyRoninAddress = battle.second_client_id;
-      myTeamId = battle.first_team_id;
-    } else {
-      enemyRoninAddress = battle.first_client_id;
-      myTeamId = battle.second_team_id
-    }
+    const newBattle = new Battle(battle.getSharedValues());
+    newBattle.fighters = battle.fighters;
+    newBattle.firstTeam = [];
+    newBattle.secondTeam = [];
+    const axies = await this.getAxiesForBattle(newBattle);    
+    const enemyRoninAddress = this.getEnemyRonin(newBattle, ronninAddress);
+    const myTeamId = this.getMyTeamId(newBattle, ronninAddress);
     const enemy: scholarOfficialData = await this.getAllAccountData(enemyRoninAddress);
-    battle.enemyName = enemy.name;
+    newBattle.enemyName = enemy.name;
     axies.forEach((axie:Axie)=>{
       if(axie.teamId === myTeamId){
-        battle.firstTeam.push(axie);
+        newBattle.firstTeam.push(axie);
       } else if (axie.teamId !== myTeamId) {
-        battle.secondTeam.push(axie);
-        battle.winner = (battle.winner)? 0 : 1;
+        newBattle.secondTeam.push(axie);
       }
     });
-    return battle;
+    return newBattle;
+  }
+  public assembleBattleMin(battle: Battle, roninAddress: string){
+    const newBattle = new Battle(battle.getSharedValues());    
+    newBattle.fighters = battle.fighters;
+    roninAddress = this.parseRonin(roninAddress);
+    const myTeamId = this.getMyTeamId(newBattle, roninAddress);
+    if(myTeamId === newBattle.first_team_id){
+      newBattle.winner = (newBattle.winner)? 0 : 1;
+    }
+    return newBattle;
+  }
+  public getEnemyRonin(battle: Battle, roninAddress:string){
+    return (battle.first_client_id === roninAddress) ? battle.second_client_id: battle.first_client_id;
+  }
+  public getMyTeamId(battle: Battle, roninAddress:string){
+    return (battle.first_client_id === roninAddress) ? battle.first_team_id: battle.second_team_id ;
   }
   async getAxiesForBattle(battle: Battle){
     const axies: Axie[] = await Promise.all(battle.fighters.map((rawAxie)=>{

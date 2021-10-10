@@ -10,17 +10,41 @@
 <ion-content>
   <ion-list>
     <ion-card>
+      <div class="containerProfile" *ngIf="axie">
+        <img src="{{axie.image}}" alt="">        
+        <div class="name">{{profileService.active.scholar.name}}</div>
+        <ion-icon name="settings" size="normal" class="configIcon"></ion-icon>
+      </div>
+    </ion-card>
+    <ion-card>
       <ion-card-header>
-        <ion-card-title>Mis Axies</ion-card-title>
+        <ion-card-title>PVP</ion-card-title>
+      </ion-card-header>
+        <ion-item>
+          <ion-label >MMR</ion-label>
+          <div >
+            <span>🏆</span>{{profileService.active.scholar.MMR}}
+          </div>
+        </ion-item>
+        <ion-item>
+          <ion-label >WinRate</ion-label>
+          <div slot="end">{{winRate}}%</div>
+        </ion-item>
+        <ion-item>
+          <ion-label >Batallas</ion-label>
+          <div slot="end"><span class="win">{{wins}}</span>/<span class="lose">{{lose}}</span></div>
+        </ion-item>
+        <app-battle-item-list [battle]="battle" *ngFor="let battle of battles" [type]="'min'"></app-battle-item-list>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Axies</ion-card-title>
       </ion-card-header>    
       <ion-card-content>
         <div class="axie-container">
-          <ion-card *ngFor="let axie of sesion.axies" class="axie-display" (click)="seleccionar(axie)" class="{{axie.cssContainerClass}}"  >
-            <img src="{{axie.image}}" />
-          </ion-card>
+            <img src="{{axie.image}}" *ngFor="let axie of profileService.active.axies" class="axie-display" class="{{axie.cssContainerClass}}" />
         </div>
       </ion-card-content>
     </ion-card>
-  </ion-list>
-  
+  </ion-list>  
 </ion-content>

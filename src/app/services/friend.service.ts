@@ -38,7 +38,7 @@ export class FriendService {
     });
     return friendsAddressList;
   }
-  async createFriendRequest(from: string, fromName: string, to: string){
+  async createRequest(from: string, fromName: string, to: string){
     const dbRef = await addDoc(collection(this.db,"friendRequest"), {
       "from": from,
       "fromName": fromName,
@@ -47,7 +47,7 @@ export class FriendService {
     const doc = await getDoc(dbRef);
     return doc.id;
   }
-  async aceptFriendRequest(solicitud: friendRequest){
+  async acceptRequest(solicitud: friendRequest){
     const dbRef = await addDoc(collection(this.db,"friends"), {
       "whoRequests": solicitud.from,
       "requested": solicitud.to 

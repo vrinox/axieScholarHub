@@ -1,4 +1,5 @@
 import { Axie } from "./axie";
+import { Battle } from "./battle";
 import { Scholar } from "./scholar";
 
 export interface scholarOfficialData {
@@ -122,6 +123,7 @@ export interface atFighter{
 export interface sharedData{
   scholar: any,
   axie: any,
+  text?: string
 }
 export interface coinCrypto{
   image: {
@@ -133,6 +135,7 @@ export interface coinCrypto{
 }
 export interface userList {axie:Axie, scholar:Scholar}
 export interface friendRequest {from: string, to: string, id: string, fromName: string}
+export interface communityRequest {from: string, communityId: string, id: string, fromName: string}
 export interface community {
   type:string;
   name:string;
@@ -141,10 +144,17 @@ export interface community {
   admin?: string;
   rankType: string;
   discord?: string;
+  feed?: any[];
 }
 export interface communityPost{
   author: any;
   text: string;
   createdAt: Date;
   communityId: string;
+}
+export interface profile{
+  battles: Battle[];
+  user?: userLink;
+  scholar: Scholar;
+  axies: Axie[];
 }

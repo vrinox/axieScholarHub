@@ -50,6 +50,10 @@ const routes: Routes = [
   {
     path: 'join-community',
     loadChildren: () => import('./pages/join-community/join-community.module').then( m => m.JoinCommunityPageModule)
+  },
+  {
+    path: 'community-feed',
+    loadChildren: () => import('./pages/community-feed/community-feed.module').then( m => m.CommunityFeedPageModule)
   }
 ];
 @NgModule({

@@ -31,7 +31,6 @@ export class Tab2Page implements AfterViewInit {
   async obtainDataAndDraw() {
     this.updateOptions(this.sesion.infinity);
     const story: Scholar[] = await this.storyService.getHistoric(this.sesion.infinity.roninAddress);
-    console.log(story);
     this.scholarStory = story.sort((a: Scholar, b: Scholar) => {
       return a.lastUpdate.valueOf() - b.lastUpdate.valueOf();
     })
