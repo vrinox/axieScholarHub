@@ -1,3 +1,12 @@
+#### v2.0.0
+* registro de becados y no becados
+* sistema de amigos
+* shared battles con comentarios
+* sistema de comunidades 
+* profile
+* profile otros
+* cambiar avatar
+
 #### v1.2.0
 * mejoras en el formulario de registro
 * colores en el slp del inicio
