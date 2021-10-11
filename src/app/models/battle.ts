@@ -19,6 +19,7 @@ export class Battle {
   secondTeam: Axie[] = [];
   shared?: any;
   win?: boolean = false;
+  creationDate?: any;
   constructor(values: Object = {}) {
     Object.assign(this, values);
   }
@@ -38,6 +39,14 @@ export class Battle {
     }
   }
   getSharedValues(sharedData?){
+    let firstTeam, secondTeam;
+    if(this.firstTeam[0] && this.firstTeam[0].hasOwnProperty('getValuesMin')){
+      firstTeam = this.firstTeam.map( axie => axie.getValuesMin());
+      secondTeam = this.secondTeam.map( axie => axie.getValuesMin());
+    } else {
+      firstTeam = this.firstTeam;
+      secondTeam = this.secondTeam;
+    }
     return {
       battle_type: this.battle_type,
       battle_uuid: this.battle_uuid,
@@ -51,9 +60,9 @@ export class Battle {
       winner: this.winner,
       myName: this.myName,
       enemyName: this.enemyName,
-      firstTeam: this.firstTeam.map( axie => axie.getValuesMin()),
-      secondTeam: this.secondTeam.map( axie => axie.getValuesMin()),
-      shared: sharedData
+      shared: sharedData,
+      firstTeam: firstTeam,
+      secondTeam: secondTeam
     }
   }
 }

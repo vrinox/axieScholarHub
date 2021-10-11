@@ -75,8 +75,8 @@ export class AxieTechApiService {
     });
     return newBattle;
   }
-  public assembleBattleMin(battle: Battle, roninAddress: string){
-    const newBattle = new Battle(battle.getSharedValues());    
+  public assembleBattleMin(battle: Battle, roninAddress: string, sharedData: any = {}){
+    const newBattle = new Battle(battle.getSharedValues(sharedData));
     newBattle.fighters = battle.fighters;
     roninAddress = this.parseRonin(roninAddress);
     newBattle.win = this.calculateWinner(battle, roninAddress);

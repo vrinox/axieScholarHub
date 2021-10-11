@@ -41,8 +41,8 @@ export class RankPage implements OnInit {
     if(from === 'members'){
       this.scholars = this.communityService.activeCommunity.members;
     } else if (from === 'addressList'){
-      const memberAddressList = await this.communityService.getMembersAddressList(this.communityService.activeCommunity.id)
-      await this.fire.getScholarsByAddressList(memberAddressList);
+      const memberAddressList = await this.communityService.getMembersAddressList(this.communityService.activeCommunity.id);
+      this.scholars = await this.fire.getScholarsByAddressList(memberAddressList);
     }
     this.list = await Promise.all(this.scholars.map(async (scholar: Scholar)=>{
       return await this.apiTracker.createItemList(scholar);

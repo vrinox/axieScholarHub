@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { doc, Firestore } from '@angular/fire/firestore';
 import { addDoc, arrayUnion, collection, deleteDoc, DocumentReference, getDoc, getDocs, query, QueryDocumentSnapshot, updateDoc, where } from '@firebase/firestore';
 import { Observable, from } from 'rxjs';
+import { Battle } from '../models/battle';
 import { community, communityPost, communityRequest } from '../models/interfaces';
-import { Scholar } from '../models/scholar';
+import { AxieTechApiService } from './axie-tech-api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ import { Scholar } from '../models/scholar';
 export class ComunityService {
   activeCommunity: community;
   constructor(
-    public db: Firestore
+    private db: Firestore,
+    private axieTechService: AxieTechApiService
   ) { }
 
   async addScholarToComunity(roninAddress, comunityId) {
@@ -95,6 +97,11 @@ export class ComunityService {
       return doc.data();
     }).filter((data)=>{
       return members.includes(data.shared.scholar.roninAddress);
+    }).map((battle)=>{
+      let newBattle = new Battle(battle);
+      newBattle = this.axieTechService.assembleBattleMin(newBattle, battle.shared.scholar.roninAddress, battle.shared);
+      newBattle.creationDate = battle.creationDate;
+      return newBattle;
     })
     feed = [...feed, ...shared].sort((a, b)=>{
       return b.creationDate.toDate().getTime() - a.creationDate.toDate().getTime();

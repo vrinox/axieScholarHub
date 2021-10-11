@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { find } from 'rxjs/operators';
 import { communityRequest } from '../models/interfaces';
 import { Scholar } from '../models/scholar';
 import { ApiTrackerService } from '../services/api-tracker.service';
@@ -49,7 +50,7 @@ export class Tab1Page implements OnInit {
     return community;
   }
   async getMembers(communityId){
-    const membersAddressList = await this.communityService.getMembersAddressList(communityId);
+    const membersAddressList = await this.communityService.getMembersAddressList(communityId);    
     const members = await Promise.all(membersAddressList.map((roninAddress: string)=>{
       return this.apiTracker.getScholar('roninAddress', roninAddress);
     }));

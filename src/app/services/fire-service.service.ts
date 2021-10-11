@@ -30,11 +30,27 @@ export class FireServiceService {
       return new Scholar(doc.data());
     });
   }
-  async getScholarsByAddressList(membersAddressList: string[]) {
-    const querySnapshot = await getDocs(query(collection(this.db, 'scholar'),where('roninAddress', 'in', membersAddressList)))
-    return querySnapshot.docs.map((doc) => {
-      return new Scholar(doc.data());
-    });
+  async getScholarsByAddressList(membersAddressList: string[]):Promise<Scholar[]>{
+    let batches = [];
+    while (membersAddressList.length) {      
+      const batch = membersAddressList.splice(0, 10);
+      batches.push(
+        new Promise(response => {
+          getDocs(query(collection(this.db, 'scholars'),where('roninAddress', 'in', batch)))
+            .then(results => response(results.docs.map(result => ({ ...result.data()}) )))
+        })
+      )
+    }
+    let scholars = await Promise.all(batches).then(content => {
+      const all = []
+      content.forEach((rawScholars) => {
+        rawScholars.forEach((raw)=>{
+          all.push(new Scholar(raw))
+        })
+      });
+      return all;
+    })
+    return scholars;
   }
   async getSharedBattles():Promise<Battle[]>{
     const querySnapshot = await getDocs(query(collection(this.db, 'sharedBattles'),orderBy('creationDate','desc')));

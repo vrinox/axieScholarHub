@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
 import { Battle } from '../models/battle';
+import { AxieTechApiService } from '../services/axie-tech-api.service';
 import { FireServiceService } from '../services/fire-service.service';
 import { lunacianApiService } from '../services/lunacian-api.service';
 
@@ -12,7 +13,8 @@ export class Tab3Page implements AfterViewInit{
   list : {battles:Battle[], title:string}[] = [];
   constructor(
     private fire:FireServiceService,
-    private lunacian: lunacianApiService
+    private lunacian: lunacianApiService,
+    private axieTechService: AxieTechApiService
   ) {}
   
   async ngAfterViewInit(){
@@ -21,6 +23,7 @@ export class Tab3Page implements AfterViewInit{
   async init(){
     const battles = await this.fire.getSharedBattles();
     battles.forEach((battle)=>{
+      battle = this.axieTechService.assembleBattleMin(battle, battle.shared.scholar.roninAddress, battle.shared);
       this.organizeList(battle);
     })
   }

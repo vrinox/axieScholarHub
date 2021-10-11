@@ -1,3 +1,7 @@
+#### v2.1.0
+* fix limite scholars comunidad
+* fix partida ganada en sharedBattles y community feed
+
 #### v2.0.0
 * registro de becados y no becados
 * sistema de amigos
