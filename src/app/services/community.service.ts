@@ -68,7 +68,8 @@ export class ComunityService {
         name: data.name,
         type: data.type,
         id: docSnap.id,
-        rankType: data.rankType
+        rankType: data.rankType,
+        admin: data.admin
       };
     } else {
       return null;
@@ -109,13 +110,22 @@ export class ComunityService {
     return feed;
   }
   async createCommunityRequest(from: string, fromName: string, communityId: string){
-    const dbRef = await addDoc(collection(this.db,"community-request"), {
-      "from": from,
-      "fromName": fromName,
-      "communityId": communityId 
-    });
-    const doc = await getDoc(dbRef);
-    return doc.id;
+    const reqDoc = await this.getRequest(from, communityId)
+    if(reqDoc){
+      return reqDoc.id;
+    } else{
+      const dbRef = await addDoc(collection(this.db,"community-request"), {
+        "from": from,
+        "fromName": fromName,
+        "communityId": communityId 
+      });
+      const doc = await getDoc(dbRef);
+      return doc.id;
+    }
+  }
+  async getRequest(from: string, communityId: string){
+    const querySnapshot = await getDocs(query(collection(this.db, "community-request"), where('from', '==', from),where('communityId', '==', communityId)))
+    return querySnapshot.docs[0];
   }
   async acceptRequest(solicitud: communityRequest){
     const docId = await this.addScholarToComunity(solicitud.from, solicitud.communityId);
@@ -125,7 +135,7 @@ export class ComunityService {
   async rejectRequest(solicitud: communityRequest){
     await deleteDoc(doc(this.db, "community-request", solicitud.id));
   }
-  async getRequest(communityId: string): Promise<communityRequest[]> {
+  async getRequests(communityId: string): Promise<communityRequest[]> {
     const querySnapshot = await getDocs(query(collection(this.db, "community-request"), where('communityId', "==", communityId)));
     const requestList = querySnapshot.docs.map((doc:QueryDocumentSnapshot)=>{
       const data = doc.data();

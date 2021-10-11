@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
-import { find } from 'rxjs/operators';
 import { communityRequest } from '../models/interfaces';
 import { Scholar } from '../models/scholar';
 import { ApiTrackerService } from '../services/api-tracker.service';
@@ -39,14 +38,13 @@ export class Tab1Page implements OnInit {
       this.admin = (this.community.admin === this.sesion.infinity.roninAddress);
       this.communityService.activeCommunity = this.community;
     }
-
   }
   async buildCommunity(communityId:string){
     const community:any = {};
     community.members = await this.getMembers(communityId);
     community.rank = await this.buildRank(community.members);;
     community.feed = await this.communityService.getFeed(communityId, community.members.map(member => member.roninAddress));
-    community.solicitudes = await this.communityService.getRequest(communityId);
+    community.solicitudes = await this.communityService.getRequests(communityId);
     return community;
   }
   async getMembers(communityId){

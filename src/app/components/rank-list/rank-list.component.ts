@@ -13,13 +13,16 @@ export class RankListComponent implements OnInit {
   @Input() axie: Axie = new Axie();
   @Input() team: string = "first";
   @Input() type: string = "normal";
+  @Input() clickable: boolean = true;
   constructor(
     private profile : ActiveProfileService
   ) { }
 
   ngOnInit() {}
   async viewProfile(){
-    await this.profile.getProfile(this.scholar.roninAddress);
-    this.profile.navigate();
+    if(this.clickable){
+      await this.profile.getProfile(this.scholar.roninAddress);
+      this.profile.navigate();
+    }
   }
 }

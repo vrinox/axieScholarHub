@@ -1,7 +1,16 @@
-<ion-content>
-  <ion-card>
-    <ion-card-content>
-      <ion-label>Ya existe una version nueva disponible por favor actualiza para poder continuar</ion-label>
-    </ion-card-content>
-  </ion-card>
+<ion-content >
+  <div class="centrada">
+    <ion-card class="child">
+      <ion-card-header style="background-color: #282b39">
+        <ion-card-title >
+          <ion-icon color="danger"  name="warning" ></ion-icon>
+          Version desactualizada
+          <ion-icon color="danger"  name="warning" ></ion-icon>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-label>Ya existe una version nueva disponible por favor actualiza a la version <span style="color:rgb(241, 236, 236)">v{{appVersion}}</span> para poder continuar</ion-label>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

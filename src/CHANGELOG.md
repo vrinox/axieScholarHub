@@ -1,3 +1,10 @@
+#### v2.0.2
+* fix friends
+* fix ya se muestran la solicitudes en community para aceptarlas por el admin
+* fix ya no se pueden hacer mas de una solicitud a la misma comunidad por usuario
+* fix ahora la pantalla de actalizar version dice que version descargar
+
+
 #### v2.0.1
 * fix limite scholars comunidad
 * fix partida ganada en sharedBattles y community feed

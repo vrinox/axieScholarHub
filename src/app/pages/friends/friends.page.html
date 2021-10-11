@@ -15,7 +15,7 @@
 <ion-content>
   <ion-searchbar #searchInput (ionClear)="cleanList()"></ion-searchbar>
   <ion-list>
-    <app-rank-list [axie]="item.axie" [scholar]="item.scholar" *ngFor="let item of searchList" (click)="friendRequest(item)"></app-rank-list>
+    <app-rank-list [axie]="item.axie" [scholar]="item.scholar" *ngFor="let item of searchList"  [clickable]="false" (click)="friendRequest(item)"></app-rank-list>
   </ion-list>
   <div *ngIf="!isSearchingUsers">
     <ion-list *ngIf="solicitudes.length !== 0">
