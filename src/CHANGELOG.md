@@ -1,4 +1,4 @@
-#### v2.1.0
+#### v2.0.1
 * fix limite scholars comunidad
 * fix partida ganada en sharedBattles y community feed
 
