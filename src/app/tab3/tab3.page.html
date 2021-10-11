@@ -20,7 +20,7 @@
           {{day.title}}
         </ion-label>
       </ion-item-divider>
-      <app-battle-item-list [type]="'shared'" [battle]="battle" *ngFor="let battle of day.battles" (click)="open(battle)"></app-battle-item-list>
+      <app-battle-item-list [type]="'shared'" [battle]="battle" *ngFor="let battle of day.battles" ></app-battle-item-list>
     </div>
   </ion-list>
 </ion-content>

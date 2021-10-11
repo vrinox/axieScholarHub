@@ -130,6 +130,12 @@ export class SesionService {
     });
     this.setCommunitiesOnCache(sesion.communities);
   }
+  setSnapToCache(){
+    this.storage.setUser({
+      userData: this.user,
+      scholar: this.infinity.getValues()
+    });
+  }
   public setCommunitiesOnCache(communities: community[]){
     this.storage.setCommunities(communities);
   }

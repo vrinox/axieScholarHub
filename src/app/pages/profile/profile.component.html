@@ -10,10 +10,12 @@
 <ion-content>
   <ion-list>
     <ion-card>
-      <div class="containerProfile" *ngIf="axie">
-        <img src="{{axie.image}}" alt="">        
+      <div class="containerProfile" *ngIf="profileService.active.axieAvatar">
+        <img src="{{profileService.active.axieAvatar.image}}" alt="">        
         <div class="name">{{profileService.active.scholar.name}}</div>
-        <ion-icon name="settings" size="normal" class="configIcon"></ion-icon>
+        <div *ngIf="profileService.own" class="configIcon" (click)="navigateToSettings()">
+          <ion-icon name="settings" size="normal" ></ion-icon>
+        </div>
       </div>
     </ion-card>
     <ion-card>
@@ -27,7 +29,7 @@
           </div>
         </ion-item>
         <ion-item>
-          <ion-label >WinRate</ion-label>
+          <ion-label>WinRate</ion-label>
           <div slot="end">{{winRate}}%</div>
         </ion-item>
         <ion-item>

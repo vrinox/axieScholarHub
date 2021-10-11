@@ -54,6 +54,10 @@ const routes: Routes = [
   {
     path: 'community-feed',
     loadChildren: () => import('./pages/community-feed/community-feed.module').then( m => m.CommunityFeedPageModule)
+  },
+  {
+    path: 'settings',
+    loadChildren: () => import('./pages/settings/settings.module').then( m => m.SettingsPageModule)
   }
 ];
 @NgModule({

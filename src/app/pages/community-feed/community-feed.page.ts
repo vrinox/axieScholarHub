@@ -35,7 +35,7 @@ export class CommunityFeedPage implements OnInit {
         scholar: this.sesion.infinity.getValuesMin()
       },
       text: this.postForm.value.post,
-      createdAt: new Date(),
+      creationDate: new Date(),
       communityId: this.communityService.activeCommunity.id
     }
     const id = await this.communityService.addCommunityPost(post);

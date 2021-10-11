@@ -18,6 +18,7 @@ export class ActiveProfileService {
     scholar: new Scholar(),
     axies: []
   }
+  own: boolean = false;
   loading: HTMLIonLoadingElement;
   constructor(
     private apiTrackerService: ApiTrackerService,
@@ -26,11 +27,12 @@ export class ActiveProfileService {
     private load: LoadingController
   ) { }
 
-  setProfile(sBattles: Battle[], sUser: userLink, sScholar:Scholar, sAxies: Axie[]) {
+  setProfile(sBattles: Battle[], sUser: userLink, sScholar:Scholar, sAxies: Axie[], own: boolean = false) {
     this.active.battles = sBattles;
     this.active.scholar = sScholar;
     this.active.user = sUser;
     this.active.axies = sAxies;
+    this.own = own;
   }
   async getProfile(roninAddress: string){
     let user;

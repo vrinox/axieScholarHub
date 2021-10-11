@@ -49,7 +49,7 @@ export class AppComponent {
     this.menu.close();
   }
   navigateProfile(){
-    this.activeProfile.setProfile(this.sesion.battles, this.sesion.user, this.sesion.infinity, this.sesion.axies);
+    this.activeProfile.setProfile(this.sesion.battles, this.sesion.user, this.sesion.infinity, this.sesion.axies, true);
     this.activeProfile.navigate();
     this.menu.close();
   }

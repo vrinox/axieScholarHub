@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Selecciona un axie para hacerlo tu avatar</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="axie-container">
+        <img src="{{axie.image}}" *ngFor="let axie of sesion.axies" class="axie-display"
+          class="{{axie.cssContainerClass}}" (click)="select(axie);" />
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

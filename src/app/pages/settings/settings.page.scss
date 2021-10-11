@@ -1,0 +1,14 @@
+.axie-container {
+  display: flex;
+  flex-wrap: wrap;
+  background: rgba(255, 255, 255, 0);
+}
+.axie-display {
+  width: 24vw;
+  padding: 0px;
+  margin: 1vw;
+  transform: scale(1.6);
+  &.selected {
+    --background: #242735;
+  }
+}

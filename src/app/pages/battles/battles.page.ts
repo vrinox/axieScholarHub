@@ -64,14 +64,14 @@ export class BattlesPage implements OnInit {
       return existingDay.title === label;
     })
     if(day){
-      (battle.winner)? day.win++: day.lose++;
+      (battle.win)? day.win++: day.lose++;
       day.battles.push(battle);
     } else {
       this.list.push({
         battles: [battle],
         title: label,
-        lose: (battle.winner)? 0: 1,
-        win: (battle.winner)? 1: 0,
+        lose: (battle.win)? 0: 1,
+        win: (battle.win)? 1: 0,
         show: false
       });
     }
@@ -84,11 +84,7 @@ export class BattlesPage implements OnInit {
     await this.loading.present();
   }
 
-  async showRep(battle: Battle){
-    this.lunacianService.replay(battle.replay);
-  }
   mostrar(day: any){
     day.show = !day.show;
   }
-  
 }

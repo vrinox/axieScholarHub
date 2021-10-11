@@ -34,28 +34,17 @@
       </div>
     </ion-item>
   </ion-list>
-  <ion-list *ngIf="community.rank" (click)="navigate('rank')">
-    <p style="padding-left: 3vw;">Rank</p>
-    <app-rank-list 
-      [axie]="community.rank.firstPlace.axie" 
-      [scholar]="community.rank.firstPlace.scholar"
-      [type]="'first'"
-    ></app-rank-list>
-    <app-rank-list 
-      [axie]="community.rank.secondPlace.axie" 
-      [scholar]="community.rank.secondPlace.scholar"
-      [type]="'second'" 
-      *ngIf="community.rank.secondPlace"
-    ></app-rank-list>
-    <app-rank-list 
-      [axie]="community.rank.thirdPlace.axie" 
-      [scholar]="community.rank.thirdPlace.scholar"
-      [type]="'third'" 
-      *ngIf="community.rank.thirdPlace"
-    ></app-rank-list>
+  <ion-list *ngIf="community.rank">
+    <p style="padding-left: 3vw;" (click)="navigate('rank')">Rank</p>
+    <app-rank-list [axie]="community.rank.firstPlace.axie" [scholar]="community.rank.firstPlace.scholar"
+      [type]="'first'"></app-rank-list>
+    <app-rank-list [axie]="community.rank.secondPlace.axie" [scholar]="community.rank.secondPlace.scholar"
+      [type]="'second'" *ngIf="community.rank.secondPlace"></app-rank-list>
+    <app-rank-list [axie]="community.rank.thirdPlace.axie" [scholar]="community.rank.thirdPlace.scholar"
+      [type]="'third'" *ngIf="community.rank.thirdPlace"></app-rank-list>
   </ion-list>
-  <ion-list (click)="navigate('feed')">
-    <p style="padding-left: 3vw;">Feed</p>
+  <ion-list >
+    <p style="padding-left: 3vw;" (click)="navigate('feed')">Feed</p>
     <ion-card *ngIf="community.feed.length === 0">
       <ion-item-divider>
         <ion-label>
@@ -63,13 +52,19 @@
         </ion-label>
       </ion-item-divider>
     </ion-card>
-    <ion-card *ngFor="let post of community.feed.slice(0,3)">
-      <ion-item-divider>
-        <ion-label>
-          {{post.text}}
-        </ion-label>
-      </ion-item-divider>
-      <app-list-item-user-avatar [axie]="post.author.axie" [scholar]="post.author.scholar" [type]="'shared'"></app-list-item-user-avatar>
-    </ion-card>
+    <div *ngFor="let post of community.feed.slice(0,3)">
+      <ion-card *ngIf="!post.shared">
+        <ion-item-divider>
+          <ion-label style="color:white">
+            {{post.text}}
+          </ion-label>
+        </ion-item-divider>
+        <app-list-item-user-avatar [axie]="post.author.axie" [scholar]="post.author.scholar" [type]="'shared'">
+        </app-list-item-user-avatar>
+      </ion-card>
+      <div *ngIf="post.shared">
+        <app-battle-item-list [type]="'shared'" [battle]="post" ></app-battle-item-list>
+      </div>
+    </div>
   </ion-list>
 </ion-content>

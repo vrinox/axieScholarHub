@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { Axie } from 'src/app/models/axie';
 import { Battle } from 'src/app/models/battle';
@@ -29,13 +30,14 @@ export class ProfileComponent implements OnInit {
     private axieTechService: AxieTechApiService,
     private lunacianService: lunacianApiService,
     private load: LoadingController,
-    private profileService: ActiveProfileService
+    private profileService: ActiveProfileService,
+    private router: Router
   ) { }
 
   async ngOnInit() {
     const active = this.profileService.active;
     const axieData = await this.axieTechService.getAxieData(active.user.userAvatar.id);    
-    this.axie = new Axie(axieData);
+    this.profileService.active.axieAvatar = new Axie(axieData);
     const battles: Battle[] = await this.getMinBattles(active.user, active.battles, active.scholar);    
     this.presentLoading();
     this.battles = await Promise.all(battles.slice(0,3).map(async (minBattle: Battle)=>{
@@ -43,7 +45,7 @@ export class ProfileComponent implements OnInit {
     }));
     this.loading.dismiss();
     battles.forEach((battle: Battle)=>{
-      (battle.winner)? this.wins++ : this.lose++;
+      (battle.win)? this.wins++ : this.lose++;
     });
     this.winRate = (this.wins * 100 / active.battles.length).toFixed(0);
   }
@@ -67,5 +69,8 @@ export class ProfileComponent implements OnInit {
   }
   signOut() {
     this.authService.logout();
+  }
+  navigateToSettings(){
+    this.router.navigate(['settings']);
   }
 }

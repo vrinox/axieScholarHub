@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Renderer2 } from '@angular/core';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { Battle } from 'src/app/models/battle';
+import { ActiveProfileService } from 'src/app/services/active-profile.service';
 import { FireServiceService } from 'src/app/services/fire-service.service';
 import { lunacianApiService } from 'src/app/services/lunacian-api.service';
 import { SesionService } from 'src/app/services/sesion.service';
@@ -20,7 +21,9 @@ export class BattleItemListComponent implements OnInit {
     private lunacian: lunacianApiService,
     private sesion: SesionService,
     private toastController: ToastController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private profile: ActiveProfileService,
+    private render: Renderer2
   ) { }
 
   ngOnInit() {
@@ -89,5 +92,14 @@ export class BattleItemListComponent implements OnInit {
     });
 
     await alert.present();
+  }
+  async viewProfile(){
+    await this.profile.getProfile(this.battle.shared.scholar.roninAddress);
+    this.profile.navigate();
+  }
+  public open(){
+    const a = this.render.createElement('a');
+    this.render.setAttribute(a, 'href', `${this.lunacian.REST_API_SERVER}/${this.battle.replay}`);
+    a.click();
   }
 }

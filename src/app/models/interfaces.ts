@@ -149,7 +149,7 @@ export interface community {
 export interface communityPost{
   author: any;
   text: string;
-  createdAt: Date;
+  creationDate: Date;
   communityId: string;
 }
 export interface profile{
@@ -157,4 +157,5 @@ export interface profile{
   user?: userLink;
   scholar: Scholar;
   axies: Axie[];
+  axieAvatar?: Axie;
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Firestore, collection, getDocs } from '@angular/fire/firestore';
-import { addDoc, orderBy, query, QueryDocumentSnapshot, where } from '@firebase/firestore';
+import { addDoc, orderBy, query, QueryDocumentSnapshot, updateDoc, where } from '@firebase/firestore';
+import { Axie } from '../models/axie';
 import { Battle } from '../models/battle';
 import { scholarOfficialData, sharedData } from '../models/interfaces';
 import { Scholar } from '../models/scholar';
@@ -50,7 +51,12 @@ export class FireServiceService {
     const dbRef = await addDoc(collection(this.db,"scholar"), scholar);
     return dbRef.id;
   }
-  async updateAvatar():Promise<any>{
-    
+  async updateAvatar(axie: Axie, uid:string):Promise<any>{
+    const querySnapshot = await getDocs(query(collection(this.db, "userLink"), where('uid', "==", uid)));
+    const dbUserLink = (querySnapshot.docs[0])? querySnapshot.docs[0]: null;
+    await updateDoc(dbUserLink.ref, {
+      avatar: axie.image
+    });
+    return dbUserLink.id;
   }
 }

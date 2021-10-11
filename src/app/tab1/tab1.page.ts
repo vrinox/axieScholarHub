@@ -44,7 +44,7 @@ export class Tab1Page implements OnInit {
     const community:any = {};
     community.members = await this.getMembers(communityId);
     community.rank = await this.buildRank(community.members);;
-    community.feed = await this.communityService.getFeed(communityId);
+    community.feed = await this.communityService.getFeed(communityId, community.members.map(member => member.roninAddress));
     community.solicitudes = await this.communityService.getRequest(communityId);
     return community;
   }

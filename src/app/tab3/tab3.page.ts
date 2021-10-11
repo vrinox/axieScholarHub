@@ -12,7 +12,6 @@ export class Tab3Page implements AfterViewInit{
   list : {battles:Battle[], title:string}[] = [];
   constructor(
     private fire:FireServiceService,
-    private render: Renderer2,
     private lunacian: lunacianApiService
   ) {}
   
@@ -41,11 +40,7 @@ export class Tab3Page implements AfterViewInit{
       });
     }
   }
-  open(battle:Battle){
-    const a = this.render.createElement('a');
-    this.render.setAttribute(a, 'href', `${this.lunacian.REST_API_SERVER}/${battle.replay}`);
-    a.click();
-  }
+  
   actualizarDatos(){
     this.init();
   };

@@ -1,22 +1,26 @@
-<ion-card class="container" >
- 
-  <div class="first-team">
-    <app-axie-min-avatar [axie]="axie" *ngFor="let axie of battle.firstTeam" [team]="'first'"></app-axie-min-avatar>
-  </div>
-  <div class="first-team-text {{(battle.winner === 1) ? 'winner' : 'loser'}}">{{battle.myName}}</div>
-  <div class="divisor-vs">
-    VS
-  </div>  
-  <div class="second-team-text {{(battle.winner === 1) ? 'loser' : 'winner'}}">{{battle.enemyName}}</div>
-  <div class="second-team">
-    <app-axie-min-avatar [axie]="axie" *ngFor="let axie of battle.secondTeam" [team]="'second'"></app-axie-min-avatar>
+<ion-card class="container">
+  <div (click)="open()" style="width:100%">
+    <div class="first-team">
+      <app-axie-min-avatar [axie]="axie" *ngFor="let axie of battle.firstTeam" [team]="'first'"></app-axie-min-avatar>
+    </div>
+    <div class="first-team-text {{(battle.win) ? 'winner' : 'loser'}}">{{battle.myName}}</div>
+    <div class="divisor-vs">
+      VS
+    </div>
+    <div class="second-team-text {{(battle.win) ? 'loser' : 'winner'}}">{{battle.enemyName}}</div>
+    <div class="second-team">
+      <app-axie-min-avatar [axie]="axie" *ngFor="let axie of battle.secondTeam" [team]="'second'"></app-axie-min-avatar>
+    </div>
   </div>
   <div class="buttons" *ngIf="type==='own'">
-    <div class="mid-size-cont primary" (click)="share()" >share</div>
-    <a href="{{lunacian.REST_API_SERVER}}/{{battle.replay}}"><div class="mid-size-cont danger"  >replay</div></a>
-  </div >
+    <div class="mid-size-cont primary" (click)="share()">share</div>
+    <a href="{{lunacian.REST_API_SERVER}}/{{battle.replay}}">
+      <div class="mid-size-cont danger">replay</div>
+    </a>
+  </div>
   <div class="shared-container" *ngIf="type==='shared'">
-    <app-list-item-user-avatar [axie]="battle.shared.axie" [scholar]="battle.shared.scholar" [type]="'shared'"></app-list-item-user-avatar>
+    <app-list-item-user-avatar [axie]="battle.shared.axie" [scholar]="battle.shared.scholar" [type]="'shared'"
+      (click)="viewProfile()"></app-list-item-user-avatar>
   </div>
   <div *ngIf=" type==='shared' && battle.shared.text " class="text">
     <p>{{battle.shared.text}}</p>

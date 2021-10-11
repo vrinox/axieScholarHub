@@ -17,6 +17,8 @@ export class Battle {
   winner: number = 0;
   firstTeam: Axie[] = [];
   secondTeam: Axie[] = [];
+  shared?: any;
+  win?: boolean = false;
   constructor(values: Object = {}) {
     Object.assign(this, values);
   }

@@ -85,10 +85,19 @@ export class ComunityService {
     const docRef: DocumentReference = await addDoc(collection(this.db, "community-post"),msg);
     return docRef.id;
   }
-  async getFeed(communityId:string){
+  async getFeed(communityId:string, members: string[]){
     const querySnapshot = await getDocs(query(collection(this.db, "community-post"), where('communityId', "==", communityId)));
-    const feed = querySnapshot.docs.map((doc:QueryDocumentSnapshot)=>{
+    let feed = querySnapshot.docs.map((doc:QueryDocumentSnapshot)=>{
       return doc.data();
+    })
+    const querySnapshotSharedBattle = await getDocs(query(collection(this.db, "sharedBattles")));
+    const shared = querySnapshotSharedBattle.docs.map((doc:QueryDocumentSnapshot)=>{
+      return doc.data();
+    }).filter((data)=>{
+      return members.includes(data.shared.scholar.roninAddress);
+    })
+    feed = [...feed, ...shared].sort((a, b)=>{
+      return b.creationDate.toDate().getTime() - a.creationDate.toDate().getTime();
     })
     return feed;
   }

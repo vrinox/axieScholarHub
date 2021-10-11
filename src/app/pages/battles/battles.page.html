@@ -17,7 +17,7 @@
         <div slot="end"><span class="win">{{day.win}}</span>/<span class="lose">{{day.lose}}</span></div>
       </ion-item-divider>
       <div *ngIf="day.show">
-        <app-battle-item-list [battle]="battle" *ngFor="let battle of day.battles"></app-battle-item-list>
+        <app-battle-item-list [battle]="battle" *ngFor="let battle of day.battles" ></app-battle-item-list>
       </div>
     </div>
   </ion-list>

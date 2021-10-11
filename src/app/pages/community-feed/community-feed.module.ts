@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { CommunityFeedPageRoutingModule } from './community-feed-routing.module';
 
 import { CommunityFeedPage } from './community-feed.page';
+import { ShareComponentModule } from 'src/app/components/shareComponent.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { CommunityFeedPage } from './community-feed.page';
     FormsModule,
     IonicModule,
     CommunityFeedPageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ShareComponentModule
   ],
   declarations: [CommunityFeedPage]
 })

@@ -64,6 +64,7 @@ export class AxieTechApiService {
     const enemyRoninAddress = this.getEnemyRonin(newBattle, ronninAddress);
     const myTeamId = this.getMyTeamId(newBattle, ronninAddress);
     const enemy: scholarOfficialData = await this.getAllAccountData(enemyRoninAddress);
+    newBattle.win = this.calculateWinner(newBattle, ronninAddress);
     newBattle.enemyName = enemy.name;
     axies.forEach((axie:Axie)=>{
       if(axie.teamId === myTeamId){
@@ -78,11 +79,17 @@ export class AxieTechApiService {
     const newBattle = new Battle(battle.getSharedValues());    
     newBattle.fighters = battle.fighters;
     roninAddress = this.parseRonin(roninAddress);
-    const myTeamId = this.getMyTeamId(newBattle, roninAddress);
-    if(myTeamId === newBattle.first_team_id){
-      newBattle.winner = (newBattle.winner)? 0 : 1;
-    }
+    newBattle.win = this.calculateWinner(battle, roninAddress);
     return newBattle;
+  }
+  public calculateWinner(battle: Battle, myRoninAddress: string) {
+    if(battle.winner === 0 && myRoninAddress === battle.first_client_id){
+      return true
+    } else if(battle.winner === 1 && myRoninAddress === battle.second_client_id){
+      return true
+    } else{
+      return false
+    }
   }
   public getEnemyRonin(battle: Battle, roninAddress:string){
     return (battle.first_client_id === roninAddress) ? battle.second_client_id: battle.first_client_id;
