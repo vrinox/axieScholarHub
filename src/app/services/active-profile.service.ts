@@ -34,6 +34,11 @@ export class ActiveProfileService {
     this.active.axies = sAxies;
     this.own = own;
   }
+  setProfileMin(sUser: userLink, sScholar:Scholar, own: boolean = false){
+    this.active.scholar = sScholar;
+    this.active.user = sUser;
+    this.own = own;
+  }
   async getProfile(roninAddress: string){
     let user;
     let scholar;
@@ -48,6 +53,18 @@ export class ActiveProfileService {
     ]);
     user.userAvatar = this.getAxieAvatar(user);
     this.setProfile(battles, user, scholar, axies);
+    this.load.dismiss();
+  }
+  async getProfileMin(roninAddress: string){
+    let user;
+    let scholar;
+    this.presentLoading();
+    [user, scholar] = await Promise.all([
+      this.apiTrackerService.getUserLink('roninAddress', roninAddress),
+      this.apiTrackerService.getScholar('roninAddress', roninAddress),
+    ]);
+    user.userAvatar = this.getAxieAvatar(user);
+    this.setProfileMin(user, scholar);
     this.load.dismiss();
   }
   navigate(){

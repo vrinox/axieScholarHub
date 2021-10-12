@@ -8,6 +8,7 @@ import { CardWidgetComponent } from './card-widget/card-widget.component';
 import { LineChartComponent } from './line-chart/line-chart.component';
 import { ListItemUserAvatarComponent } from './list-item-user-avatar/list-item-user-avatar.component';
 import { RankListComponent } from './rank-list/rank-list.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 import { TopRankListComponent } from './top-rank-list/top-rank-list.component';
 CardWidgetComponent
 @NgModule({
@@ -19,7 +20,8 @@ CardWidgetComponent
     ListItemUserAvatarComponent,
     LineChartComponent,
     RankListComponent,
-    TopRankListComponent
+    TopRankListComponent,
+    SpinnerComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
@@ -34,7 +36,8 @@ CardWidgetComponent
     ListItemUserAvatarComponent,
     LineChartComponent,
     RankListComponent,
-    TopRankListComponent
+    TopRankListComponent,
+    SpinnerComponent
   ]
 })
 export class ShareComponentModule { }

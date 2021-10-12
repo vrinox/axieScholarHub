@@ -1,9 +1,14 @@
+#### v2.0.3
+* fix shared battles
+* mejora en carga de profile
+* hora y orden en battles
+* en el signup al darle al boton de la lupa ya no busca
+
 #### v2.0.2
 * fix friends
 * fix ya se muestran la solicitudes en community para aceptarlas por el admin
 * fix ya no se pueden hacer mas de una solicitud a la misma comunidad por usuario
 * fix ahora la pantalla de actalizar version dice que version descargar
-
 
 #### v2.0.1
 * fix limite scholars comunidad

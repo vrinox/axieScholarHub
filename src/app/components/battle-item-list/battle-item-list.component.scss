@@ -5,6 +5,13 @@
   background-color: #242735;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  .time{
+    position: absolute;
+    top:1vw;
+    right: 1vw;
+    font-size: 0.8em;
+  }
   .shared-container{
     width: 100%; 
     border-top: 1px solid rgba(255, 255, 255, 0.3);

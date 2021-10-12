@@ -11,10 +11,10 @@
   <ion-list>
     <ion-card>
       <div class="containerProfile" *ngIf="profileService.active.axieAvatar">
-        <img src="{{profileService.active.axieAvatar.image}}" alt="">        
+        <img src="{{profileService.active.axieAvatar.image}}" alt="">
         <div class="name">{{profileService.active.scholar.name}}</div>
         <div *ngIf="profileService.own" class="configIcon" (click)="navigateToSettings()">
-          <ion-icon name="settings" size="normal" ></ion-icon>
+          <ion-icon name="settings" size="normal"></ion-icon>
         </div>
       </div>
     </ion-card>
@@ -22,9 +22,11 @@
       <ion-card-header>
         <ion-card-title>PVP</ion-card-title>
       </ion-card-header>
+      <app-spinner *ngIf="profileService.active.battles.length === 0"></app-spinner>
+      <div *ngIf="profileService.active.battles.length !== 0">
         <ion-item>
-          <ion-label >MMR</ion-label>
-          <div >
+          <ion-label>MMR</ion-label>
+          <div>
             <span>🏆</span>{{profileService.active.scholar.MMR}}
           </div>
         </ion-item>
@@ -33,20 +35,24 @@
           <div slot="end">{{winRate}}%</div>
         </ion-item>
         <ion-item>
-          <ion-label >Batallas</ion-label>
+          <ion-label>Batallas</ion-label>
           <div slot="end"><span class="win">{{wins}}</span>/<span class="lose">{{lose}}</span></div>
         </ion-item>
+        <app-spinner *ngIf="battles.length === 0"></app-spinner>
         <app-battle-item-list [battle]="battle" *ngFor="let battle of battles" [type]="'min'"></app-battle-item-list>
+      </div>
     </ion-card>
     <ion-card>
       <ion-card-header>
         <ion-card-title>Axies</ion-card-title>
-      </ion-card-header>    
+      </ion-card-header>
       <ion-card-content>
-        <div class="axie-container">
-            <img src="{{axie.image}}" *ngFor="let axie of profileService.active.axies" class="axie-display" class="{{axie.cssContainerClass}}" />
+        <app-spinner *ngIf="profileService.active.axies.length === 0"></app-spinner>
+        <div class="axie-container">          
+          <img src="{{axie.image}}" *ngFor="let axie of profileService.active.axies" class="axie-display"
+            class="{{axie.cssContainerClass}}" />
         </div>
       </ion-card-content>
     </ion-card>
-  </ion-list>  
+  </ion-list>
 </ion-content>

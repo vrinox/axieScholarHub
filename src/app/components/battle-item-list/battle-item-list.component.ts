@@ -14,6 +14,7 @@ import { SesionService } from 'src/app/services/sesion.service';
 export class BattleItemListComponent implements OnInit {
   @Input() battle: Battle = new Battle();
   @Input() type: string = "own";
+  time:string = '';
   loading: HTMLIonLoadingElement
   constructor(
     private fire: FireServiceService,
@@ -27,7 +28,10 @@ export class BattleItemListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    
+    let time = new Date(this.battle.created_at);
+    let min = time.getMinutes().toString().length == 1? '0'+time.getMinutes().toString(): time.getMinutes(); 
+    let hour = time.getHours().toString().length == 1? '0'+time.getHours().toString(): time.getHours(); 
+    this.time = `${hour}:${min}`;
   }
 
   async share(){
@@ -94,7 +98,7 @@ export class BattleItemListComponent implements OnInit {
     await alert.present();
   }
   async viewProfile(){
-    await this.profile.getProfile(this.battle.shared.scholar.roninAddress);
+    await this.profile.getProfileMin(this.battle.shared.scholar.roninAddress);
     this.profile.navigate();
   }
   public open(){

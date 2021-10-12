@@ -20,7 +20,7 @@ export class ListItemUserAvatarComponent implements OnInit {
   ngOnInit() {}
 
   async viewProfile(){
-    await this.profile.getProfile(this.scholar.roninAddress);
+    await this.profile.getProfileMin(this.scholar.roninAddress);
     this.profile.navigate();
   }
 }

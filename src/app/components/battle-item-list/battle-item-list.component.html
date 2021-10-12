@@ -1,4 +1,5 @@
 <ion-card class="container">
+  <div class="time">{{time}}</div>
   <div (click)="open()" style="width:100%">
     <div class="first-team">
       <app-axie-min-avatar [axie]="axie" *ngFor="let axie of battle.firstTeam" [team]="'first'"></app-axie-min-avatar>

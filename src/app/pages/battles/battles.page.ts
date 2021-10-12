@@ -66,6 +66,9 @@ export class BattlesPage implements OnInit {
     if(day){
       (battle.win)? day.win++: day.lose++;
       day.battles.push(battle);
+      day.battles.sort((a,b)=>{
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      })
     } else {
       this.list.push({
         battles: [battle],

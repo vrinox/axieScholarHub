@@ -40,7 +40,7 @@ export class Battle {
   }
   getSharedValues(sharedData?){
     let firstTeam, secondTeam;
-    if(this.firstTeam[0] && this.firstTeam[0].hasOwnProperty('getValuesMin')){
+    if(this.firstTeam[0] && this.firstTeam[0] instanceof Axie){
       firstTeam = this.firstTeam.map( axie => axie.getValuesMin());
       secondTeam = this.secondTeam.map( axie => axie.getValuesMin());
     } else {

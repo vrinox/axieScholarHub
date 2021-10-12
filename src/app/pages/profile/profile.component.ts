@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
 import { Axie } from 'src/app/models/axie';
 import { Battle } from 'src/app/models/battle';
 import { userLink } from 'src/app/models/interfaces';
@@ -21,35 +20,49 @@ export class ProfileComponent implements OnInit {
   wins: number = 0;
   lose: number = 0;
   winRate: string = '0';
-  loading: HTMLIonLoadingElement;
   axie: Axie;
-  axies: Axie[] = []; 
+  axies: Axie[] = [];
   constructor(
     public authService: AuthService,
     public sesion: SesionService,
     private axieTechService: AxieTechApiService,
     private lunacianService: lunacianApiService,
-    private load: LoadingController,
     private profileService: ActiveProfileService,
     private router: Router
   ) { }
 
   async ngOnInit() {
     const active = this.profileService.active;
-    const axieData = await this.axieTechService.getAxieData(active.user.userAvatar.id);    
-    this.profileService.active.axieAvatar = new Axie(axieData);
-    const battles: Battle[] = await this.getMinBattles(active.user, active.battles, active.scholar);    
-    this.presentLoading();
-    this.battles = await Promise.all(battles.slice(0,3).map(async (minBattle: Battle)=>{
-      return await this.axieTechService.assembleBattle(minBattle, active.user.roninAddress);
-    }));
-    this.loading.dismiss();
+    await this.getAxieAvatar(); 
+    if(active.battles.length === 0){
+      this.getBattles(active.scholar.roninAddress).then((battles: Battle[])=>{
+        active.battles = this.calculateBattles(battles);
+        this.getAssembledBattles(battles, active.scholar.roninAddress);
+      })
+    } else {
+      active.battles = this.getMinBattles(active.user,active.battles, active.scholar);
+      active.battles = this.calculateBattles(active.battles);
+      this.getAssembledBattles(active.battles, active.scholar.roninAddress);
+    }
+    if(active.axies.length === 0){
+      this.getAxies(active.scholar.roninAddress).then((axies)=>{
+        active.axies = axies;
+      })
+    }    
+  }
+  calculateBattles(battles: Battle[]){
     battles.forEach((battle: Battle)=>{
       (battle.win)? this.wins++ : this.lose++;
     });
-    this.winRate = (this.wins * 100 / active.battles.length).toFixed(0);
+    this.winRate = (this.wins * 100 / battles.length).toFixed(0);
+    return battles;
   }
-  async getMinBattles(sUser: userLink, sBattles: Battle[], sScholar: Scholar){
+  async getAssembledBattles(battles: Battle[], roninAddress: string){
+    this.battles = await Promise.all(battles.slice(0,3).map(async (minBattle: Battle)=>{
+      return await this.axieTechService.assembleBattle(minBattle, roninAddress);
+    }));
+  }
+  getMinBattles(sUser: userLink, sBattles: Battle[], sScholar: Scholar){
     let battles: Battle[] = [];    
     battles = sBattles?.map((battle: Battle)=>{
       battle.myName = sScholar.name;
@@ -57,15 +70,21 @@ export class ProfileComponent implements OnInit {
     });
     return battles;
   }
+  getAxies(roninAddress){    
+    return this.lunacianService.getAxies(roninAddress);
+  }
+  async getBattles(roninAddress){
+    const active = this.profileService.active;
+    let battles: Battle[] = await this.lunacianService.getBattles(roninAddress);
+    battles = this.getMinBattles(active.user, battles, active.scholar);
+    return battles
+  }
+  async getAxieAvatar(){
+    const axieData = await this.axieTechService.getAxieData(this.profileService.active.user.userAvatar.id);
+    this.profileService.active.axieAvatar = new Axie(axieData);
+  }
   async showRep(battle: Battle){
     this.lunacianService.replay(battle.replay);
-  }
-  async presentLoading() {
-    this.loading = await this.load.create({
-      cssClass: 'my-custom-class',
-      message: 'Fetching all the battles data'
-    });
-    await this.loading.present();
   }
   signOut() {
     this.authService.logout();

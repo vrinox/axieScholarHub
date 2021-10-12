@@ -45,7 +45,8 @@ export class SesionService {
     private load: LoadingController,
     private trackerService: ApiTrackerService,
     private axieTechService: AxieTechApiService,
-    private comunityService: ComunityService
+    private comunityService: ComunityService,
+    private apiTrackerService: ApiTrackerService
   ) { }
 
   public async appStart(){    
@@ -106,7 +107,7 @@ export class SesionService {
     offlineSesion.communities = communities || [];
     const rawUser = await this.storage.getUser();
     offlineSesion.user = rawUser.userData;
-    offlineSesion.infinity = new Scholar(rawUser.scholar);
+    offlineSesion.infinity = await this.apiTrackerService.getScholar('roninAddress', rawUser.scholar.roninAddress);
     return offlineSesion;
   }
   async constructSesionFromCloud(uid: string){
@@ -143,6 +144,9 @@ export class SesionService {
     this.updateAxies(roninAddress);
     this.updateBattles(roninAddress);
     this.updateScholar(roninAddress);
+    this.comunityService.getCommunities(this.infinity.roninAddress).then((communities: community[])=>{
+      this.communities = communities;
+    })
   }  
   updateAxies(roninAddress: string){
     this.axieService.getAxies(roninAddress).then((axies:Axie[])=>{

@@ -21,7 +21,7 @@ export class RankListComponent implements OnInit {
   ngOnInit() {}
   async viewProfile(){
     if(this.clickable){
-      await this.profile.getProfile(this.scholar.roninAddress);
+      await this.profile.getProfileMin(this.scholar.roninAddress);
       this.profile.navigate();
     }
   }
