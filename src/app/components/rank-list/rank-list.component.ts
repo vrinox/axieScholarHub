@@ -22,7 +22,7 @@ export class RankListComponent implements OnInit {
   async viewProfile(){
     if(this.clickable){
       await this.profile.getProfileMin(this.scholar.roninAddress);
-      this.profile.navigate();
+    this.profile.navigate();
     }
   }
 }

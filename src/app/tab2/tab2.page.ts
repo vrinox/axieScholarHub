@@ -48,10 +48,6 @@ export class Tab2Page implements AfterViewInit {
       value: scholar.totalSLP,
       label: 'Total',
       type: 'slp'
-    }, {
-      value: scholar.totalSLP * scholar.ganancia / 100,
-      label: 'Total Ganado',
-      type: 'slp'
     },{
       value: scholar.todaySLP,
       label: 'Hoy',
@@ -76,6 +72,13 @@ export class Tab2Page implements AfterViewInit {
       label: 'Copas',
       type: 'mmr'
     }];
+    if(scholar.ganancia !== 0 && scholar.ganancia !== 100 && !isNaN(scholar.ganancia)){
+      this.options.splice( 1, 0, {
+        value: scholar.totalSLP * scholar.ganancia / 100,
+        label: 'Total Ganado',
+        type: 'slp'
+      } );
+    }
   }
   parse(value: number){
     return value.toFixed(2);

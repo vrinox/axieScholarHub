@@ -1,8 +1,14 @@
+#### v2.1.0
+* pantalla de administracion de comunidad
+* mejora en settings personales
+
 #### v2.0.3
 * fix shared battles
 * mejora en carga de profile
 * hora y orden en battles
 * en el signup al darle al boton de la lupa ya no busca
+* fix back button
+* fix ganado en general
 
 #### v2.0.2
 * fix friends

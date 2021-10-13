@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
-import { addDoc, collection, getDoc, getDocs, query, where } from '@firebase/firestore';
+import { addDoc, collection, getDoc, getDocs, query, updateDoc, where } from '@firebase/firestore';
 import { Observable, from } from 'rxjs';
 import { Axie } from '../models/axie';
 import { userLink, userList } from '../models/interfaces';
@@ -17,6 +17,24 @@ export class ApiTrackerService {
     private db: Firestore
   ) { }
 
+  async nameExists(name) {
+    const scholar = await this.getScholar('name',name);
+    return scholar !== null;
+  }
+  async updateScholar(roninAddress: string, form:{
+    name: any,
+    ganancia: any
+  }){
+    const querySnapshot = await getDocs(query(collection(this.db, "scholars"), where('roninAddress', "==", roninAddress)));
+    const dbScholar = (querySnapshot.docs[0])? querySnapshot.docs[0]: null;
+    if(dbScholar){     
+      await updateDoc(dbScholar.ref, form);    
+      const docSnap = await getDoc(dbScholar.ref);
+      return  new Scholar(docSnap.data());
+    }else{
+      return null
+    }
+  }
   async addUserLink(userLinkData: userLink): Promise<string>{
     const dbRef = await addDoc(collection(this.db,"userLink"), userLinkData);
     const doc = await getDoc(dbRef);

@@ -86,28 +86,16 @@ export class SignupComponent implements OnInit {
     console.log('usuario registrado con id = ',docId);
   }
   buscarDireccion() {
-    let completed: Boolean[] = [false,false];
     if(this.registerForm.value.roninAddress !== ''){      
     this.presentLoading();
     this.axieService.getAccountData(this.registerForm.value.roninAddress)
       .then((accountData:scholarOfficialData)=>{
-        completed[0] = true;
-        if(completed[1]===false){
-          this.loading.dismiss();
-          this.presentLoadingAxies();
-        } else{
-          this.load.dismiss();
-        }
         let account = new Scholar();
         account.parse(accountData);
         this.scholar = account;
       });
     this.axieService.getAxies(this.registerForm.value.roninAddress)
       .then((data:Axie[])=>{
-        completed[1] = true;
-        if(completed[0]=== true){
-          this.loading.dismiss();
-        }
         if(data && data.length !== 0) {
           this.axies = data;
         } else {
@@ -149,12 +137,4 @@ export class SignupComponent implements OnInit {
     });
     await this.loading.present();
   }
-  async presentLoadingAxies() {
-    this.loading = await this.load.create({
-      cssClass: 'my-custom-class',
-      message: '... ahora solo faltran tus axies'
-    });
-    await this.loading.present();
-  }
-
 }

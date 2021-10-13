@@ -23,6 +23,7 @@
         <div class="divider" ></div>
         Selecciona un avatar usando tus axies
         <div class="axie-container">
+          <app-spinner *ngIf="axies.length === 0"></app-spinner>
           <ion-card *ngFor="let axie of axies" class="axie-display" (click)="seleccionar(axie)" class="{{axie.cssContainerClass}}"  >
             <img src="{{axie.image}}" />
           </ion-card>

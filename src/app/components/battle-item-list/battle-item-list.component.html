@@ -20,8 +20,7 @@
     </a>
   </div>
   <div class="shared-container" *ngIf="type==='shared'">
-    <app-list-item-user-avatar [axie]="battle.shared.axie" [scholar]="battle.shared.scholar" [type]="'shared'"
-      (click)="viewProfile()"></app-list-item-user-avatar>
+    <app-list-item-user-avatar [axie]="battle.shared.axie" [scholar]="battle.shared.scholar" [type]="'shared'"></app-list-item-user-avatar>
   </div>
   <div *ngIf=" type==='shared' && battle.shared.text " class="text">
     <p>{{battle.shared.text}}</p>

@@ -56,6 +56,8 @@ export class ActiveProfileService {
     this.load.dismiss();
   }
   async getProfileMin(roninAddress: string){
+    this.clean();
+    this.active
     let user;
     let scholar;
     this.presentLoading();
@@ -63,7 +65,14 @@ export class ActiveProfileService {
       this.apiTrackerService.getUserLink('roninAddress', roninAddress),
       this.apiTrackerService.getScholar('roninAddress', roninAddress),
     ]);
-    user.userAvatar = this.getAxieAvatar(user);
+    if(user === null){
+      user = {
+        userAvatar: new Axie()
+      }
+    }else{
+      user.userAvatar = this.getAxieAvatar(user);
+    }
+    console.log('min',user);
     this.setProfileMin(user, scholar);
     this.load.dismiss();
   }
@@ -72,13 +81,19 @@ export class ActiveProfileService {
   }
   clean(){
     this.active.battles = [];
+    this.active.axies = [];
     this.active.scholar = new Scholar();
-    this.active.user = null;
+    this.active.user = {
+      roninAddress: '',
+      avatar: '',
+      uid: '',
+      userAvatar: new Axie()
+    };
   }
   async presentLoading() {
     this.loading = await this.load.create({
       cssClass: 'my-custom-class',
-      message: 'Buscando datos ...'
+      message: 'Buscando datos de profile...'
     });
     await this.loading.present();
   }

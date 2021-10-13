@@ -8,6 +8,10 @@ import { FireServiceService } from './services/fire-service.service';
 import { GetPriceService } from './services/get-price.service';
 import { SesionService } from './services/sesion.service';
 
+import { Platform, AlertController } from '@ionic/angular';
+import { Location } from '@angular/common';
+
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -26,8 +30,12 @@ export class AppComponent {
     private router: Router,
     private fire: FireServiceService,
     private getPrice: GetPriceService,
-    private activeProfile: ActiveProfileService
+    private activeProfile: ActiveProfileService,
+    private platform: Platform,
+    private alertController: AlertController,
+    private _location: Location
   ) {
+    this.initializeApp();
     this.getPriceCrypto(this.slp, 'smooth-love-potion');
     this.getPriceCrypto(this.axs, 'axie-infinity');
     this.getPriceCrypto(this.eth, 'ethereum');
@@ -65,5 +73,49 @@ export class AppComponent {
   async verifyAppVersion(){
     const app = await this.fire.getApp();
     return app.version === environment.appVersion
+  }
+  initializeApp() {
+    this.platform.backButton.subscribeWithPriority(10, (processNextHandler) => {
+      if (this._location.isCurrentPathEqualTo('/tabs/tabs/tab2')) {
+        this.showExitConfirm();
+        processNextHandler();
+      } else {
+        this._location.back();
+      }
+    });
+
+    this.platform.backButton.subscribeWithPriority(5, () => {
+      console.log('Handler called to force close!');
+      this.alertController.getTop().then(r => {
+        if (r) {
+          navigator['app'].exitApp();
+        }
+      }).catch(e => {
+        console.log(e);
+      })
+    });
+
+  }
+
+  showExitConfirm() {
+    this.alertController.create({
+      message: 'deseas salir de la APP?',
+      backdropDismiss: false,
+      buttons: [{
+        text: 'Cancelar',
+        role: 'cancel',
+        handler: () => {
+          console.log('Application exit prevented!');
+        }
+      }, {
+        text: 'Salir',
+        handler: () => {
+          navigator['app'].exitApp();
+        }
+      }]
+    })
+      .then(alert => {
+        alert.present();
+      });
   }
 }

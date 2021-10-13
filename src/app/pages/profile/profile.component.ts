@@ -33,14 +33,16 @@ export class ProfileComponent implements OnInit {
 
   async ngOnInit() {
     const active = this.profileService.active;
-    await this.getAxieAvatar(); 
+    if(active.user.avatar){
+      active.axieAvatar = this.getAxieAvatar(active.user);
+    }
     if(active.battles.length === 0){
       this.getBattles(active.scholar.roninAddress).then((battles: Battle[])=>{
         active.battles = this.calculateBattles(battles);
         this.getAssembledBattles(battles, active.scholar.roninAddress);
       })
     } else {
-      active.battles = this.getMinBattles(active.user,active.battles, active.scholar);
+      active.battles = this.getMinBattles(active.battles, active.scholar);
       active.battles = this.calculateBattles(active.battles);
       this.getAssembledBattles(active.battles, active.scholar.roninAddress);
     }
@@ -62,11 +64,11 @@ export class ProfileComponent implements OnInit {
       return await this.axieTechService.assembleBattle(minBattle, roninAddress);
     }));
   }
-  getMinBattles(sUser: userLink, sBattles: Battle[], sScholar: Scholar){
+  getMinBattles(sBattles: Battle[], sScholar: Scholar){
     let battles: Battle[] = [];    
     battles = sBattles?.map((battle: Battle)=>{
       battle.myName = sScholar.name;
-      return this.axieTechService.assembleBattleMin(battle, sUser.roninAddress);
+      return this.axieTechService.assembleBattleMin(battle, sScholar.roninAddress);
     });
     return battles;
   }
@@ -76,12 +78,13 @@ export class ProfileComponent implements OnInit {
   async getBattles(roninAddress){
     const active = this.profileService.active;
     let battles: Battle[] = await this.lunacianService.getBattles(roninAddress);
-    battles = this.getMinBattles(active.user, battles, active.scholar);
+    battles = this.getMinBattles(battles, active.scholar);
     return battles
   }
-  async getAxieAvatar(){
-    const axieData = await this.axieTechService.getAxieData(this.profileService.active.user.userAvatar.id);
-    this.profileService.active.axieAvatar = new Axie(axieData);
+  public getAxieAvatar(rawUserData: userLink){
+    return new Axie({
+      id: rawUserData.avatar.split('/')[5]
+    });
   }
   async showRep(battle: Battle){
     this.lunacianService.replay(battle.replay);

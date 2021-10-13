@@ -97,10 +97,6 @@ export class BattleItemListComponent implements OnInit {
 
     await alert.present();
   }
-  async viewProfile(){
-    await this.profile.getProfileMin(this.battle.shared.scholar.roninAddress);
-    this.profile.navigate();
-  }
   public open(){
     const a = this.render.createElement('a');
     this.render.setAttribute(a, 'href', `${this.lunacian.REST_API_SERVER}/${this.battle.replay}`);

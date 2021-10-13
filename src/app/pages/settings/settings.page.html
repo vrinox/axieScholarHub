@@ -10,9 +10,30 @@
 <ion-content>
   <ion-card>
     <ion-card-header>
+      <ion-card-title>Community</ion-card-title>
+    </ion-card-header>
+    <form [formGroup]="registerForm">
+      <div class="loginForm" color="primary">
+        <ion-item>
+          <ion-label position="floating" >Name</ion-label>
+          <ion-input id="name" formControlName="name"></ion-input>
+        </ion-item>
+        <p>Este es el nombre que te identifica dentro de la app</p>
+        <ion-item>
+          <ion-label position="floating" >Ganancia</ion-label>
+          <ion-input id="ganancia" formControlName="ganancia" type="number" max="100" min="0"></ion-input>
+        </ion-item>        
+        <p>Si estas becado cuanto porcentaje te queda a ti(solo valore numericos)</p>      
+        <ion-button expand="block" (click)="enviar()" [disabled]="!registerForm.valid">Actualizar</ion-button>
+      </div>
+    </form>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
       <ion-card-title>Selecciona un axie para hacerlo tu avatar</ion-card-title>
     </ion-card-header>
     <ion-card-content>
+      <br>
       <div class="axie-container">
         <img src="{{axie.image}}" *ngFor="let axie of sesion.axies" class="axie-display"
           class="{{axie.cssContainerClass}}" (click)="select(axie);" />

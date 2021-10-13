@@ -145,6 +145,8 @@ export interface community {
   rankType: string;
   discord?: string;
   feed?: any[];
+  rank?: any;
+  solicitudes?: any[];
 }
 export interface communityPost{
   author: any;

@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Community</ion-card-title>
+    </ion-card-header>
+    <form [formGroup]="registerForm">
+      <div class="loginForm" color="primary">
+        <ion-item>
+          <ion-label position="floating" >Name</ion-label>
+          <ion-input id="name" formControlName="name"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Rank type</ion-label>
+          <ion-select value="MMR" okText="Okay" cancelText="Dismiss" formControlName="rankType" id="rankType">
+            <ion-select-option value="MMR">MMR</ion-select-option>
+            <ion-select-option value="totalSLP">Total Slp</ion-select-option>
+            <ion-select-option value="monthSLP">Month Slp</ion-select-option>
+            <ion-select-option value="weekSLP">Week Slp</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating" >Discord link</ion-label>
+          <ion-input id="discord" formControlName="discord"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Academy?</ion-label>
+          <ion-checkbox slot="end" formControlName="type" id="type"></ion-checkbox>
+        </ion-item>
+        <ion-button expand="block" (click)="enviar()" [disabled]="!registerForm.valid">Actualizar</ion-button>
+      </div>
+    </form>
+  </ion-card>
+  <ion-card *ngIf="communityService.activeCommunity.solicitudes.length !== 0">
+    <ion-card-header>
+      <ion-card-title>Community</ion-card-title>
+    </ion-card-header>
+    <ion-item *ngFor="let solicitud of communityService.activeCommunity.solicitudes">
+      <ion-label>{{solicitud.fromName}}</ion-label>
+      <div (click)="accept(solicitud)" slot="end">
+        <ion-icon slot="icon-only" name="checkmark-circle-outline" size="large" color="primary"></ion-icon>
+      </div>
+      <div (click)="reject(solicitud)" slot="end">
+        <ion-icon slot="icon-only" name="close-circle-outline" size="large" color="danger"></ion-icon>
+      </div>
+    </ion-item>
+  </ion-card>
+  <ion-card>
+    <ion-item color="danger" (click)="eliminate()">
+      <ion-label>Eliminar {{this.communityService.activeCommunity.name}}</ion-label>
+      <ion-icon name="close"></ion-icon>
+    </ion-item>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Members</ion-card-title>
+    </ion-card-header>
+    <ion-list>
+      <app-rank-list [axie]="item.axie" [scholar]="item.scholar" *ngFor="let item of list" [clickable]="false" (click)="kick(item)">
+      </app-rank-list>
+    </ion-list>
+  </ion-card>
+</ion-content>

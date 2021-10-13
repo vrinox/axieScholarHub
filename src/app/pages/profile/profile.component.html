@@ -10,8 +10,8 @@
 <ion-content>
   <ion-list>
     <ion-card>
-      <div class="containerProfile" *ngIf="profileService.active.axieAvatar">
-        <img src="{{profileService.active.axieAvatar.image}}" alt="">
+      <div class="containerProfile" >
+        <img src="{{profileService.active.axieAvatar.image}}" *ngIf="profileService.active.user.avatar" alt="">
         <div class="name">{{profileService.active.scholar.name}}</div>
         <div *ngIf="profileService.own" class="configIcon" (click)="navigateToSettings()">
           <ion-icon name="settings" size="normal"></ion-icon>

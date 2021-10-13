@@ -36,6 +36,9 @@ export class Tab3Page implements AfterViewInit{
     })
     if(day){
       day.battles.push(battle);
+      day.battles.sort((a,b)=>{
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      })
     } else {
       this.list.push({
         battles: [battle],

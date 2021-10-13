@@ -17,31 +17,22 @@
 </ion-content>
 <ion-content [fullscreen]="true" *ngIf="community">
   <br>
-  <ion-title>
+  <ion-title class="settigns-container">
     {{community.name}}
+    <div  class="configIcon" *ngIf="admin" (click)="navigateToSettings()">
+      <ion-icon name="settings" ></ion-icon>
+    </div>
   </ion-title>
-  <ion-list *ngIf="community.solicitudes.length !== 0 && admin">
-    <ion-list-header>
-      <ion-label>Request</ion-label>
-    </ion-list-header>
-    <ion-item *ngFor="let solicitud of community.solicitudes">
-      <ion-label>{{solicitud.fromName}}</ion-label>
-      <div (click)="accept(solicitud)" slot="end">
-        <ion-icon slot="icon-only" name="checkmark-circle-outline" size="large" color="primary"></ion-icon>
-      </div>
-      <div (click)="reject(solicitud)" slot="end">
-        <ion-icon slot="icon-only" name="close-circle-outline" size="large" color="danger"></ion-icon>
-      </div>
-    </ion-item>
-  </ion-list>
   <ion-list *ngIf="community.rank">
     <p style="padding-left: 3vw;" (click)="navigate('rank')">Rank</p>
-    <app-rank-list [axie]="community.rank.firstPlace.axie" [scholar]="community.rank.firstPlace.scholar"
+    <ion-card>      
+      <app-rank-list [axie]="community.rank.firstPlace.axie" [scholar]="community.rank.firstPlace.scholar"
       [type]="'first'"></app-rank-list>
     <app-rank-list [axie]="community.rank.secondPlace.axie" [scholar]="community.rank.secondPlace.scholar"
       [type]="'second'" *ngIf="community.rank.secondPlace"></app-rank-list>
     <app-rank-list [axie]="community.rank.thirdPlace.axie" [scholar]="community.rank.thirdPlace.scholar"
       [type]="'third'" *ngIf="community.rank.thirdPlace"></app-rank-list>
+    </ion-card>
   </ion-list>
   <ion-list >
     <p style="padding-left: 3vw;" (click)="navigate('feed')">Feed</p>

@@ -28,6 +28,7 @@ export class RankPage implements OnInit {
   ) { }
 
   ngOnInit(){
+    console.log(this.communityService.activeCommunity);
     this.init();
   }
   private async init(){
@@ -61,10 +62,12 @@ export class RankPage implements OnInit {
   }
   async obtainDataFromAPI(){
     this.presentToast();
+    this.ready = false;
     const data: scholarOfficialData[] = await this.axieTechService.getScholarsAPIData(this.scholars);
     this.list = await Promise.all(data.map(async (scholarData: scholarOfficialData )=>{
       const scholar = this.scholars.find(sh => sh.roninAddress === scholarData.ronin_address)
       scholar.update(new Scholar().parse(scholarData));
+      this.ready = true;
       return await this.apiTracker.createItemList(scholar);
     }));
     this.orderDataAndAsingWinners();
