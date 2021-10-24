@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
+import { AxieDetailComponent } from './axie-detail/axie-detail.component';
 import { AxieMinAvatarComponent } from './axie-min-avatar/axie-min-avatar.component';
 import { AxieWidgetComponent } from './axie-widget/axie-widget.component';
 import { BattleItemListComponent } from './battle-item-list/battle-item-list.component';
@@ -21,7 +22,8 @@ CardWidgetComponent
     LineChartComponent,
     RankListComponent,
     TopRankListComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    AxieDetailComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
@@ -37,7 +39,8 @@ CardWidgetComponent
     LineChartComponent,
     RankListComponent,
     TopRankListComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    AxieDetailComponent
   ]
 })
 export class ShareComponentModule { }

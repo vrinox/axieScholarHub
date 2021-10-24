@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title (click)="showAxie()">Axie</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close-outline" color="danger"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-axie-detail  [axie]='axie'></app-axie-detail> 
+</ion-content>

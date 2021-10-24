@@ -1,5 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { Scholar } from '../models/scholar';
+import { ApiTrackerService } from '../services/api-tracker.service';
 import { HistoricService } from '../services/historic.service';
 import { SesionService } from '../services/sesion.service';
 @Component({
@@ -12,7 +13,8 @@ export class Tab2Page implements AfterViewInit {
   options: { label: string, value: any, type?: string, alto?:number, bajo?:number }[];
   constructor(
     private storyService: HistoricService,
-    private sesion: SesionService
+    private sesion: SesionService,
+    private apiTrackerService: ApiTrackerService
   ) {
     this.sesion.sesionUpdate$.subscribe(async (updatedScholar: Scholar) => {
       if (updatedScholar) {
@@ -83,7 +85,8 @@ export class Tab2Page implements AfterViewInit {
   parse(value: number){
     return value.toFixed(2);
   }
-  actualizarDatos(){
+  async actualizarDatos(){
+    this.sesion.infinity = await this.apiTrackerService.getScholar('roninAddress', this.sesion.infinity.roninAddress);
     this.sesion.getUpdatedDatafromApi(this.sesion.infinity.roninAddress);
   }
 }

@@ -24,6 +24,7 @@ export class Scholar {
   constructor(values: any = {}) {
     Object.assign(this, values);
     this.roninAddress = this.parseRonin(this.roninAddress);
+    this.MMR = values.MMR || values.mmr;
   }
 
   parse(unParsedData: scholarOfficialData) {
@@ -64,8 +65,7 @@ export class Scholar {
       PVPRank: this.PVPRank || 0
     }
   }
-  update(newData: Scholar):void {    
-    this.yesterdaySLP = this.todaySLP;
+  update(newData: Scholar):void {
     this.todaySLP = this.calculateTodaySLP(newData);
     this.monthSLP = this.calculateMonthSLP();
     this.weekSLP = this.calculateWeekSLP();

@@ -1,6 +1,10 @@
+#### v3.0.0
+* ya permite el funcionamiento multi comunidad
+
 #### v2.1.0
 * pantalla de administracion de comunidad
 * mejora en settings personales
+* fix registro
 
 #### v2.0.3
 * fix shared battles

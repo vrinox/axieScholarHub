@@ -50,7 +50,7 @@
         <app-spinner *ngIf="profileService.active.axies.length === 0"></app-spinner>
         <div class="axie-container">          
           <img src="{{axie.image}}" *ngFor="let axie of profileService.active.axies" class="axie-display"
-            class="{{axie.cssContainerClass}}" />
+            class="{{axie.cssContainerClass}}" (click)="viewAxieDetail(axie)" />
         </div>
       </ion-card-content>
     </ion-card>

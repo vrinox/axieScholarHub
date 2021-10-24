@@ -26,4 +26,17 @@ ion-list {
 }
 .settings-container{
   position:relative;
+  display: flex;
+  .text {
+    width: calc(100% - (40px + 2vw));
+    float: left;
+  }
+  .settings{
+    max-width: calc(40px + 2vw);
+    float: right;
+    .icon{
+      float: right;
+      margin-right: 1vw;
+    }
+  }
 }

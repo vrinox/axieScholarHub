@@ -30,6 +30,7 @@ export class SignupComponent implements OnInit {
     private trackerService: ApiTrackerService,
     private axieTechService: AxieTechApiService,
     private alertController: AlertController,
+    private apiTrackerService: ApiTrackerService,
     private load: LoadingController
   ) { }
 
@@ -48,12 +49,12 @@ export class SignupComponent implements OnInit {
             Validators.maxLength(40)
           ]
         ],
-        confirmPassword: ['', Validators.required ],
+        confirmPassword: ['', Validators.required],
         acceptTerms: [false, Validators.requiredTrue]
       },
-      {validators: passwordMatchingValidatior}
+      { validators: passwordMatchingValidatior }
     );
-    
+
   }
 
   enviar(): void {
@@ -67,60 +68,68 @@ export class SignupComponent implements OnInit {
       password: this.registerForm.value.password,
       roninAddress: this.axieTechService.parseRonin(this.registerForm.value.roninAddress),
       avatar: this.registerForm.value.avatar
-    }).then(async (userLinkData: userLink)=>{
+    }).then(async (userLinkData: userLink) => {
       const uid: string = await this.trackerService.addUserLink(userLinkData);
       const trackingData = await this.trackerService.getScholar('roninAddress', userLinkData.roninAddress);
-      if(!trackingData) {
+      if (!trackingData) {
         await this.registerTrackerData(userLinkData.roninAddress, this.registerForm.value.fullname);
       }
       this.authService.loginComplete(uid);
     })
   }
-  async registerTrackerData(roninAddress: string, fullname: string){
+  async registerTrackerData(roninAddress: string, fullname: string) {
     const officialData: scholarOfficialData = await this.axieTechService.getAllAccountData(roninAddress);
     const scholar: Scholar = new Scholar();
     scholar.parse(officialData);
     scholar.name = fullname;
     scholar.roninAddress = roninAddress;
     const docId = await this.trackerService.addScholar(scholar);
-    console.log('usuario registrado con id = ',docId);
+    console.log('usuario registrado con id = ', docId);
   }
-  buscarDireccion() {
-    if(this.registerForm.value.roninAddress !== ''){      
-    this.presentLoading();
-    this.axieService.getAccountData(this.registerForm.value.roninAddress)
-      .then((accountData:scholarOfficialData)=>{
-        let account = new Scholar();
-        account.parse(accountData);
-        this.scholar = account;
-      });
-    this.axieService.getAxies(this.registerForm.value.roninAddress)
-      .then((data:Axie[])=>{
-        if(data && data.length !== 0) {
-          this.axies = data;
-        } else {
-          this.presentAlert();
-        }
-      });
+  async buscarDireccion() {
+    if (this.registerForm.value.roninAddress !== '') {
+      const parsedRonin = this.axieTechService.parseRonin(this.registerForm.value.roninAddress)
+      const exists = await this.apiTrackerService.getUserLink('roninAddress', parsedRonin);
+      if (exists) {
+        this.presentAlert('esta direccion ronin ya esta registrada con otro usuario');
+      } else {
+        this.presentLoading();
+        this.axieService.getAccountData(this.registerForm.value.roninAddress)
+          .then((accountData: scholarOfficialData) => {
+            this.loading.dismiss()
+            let account = new Scholar();
+            account.parse(accountData);
+            this.scholar = account;
+          });
+        this.axieService.getAxies(this.registerForm.value.roninAddress)
+          .then((data: Axie[]) => {
+            if (data && data.length !== 0) {
+              this.axies = data;
+            } else {
+              this.presentAlert('Si tu cuenta no tiene axies no puedes continuar con el proceso');
+            }
+          });
+      }
+
     }
   }
   onReset(): void {
     this.submitted = false;
     this.registerForm.reset();
   }
-  seleccionar(axie:Axie){
+  seleccionar(axie: Axie) {
     this.registerForm.controls.avatar.setValue(axie.image);
-    this.axies.forEach((axie:Axie)=>{
+    this.axies.forEach((axie: Axie) => {
       axie.cssContainerClass = "";
     });
-    axie.cssContainerClass="selected"; 
+    axie.cssContainerClass = "selected";
   }
-  async presentAlert() {
+  async presentAlert(text: string) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Warning',
       subHeader: '',
-      message: 'Si tu cuenta no tiene axies no puedes continuar con el proceso',
+      message: text,
       buttons: ['OK']
     });
 
@@ -129,7 +138,7 @@ export class SignupComponent implements OnInit {
     const { role } = await alert.onDidDismiss();
     console.log('onDidDismiss resolved with role', role);
   }
-  
+
   async presentLoading() {
     this.loading = await this.load.create({
       cssClass: 'my-custom-class',

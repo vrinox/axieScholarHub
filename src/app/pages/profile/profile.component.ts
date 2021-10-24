@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
+import { AxieComponent } from 'src/app/modals/axie/axie.component';
 import { Axie } from 'src/app/models/axie';
 import { Battle } from 'src/app/models/battle';
 import { userLink } from 'src/app/models/interfaces';
@@ -28,7 +30,8 @@ export class ProfileComponent implements OnInit {
     private axieTechService: AxieTechApiService,
     private lunacianService: lunacianApiService,
     private profileService: ActiveProfileService,
-    private router: Router
+    private router: Router,
+    public modalController: ModalController
   ) { }
 
   async ngOnInit() {
@@ -94,5 +97,15 @@ export class ProfileComponent implements OnInit {
   }
   navigateToSettings(){
     this.router.navigate(['settings']);
+  }
+  async viewAxieDetail(axie: Axie) {
+    const modal = await this.modalController.create({
+      component: AxieComponent,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        'axie': axie
+      }
+    });
+    return await modal.present();
   }
 }

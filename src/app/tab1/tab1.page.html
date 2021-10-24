@@ -17,10 +17,15 @@
 </ion-content>
 <ion-content [fullscreen]="true" *ngIf="community">
   <br>
-  <ion-title class="settigns-container">
-    {{community.name}}
-    <div  class="configIcon" *ngIf="admin" (click)="navigateToSettings()">
-      <ion-icon name="settings" ></ion-icon>
+  <ion-title class="settings-container">
+    <div class="text">{{community.name}}</div>
+    <div class="settings">
+      <div *ngIf="admin" (click)="navigateToSettings()" class="icon">
+        <ion-icon name="settings" ></ion-icon>
+      </div>
+      <div *ngIf="sesion.communities.length !== 1"  class="icon" (click)="presentAlertRadio()">
+        <ion-icon name="swap-horizontal-outline"></ion-icon>
+      </div>
     </div>
   </ion-title>
   <ion-list *ngIf="community.rank">

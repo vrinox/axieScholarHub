@@ -28,6 +28,7 @@ import { ShareComponentModule } from './components/shareComponent.module';
 import { FireServiceService } from './services/fire-service.service';
 import { GetPriceService } from './services/get-price.service';
 import { FriendService } from './services/friend.service';
+import { AxieComponent } from './modals/axie/axie.component';
 ShareComponentModule
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ ShareComponentModule
     EmailComponent,
     LoginComponent,
     ProfileComponent,
-    SignupComponent
+    SignupComponent,
+    AxieComponent
   ],
   entryComponents: [],
   imports: [

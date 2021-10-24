@@ -33,18 +33,22 @@ export class AxieTechApiService {
       const axieFullData = axiesFullData.find((atAxie:atAxieData)=>{
         return axie.id == atAxie.id
       });
-      axie.abilities = axieFullData.parts.map((part:atPart)=>{
-        if(part.abilities.length !== 0){
-          return part.abilities[0];
-        }else {
-          return null
-        }
-      }).filter((ability:atAbility)=>{
-        return ability != null
-      })
-      axie.stats = axieFullData.stats;
-      axie.traits = axieFullData.traits;
+      axie = this.buildAxieData(axie, axieFullData);
     })
+  }
+  public buildAxieData(axie: Axie, axieFullData: atAxieData){
+    axie.abilities = axieFullData.parts.map((part:atPart)=>{
+      if(part.abilities.length !== 0){
+        return part.abilities[0];
+      }else {
+        return null
+      }
+    }).filter((ability:atAbility)=>{
+      return ability != null
+    })
+    axie.stats = axieFullData.stats;
+    axie.traits = axieFullData.traits;
+    return axie;
   }
   public getAxieData(axieId:string):Promise<atAxieData>{
     return this.httpClient
@@ -113,9 +117,9 @@ export class AxieTechApiService {
     }
     return roninAddress;
   }
-  public async getScholarsAPIData(scholar: Scholar[]): Promise<any>{
+  public async getScholarsAPIData(scholars: Scholar[]): Promise<any>{
     return new Promise((resolve)=>{
-      let multiRoning: String = this.setRoningAdress(scholar);
+      let multiRoning: String = this.setRoningAdress(scholars);
       this.httpClient.get(`${this.REST_API_SERVER}${multiRoning}`)
       .subscribe(res=>{
         let axiesUserData: scholarOfficialData[] =  this.parserJson(res);

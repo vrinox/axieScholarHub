@@ -3,7 +3,7 @@ import { arrayRemove, doc, Firestore } from '@angular/fire/firestore';
 import { addDoc, arrayUnion, collection, deleteDoc, DocumentReference, getDoc, getDocs, query, QueryDocumentSnapshot, updateDoc, where } from '@firebase/firestore';
 import { Observable, from, Subject } from 'rxjs';
 import { Battle } from '../models/battle';
-import { community, communityPost, communityRequest } from '../models/interfaces';
+import { community, communityPost, communityRequest, scholarOfficialData } from '../models/interfaces';
 import { Scholar } from '../models/scholar';
 import { ApiTrackerService } from './api-tracker.service';
 import { AxieTechApiService } from './axie-tech-api.service';
@@ -205,6 +205,12 @@ export class ComunityService {
     }
   }
   async buildRank(community: community){
+    const gameRawData = await this.axieTechService.getScholarsAPIData(community.members);
+    community.members = gameRawData.map((scholarData: scholarOfficialData)=>{
+      const scholar = community.members.find(member => member.roninAddress === scholarData.ronin_address)
+      scholar.update(new Scholar().parse(scholarData));
+      return scholar;
+    })
     community.members.sort((a: Scholar,b: Scholar)=>{
       return b[community.rankType] - a[community.rankType]
     });

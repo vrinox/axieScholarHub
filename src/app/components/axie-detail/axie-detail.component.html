@@ -1,0 +1,7 @@
+<ion-card >
+  <app-axie-widget [axie]="axie"></app-axie-widget>  
+  <app-spinner *ngIf="axie.abilities.length === 0"></app-spinner>
+  <ion-list class="card-container">
+    <app-card-widget *ngFor="let ability of axie.abilities" [card]="ability"></app-card-widget>
+  </ion-list>
+</ion-card>
