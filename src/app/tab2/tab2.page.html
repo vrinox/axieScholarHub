@@ -18,9 +18,9 @@
       <ion-label >{{option.label}}</ion-label>
       <div *ngIf="option.type==='slp'" >
         <div *ngIf="!option.alto">{{option.value}}<div class="slp"></div></div>
-        <div *ngIf="option.value >= option.alto" class="alto">{{option.value}}<div class="slp"></div></div>
-        <div *ngIf="option.value <= option.bajo" class="bajo">{{option.value}}<div class="slp"></div></div>
-        <div *ngIf="option.value < option.alto && option.value > option.bajo" class="medio">{{option.value}}<div class="slp"></div></div>
+        <div *ngIf="option.value >= option.alto && option.value !== 0" class="alto">{{option.value}}<div class="slp"></div></div>
+        <div *ngIf="option.value <= option.bajo && option.value !== 0" class="bajo">{{option.value}}<div class="slp"></div></div>
+        <div *ngIf="option.value < option.alto && option.value > option.bajo && option.value !== 0" class="medio">{{option.value}}<div class="slp"></div></div>
         <p>{{parse(option.value*sesion.slp.price)}}$</p>
       </div>
       <div *ngIf="option.type==='mmr'">

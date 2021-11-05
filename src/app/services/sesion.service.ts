@@ -141,15 +141,15 @@ export class SesionService {
     this.storage.setCommunities(communities);
   }
   public getUpdatedDatafromApi(roninAddress: string){
-    this.updateAxies(roninAddress);
+    this.updateAxies();
     this.updateBattles(roninAddress);
     this.updateScholar(roninAddress);
     this.comunityService.getCommunities(this.infinity.roninAddress).then((communities: community[])=>{
       this.communities = communities;
     })
   }  
-  updateAxies(roninAddress: string){
-    this.axieService.getAxies(roninAddress).then((axies:Axie[])=>{
+  updateAxies(){
+    this.axieService.getAxies(this.infinity).then((axies:Axie[])=>{
       this.axies = axies;
       this.axieTechService.getAxiesAllData(this.axies);
       this.storage.setAxies(axies.map((axie: Axie)=>{
@@ -158,7 +158,7 @@ export class SesionService {
     });
   }
   updateBattles(roninAddress: string){    
-    this.axieService.getBattles(roninAddress).then((battles)=>{
+    this.axieTechService.getBattleLog(roninAddress).then((battles)=>{
       this.battles = battles.map((rawBattle)=>{
         return new Battle(rawBattle);
       });

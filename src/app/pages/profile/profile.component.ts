@@ -50,7 +50,7 @@ export class ProfileComponent implements OnInit {
       this.getAssembledBattles(active.battles, active.scholar.roninAddress);
     }
     if(active.axies.length === 0){
-      this.getAxies(active.scholar.roninAddress).then((axies)=>{
+      this.getAxies(active.scholar).then((axies)=>{
         active.axies = axies;
       })
     }    
@@ -75,12 +75,12 @@ export class ProfileComponent implements OnInit {
     });
     return battles;
   }
-  getAxies(roninAddress){    
-    return this.lunacianService.getAxies(roninAddress);
+  getAxies(scholar: Scholar){    
+    return this.lunacianService.getAxies(scholar);
   }
   async getBattles(roninAddress){
     const active = this.profileService.active;
-    let battles: Battle[] = await this.lunacianService.getBattles(roninAddress);
+    let battles: Battle[] = await this.axieTechService.getBattleLog(roninAddress);
     battles = this.getMinBattles(battles, active.scholar);
     return battles
   }

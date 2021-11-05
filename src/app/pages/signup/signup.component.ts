@@ -94,14 +94,16 @@ export class SignupComponent implements OnInit {
         this.presentAlert('esta direccion ronin ya esta registrada con otro usuario');
       } else {
         this.presentLoading();
-        this.axieService.getAccountData(this.registerForm.value.roninAddress)
+        this.axieTechService.getAllAccountData(parsedRonin)
           .then((accountData: scholarOfficialData) => {
             this.loading.dismiss()
             let account = new Scholar();
             account.parse(accountData);
             this.scholar = account;
           });
-        this.axieService.getAxies(this.registerForm.value.roninAddress)
+        const scholar: Scholar = new Scholar();
+        scholar.roninAddress = parsedRonin;
+        this.axieService.getAxies(scholar)
           .then((data: Axie[]) => {
             if (data && data.length !== 0) {
               this.axies = data;

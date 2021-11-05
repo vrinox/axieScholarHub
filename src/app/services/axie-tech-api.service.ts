@@ -22,6 +22,20 @@ export class AxieTechApiService {
         return statsData;
       })
   }
+  public async getBattleLog(roninAddress:string):Promise<Battle[]>{
+    return this.httpClient
+    .get(`${this.REST_API_SERVER}/battlelog/${roninAddress}`)
+    .toPromise()
+    .then((battlesData:any)=>{
+      if(battlesData[0].items.length > 0){        
+        return battlesData[0].items.map((battle)=>{
+          return new Battle(battle);
+        });
+      }else{
+        return [];
+      }
+    })
+  }
   public async getAccountData(roninAddress: string):Promise<scholarOfficialData> {
     return await this.getAllAccountData(roninAddress);
   }

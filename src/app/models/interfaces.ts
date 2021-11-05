@@ -161,3 +161,130 @@ export interface profile{
   axies: Axie[];
   axieAvatar?: Axie;
 }
+
+export interface GraphqlBody{
+  operationName: string,
+  variables: {
+      from: number,
+      size: number,
+      sort: string,
+      auctionType: string,
+      owner?: string,
+      criteria?: Criteria
+  },
+  query: string
+}
+
+export interface Criteria{
+  parts: string[],
+  breedCount: number[],
+  hp: number[],
+  speed: number[],
+  skill: number[],
+  morale: number[],
+  classes: string[],
+  pureness: number[]
+}
+
+export interface AxiesData {
+  roning: string
+  namePlayer: string
+  price?: string
+  eth?: string
+  hp: number
+  speed: number
+  skill: number
+  morale: number
+  id: string
+  name: string
+  class: string
+  image: string
+  breedCount: number
+  auction?: auction
+  parts: AxieParts[]
+}
+
+export interface auction {
+  startingPrice?: any
+  endingPrice?: any
+  startingTimestamp?: any
+  endingTimestamp?: any
+  duration?: any
+  timeLeft?: any
+  currentPriceUSD: string
+  currentPrice: string
+  suggestedPrice?: any
+  seller?: any
+  listingIndex?: any
+  state?: any
+}
+
+export interface AxieParts{
+  id: string
+  name: string
+  type: string
+  class: string
+}
+
+export interface AxiesData {
+  roning: string
+  namePlayer: string
+  price?: string
+  eth?: string
+  hp: number
+  speed: number
+  skill: number
+  morale: number
+  id: string
+  name: string
+  class: string
+  image: string
+  breedCount: number
+  auction?: auction
+  parts: AxieParts[]
+}
+
+export interface AxiesOficialData {
+  data: {
+      axies: {
+          results: [{
+              id: string
+              name: string
+              class: string
+              image: string
+              breedCount: number
+              stats: {
+                  hp: number
+                  speed: number
+                  skill: number
+                  morale: number
+              }
+              parts: [{
+                  id: string
+                  name: string
+                  type: string
+                  class: string
+              }],
+              auction?:auction
+          }]
+      }
+  }
+}
+
+export interface AxiesResultsOficialData {
+  id: string
+  name: string
+  class: string
+  image: string
+  breedCount: number
+  auction?: auction
+  stats: stats
+  parts: AxieParts[]
+}
+
+export interface stats{
+  hp: number
+  speed: number
+  skill: number
+  morale: number
+}

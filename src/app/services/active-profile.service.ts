@@ -23,6 +23,7 @@ export class ActiveProfileService {
   constructor(
     private apiTrackerService: ApiTrackerService,
     private axieService: lunacianApiService,
+    private axieTechService: AxieTechApiService,
     private router: Router,
     private load: LoadingController
   ) { }
@@ -45,11 +46,14 @@ export class ActiveProfileService {
     let battles;
     let axies;
     this.presentLoading();
+    const searchScholar: Scholar = new Scholar();
+    searchScholar.roninAddress = roninAddress;
+    console.log(searchScholar);
     [user, scholar, battles, axies] = await Promise.all([
       this.apiTrackerService.getUserLink('roninAddress', roninAddress),
       this.apiTrackerService.getScholar('roninAddress', roninAddress),
-      this.axieService.getBattles(roninAddress),
-      this.axieService.getAxies(roninAddress),
+      this.axieTechService.getBattleLog(roninAddress),
+      this.axieService.getAxies(searchScholar),
     ]);
     user.userAvatar = this.getAxieAvatar(user);
     this.setProfile(battles, user, scholar, axies);

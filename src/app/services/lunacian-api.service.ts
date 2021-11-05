@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { earningsData, scholarOfficialData, statsData } from '../models/interfaces';
+import { AxiesData, earningsData, scholarOfficialData, statsData } from '../models/interfaces';
 import { Axie } from '../models/axie';
 import { Battle } from '../models/battle';
+import { GetAxiesService } from './get-axies.service';
+import { Scholar } from '../models/scholar';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,7 @@ import { Battle } from '../models/battle';
 export class lunacianApiService {
   public REST_API_SERVER = 'https://api.lunaciaproxy.cloud';
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private graphQLAxies: GetAxiesService) { }
 
   public replay(replayURL: string){
     return this.httpClient
@@ -20,7 +22,18 @@ export class lunacianApiService {
         return data;
       })
   }
-  public async getAxies(roninAddres:string):Promise<Axie[]> {
+  public async getAxies(scholar: Scholar):Promise<Axie[]> {
+    return this.graphQLAxies.get(scholar).then((axies: AxiesData[] | void )=>{
+      if(axies instanceof Array){
+        return axies.map((axieData: AxiesData)=>{
+          return new Axie(axieData);
+        });
+      }else {
+        return [];
+      }
+    }); 
+  }
+  public async getAxiesOld(roninAddres:string):Promise<Axie[]> {
     return this.httpClient
       .get(`${this.REST_API_SERVER}/_axies/${roninAddres}`)
       .toPromise()

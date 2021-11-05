@@ -47,8 +47,8 @@ export class Tab2Page implements AfterViewInit {
   updateOptions(scholar: Scholar) {
     const dias = new Date().getDate() - 1;
     this.options = [{
-      value: scholar.totalSLP,
-      label: 'Total',
+      value: scholar.inGameSLP,
+      label: 'In Game',
       type: 'slp'
     },{
       value: scholar.todaySLP,
@@ -76,7 +76,7 @@ export class Tab2Page implements AfterViewInit {
     }];
     if(scholar.ganancia !== 0 && scholar.ganancia !== 100 && !isNaN(scholar.ganancia)){
       this.options.splice( 1, 0, {
-        value: scholar.totalSLP * scholar.ganancia / 100,
+        value: scholar.inGameSLP * scholar.ganancia / 100,
         label: 'Total Ganado',
         type: 'slp'
       } );

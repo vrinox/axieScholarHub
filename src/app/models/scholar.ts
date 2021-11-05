@@ -83,10 +83,10 @@ export class Scholar {
     return today.diff(startOfTheMonth, "days");
   }
   calculateTodaySLP(newData: Scholar){
-    return (newData.totalSLP < this.totalSLP)? newData.totalSLP: newData.totalSLP - this.totalSLP;
+    return (newData.inGameSLP < this.inGameSLP)? newData.inGameSLP: newData.inGameSLP - this.inGameSLP;
   }
   calculateMonthSLP(){
-    if(this.getDaysDiffStartOf('month') === 0 || this.totalSLP === 0){
+    if(this.getDaysDiffStartOf('month') === 0 || this.inGameSLP === 0){
       this.lastMonthSLP = this.monthSLP;
       return this.todaySLP;
     } else {
@@ -94,7 +94,7 @@ export class Scholar {
     }
   }
   calculateWeekSLP(){
-    if(this.getDaysDiffStartOf('week') == 0 || this.totalSLP == 0){
+    if(this.getDaysDiffStartOf('week') == 0 || this.inGameSLP == 0){
       this.lastWeekSLP = this.lastWeekSLP;
       return this.todaySLP;
     } else {

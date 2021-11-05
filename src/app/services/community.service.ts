@@ -187,9 +187,10 @@ export class ComunityService {
   }
   async getMembers(community:community){
     const membersAddressList = await this.getMembersAddressList(community.id);    
-    const members = await Promise.all(membersAddressList.map((roninAddress: string)=>{
+    let members = await Promise.all(membersAddressList.map((roninAddress: string)=>{
       return this.apiTracker.getScholar('roninAddress', roninAddress);
     }));
+    members = members.filter(m => m !== null);
     members.sort((a: Scholar,b: Scholar)=>{
       return b[community.rankType] - a[community.rankType]
     });
