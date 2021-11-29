@@ -96,11 +96,19 @@ export class Tab1Page implements OnInit {
       header: 'Elige comunidad',
       inputs: [...inputs,
       {
-        name: 'new community',
+        name: 'join community',
         type: 'radio',
         label: 'Buscar nueva',
         handler: async () => {
           this.navigate('join');
+          this.alert.dismiss();
+        }
+      },{
+        name: 'new community',
+        type: 'radio',
+        label: 'Crear nueva',
+        handler: async () => {
+          this.navigate('create');
           this.alert.dismiss();
         }
       }]

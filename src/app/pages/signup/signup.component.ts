@@ -54,7 +54,6 @@ export class SignupComponent implements OnInit {
       },
       { validators: passwordMatchingValidatior }
     );
-
   }
 
   enviar(): void {
