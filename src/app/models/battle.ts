@@ -1,5 +1,5 @@
 import { Axie } from "./axie";
-import { atFighter } from "./interfaces";
+import { newBattelFormat } from "./interfaces";
 
 export class Battle {
   myName?: string = "";
@@ -7,19 +7,20 @@ export class Battle {
   battle_type: number = 0;
   battle_uuid: string = "";
   created_at?: Date;
-  fighters: atFighter[] = [];
   first_client_id: string = "";
   first_team_id: string = "";
   id: string = "";
   replay: string = "";
   second_client_id: string = "";
   second_team_id: string = "";
-  winner: number = 0;
+  winner: string;
   firstTeam: Axie[] = [];
   secondTeam: Axie[] = [];
   shared?: any;
   win?: boolean = false;
-  creationDate?: any;
+  creationDate?: any;  
+  second_team_fighters: any;
+  first_team_fighters: any;
   constructor(values: Object = {}) {
     Object.assign(this, values);
   }
@@ -28,15 +29,28 @@ export class Battle {
       battle_type: this.battle_type,
       battle_uuid: this.battle_uuid,
       created_at: this.created_at,
-      fighters: this.fighters,
       first_client_id: this.first_client_id,
       first_team_id: this.first_team_id,
       id: this.id,
       replay: this.replay,
       second_client_id: this.second_client_id,
       second_team_id: this.second_team_id,
-      winner: this.winner,
+      winner: this.winner,    
+      second_team_fighters: this.second_team_fighters,
+      first_team_fighters: this.first_team_fighters
     }
+  }
+  parseNewBattle(battle:newBattelFormat){
+    this.battle_uuid = battle.battle_uuid;
+    this.created_at = new Date(battle.game_started);
+    this.first_client_id = battle.first_client_id;
+    this.first_team_id = battle.first_team_id;
+    this.second_client_id = battle.second_client_id;
+    this.second_team_id = battle.second_team_id;
+    this.replay = `https://cdn.axieinfinity.com/game/deeplink.html?f=rpl&q=${battle.battle_uuid}`;
+    this.winner = battle.winner;
+    this.second_team_fighters = battle.second_team_fighters;
+    this.first_team_fighters = battle.first_team_fighters;
   }
   getSharedValues(sharedData?){
     let firstTeam, secondTeam;
@@ -62,7 +76,9 @@ export class Battle {
       enemyName: this.enemyName,
       shared: sharedData,
       firstTeam: firstTeam,
-      secondTeam: secondTeam
+      secondTeam: secondTeam,
+      second_team_fighters: this.second_team_fighters,
+      first_team_fighters: this.first_team_fighters
     }
   }
 }

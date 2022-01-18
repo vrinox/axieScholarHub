@@ -13,6 +13,13 @@
 </ion-header>
 <ion-content>
   <app-line-chart [data]="scholarStory"></app-line-chart>
+  <ion-toolbar>
+    <div style="display: flex; justify-content: space-between;">
+      <ion-button color="black" (click)="drawChartData(7)">7</ion-button>
+      <ion-button color="black" (click)="drawChartData(15)">15</ion-button>
+      <ion-button color="black" (click)="drawChartData(30)">30</ion-button>
+    </div>
+  </ion-toolbar>
   <ion-list >
     <ion-item *ngFor="let option of options">
       <ion-label >{{option.label}}</ion-label>

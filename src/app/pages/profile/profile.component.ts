@@ -63,6 +63,9 @@ export class ProfileComponent implements OnInit {
     return battles;
   }
   async getAssembledBattles(battles: Battle[], roninAddress: string){
+    battles.sort((a,b)=>{
+      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    })
     this.battles = await Promise.all(battles.slice(0,3).map(async (minBattle: Battle)=>{
       return await this.axieTechService.assembleBattle(minBattle, roninAddress);
     }));

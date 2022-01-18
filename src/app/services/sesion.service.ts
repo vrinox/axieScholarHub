@@ -11,6 +11,7 @@ import { lunacianApiService } from './lunacian-api.service';
 import { StorageService } from './storage.service';
 import { AxieTechApiService } from './axie-tech-api.service';
 import { ComunityService } from './community.service';
+import { FireServiceService } from './fire-service.service';
 interface sesion{
   infinity: Scholar;
   axies: Axie[];
@@ -46,12 +47,13 @@ export class SesionService {
     private trackerService: ApiTrackerService,
     private axieTechService: AxieTechApiService,
     private comunityService: ComunityService,
-    private apiTrackerService: ApiTrackerService
+    private fire: FireServiceService
   ) { }
 
   public async appStart(){    
     const user: userCloudData = await this.storage.getUser();
-    if(user) {
+    const connection = await this.fire.tryConection();
+    if(user && connection) {
       this.sesionInit(user.userData.uid, "start");
     } else {
       this.router.navigate(['/email-login'],{replaceUrl: true});
@@ -107,7 +109,7 @@ export class SesionService {
     offlineSesion.communities = communities || [];
     const rawUser = await this.storage.getUser();
     offlineSesion.user = rawUser.userData;
-    offlineSesion.infinity = await this.apiTrackerService.getScholar('roninAddress', rawUser.scholar.roninAddress);
+    offlineSesion.infinity = await this.trackerService.getScholar('roninAddress', rawUser.scholar.roninAddress);
     return offlineSesion;
   }
   async constructSesionFromCloud(uid: string){
@@ -222,7 +224,7 @@ export class SesionService {
       cssClass: 'my-custom-class',
       message: 'Hunting your axies please wait ...'
     });
-    await this.loading.present();
+    await this.loading.present();    
   }
 
   public close(){

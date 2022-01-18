@@ -28,7 +28,7 @@ export class BattleItemListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    let time = new Date(this.battle.created_at);
+    let time = this.battle.created_at;
     let min = time.getMinutes().toString().length == 1? '0'+time.getMinutes().toString(): time.getMinutes(); 
     let hour = time.getHours().toString().length == 1? '0'+time.getHours().toString(): time.getHours(); 
     this.time = `${hour}:${min}`;

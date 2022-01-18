@@ -11,6 +11,7 @@ import { Scholar } from '../models/scholar';
 export class AxieTechApiService {
   private REST_API_SERVER = 'https://game-api.axie.technology';
   private AXIE_DATA_SERVER = 'https://api.axie.technology';
+  private axieCache: atAxieData[] = [];
 
   constructor(private httpClient: HttpClient) { }
 
@@ -24,12 +25,14 @@ export class AxieTechApiService {
   }
   public async getBattleLog(roninAddress:string):Promise<Battle[]>{
     return this.httpClient
-    .get(`${this.REST_API_SERVER}/battlelog/${roninAddress}`)
+    .get(`${this.REST_API_SERVER}/logs/pvp/${roninAddress}`)
     .toPromise()
     .then((battlesData:any)=>{
-      if(battlesData[0].items.length > 0){        
-        return battlesData[0].items.map((battle)=>{
-          return new Battle(battle);
+      if(battlesData.battles.length > 0){
+        return battlesData.battles.map((battle)=>{
+          let battleObjc = new Battle();
+          battleObjc.parseNewBattle(battle); 
+          return battleObjc;
         });
       }else{
         return [];
@@ -65,61 +68,50 @@ export class AxieTechApiService {
     return axie;
   }
   public getAxieData(axieId:string):Promise<atAxieData>{
+    let axieCached = this.axieCache.find((axie) => {
+      return axie.id === axieId
+    })
+    if(axieCached){
+      return Promise.resolve(axieCached);
+    } 
     return this.httpClient
       .get(`${this.AXIE_DATA_SERVER}/getgenes/${axieId}/all`)
       .toPromise()
       .then((statsData:atAxieData)=>{
+        this.axieCache.push(statsData);
         return statsData;
       })
   };
 
   public async assembleBattle(battle: Battle, ronninAddress: string){
     const newBattle = new Battle(battle.getSharedValues());
-    newBattle.fighters = battle.fighters;
-    newBattle.firstTeam = [];
-    newBattle.secondTeam = [];
-    const axies = await this.getAxiesForBattle(newBattle);    
+    if(newBattle.first_client_id === ronninAddress){
+      newBattle.firstTeam = await this.getAxiesForBattle(newBattle.first_team_fighters);
+      newBattle.secondTeam = await this.getAxiesForBattle(newBattle.second_team_fighters);
+    } else {
+      newBattle.firstTeam = await this.getAxiesForBattle(newBattle.second_team_fighters);
+      newBattle.secondTeam = await this.getAxiesForBattle(newBattle.first_team_fighters);
+    }
     const enemyRoninAddress = this.getEnemyRonin(newBattle, ronninAddress);
-    const myTeamId = this.getMyTeamId(newBattle, ronninAddress);
     const enemy: scholarOfficialData = await this.getAllAccountData(enemyRoninAddress);
-    newBattle.win = this.calculateWinner(newBattle, ronninAddress);
+    newBattle.win = newBattle.winner === ronninAddress;
     newBattle.enemyName = enemy.name;
-    axies.forEach((axie:Axie)=>{
-      if(axie.teamId === myTeamId){
-        newBattle.firstTeam.push(axie);
-      } else if (axie.teamId !== myTeamId) {
-        newBattle.secondTeam.push(axie);
-      }
-    });
     return newBattle;
   }
   public assembleBattleMin(battle: Battle, roninAddress: string, sharedData: any = {}){
     const newBattle = new Battle(battle.getSharedValues(sharedData));
-    newBattle.fighters = battle.fighters;
     roninAddress = this.parseRonin(roninAddress);
-    newBattle.win = this.calculateWinner(battle, roninAddress);
+    newBattle.win = newBattle.winner === roninAddress;
     return newBattle;
-  }
-  public calculateWinner(battle: Battle, myRoninAddress: string) {
-    if(battle.winner === 0 && myRoninAddress === battle.first_client_id){
-      return true
-    } else if(battle.winner === 1 && myRoninAddress === battle.second_client_id){
-      return true
-    } else{
-      return false
-    }
   }
   public getEnemyRonin(battle: Battle, roninAddress:string){
     return (battle.first_client_id === roninAddress) ? battle.second_client_id: battle.first_client_id;
   }
-  public getMyTeamId(battle: Battle, roninAddress:string){
-    return (battle.first_client_id === roninAddress) ? battle.first_team_id: battle.second_team_id ;
-  }
-  async getAxiesForBattle(battle: Battle){
-    const axies: Axie[] = await Promise.all(battle.fighters.map((rawAxie)=>{
-      return this.getAxieData(rawAxie.fighter_id.toString()).then(( axie:atAxieData )=> {
+  async getAxiesForBattle(fighters: any[]){
+    const axies: Axie[] = await Promise.all(
+      fighters.map((rawAxie:number)=>{
+      return this.getAxieData(rawAxie.toString()).then(( axie:atAxieData )=> {
         const newAxie = new Axie(axie);
-        newAxie.teamId = rawAxie.team_id;
         return newAxie;
       });
     }));

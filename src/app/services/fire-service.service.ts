@@ -20,9 +20,17 @@ export class FireServiceService {
   async shareReplay(battle: Battle, sharedData:sharedData){
     const rawBattle: any = battle.getSharedValues(sharedData);
     rawBattle.creationDate = new Date();
-    console.log(rawBattle);
     const dbRef = await addDoc(collection(this.db,"sharedBattles"), rawBattle);
     return dbRef.id;
+  }
+
+  async tryConection(){
+    try{
+      const querySnapshot = await getDocs(collection(this.db, 'scholars'));
+      return true;
+    } catch(err) {
+      return false
+    }
   }
 
   async getScholars() {

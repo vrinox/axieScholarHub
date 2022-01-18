@@ -288,3 +288,17 @@ export interface stats{
   skill: number
   morale: number
 }
+export interface  newBattelFormat{
+  battle_uuid: string;
+  eloAndItem: any;
+  first_client_id: string;
+  first_team_fighters: number[];
+  first_team_id: string;
+  game_ended: string; //timestamp
+  game_started: string; //timestamp
+  pvp_type: string;
+  second_client_id: string;
+  second_team_fighters: number[]
+  second_team_id: string;
+  winner: string;
+}

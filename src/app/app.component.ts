@@ -41,7 +41,6 @@ export class AppComponent {
     this.getPriceCrypto(this.eth, 'ethereum');
     this.sesion.slp = this.slp;
     setTimeout(async ()=>{
-      this.sesion.appStart();
       const isVersionCorrect = await this.verifyAppVersion();
       if(isVersionCorrect) {
         this.sesion.appStart();

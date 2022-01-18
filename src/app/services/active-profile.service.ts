@@ -48,7 +48,6 @@ export class ActiveProfileService {
     this.presentLoading();
     const searchScholar: Scholar = new Scholar();
     searchScholar.roninAddress = roninAddress;
-    console.log(searchScholar);
     [user, scholar, battles, axies] = await Promise.all([
       this.apiTrackerService.getUserLink('roninAddress', roninAddress),
       this.apiTrackerService.getScholar('roninAddress', roninAddress),
@@ -76,7 +75,6 @@ export class ActiveProfileService {
     }else{
       user.userAvatar = this.getAxieAvatar(user);
     }
-    console.log('min',user);
     this.setProfileMin(user, scholar);
     this.load.dismiss();
   }

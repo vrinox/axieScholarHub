@@ -33,13 +33,13 @@ export class BattlesPage implements OnInit {
       })
     }
     if(this.list.length === 0){
-      this.presentLoading();
+      await this.presentLoading();
       this.getAndAssebleBattles(); 
     }
   }
-  actualizarDatos(){
+  async actualizarDatos(){
     this.list = [];
-    this.presentLoading();
+    await this.presentLoading();
     this.getAndAssebleBattles();
   }
   getAndAssebleBattles(){
